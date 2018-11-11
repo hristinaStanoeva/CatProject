@@ -7,3 +7,6 @@
 * Expence Tracker
 * Reminder
 * Travel Planner
+* Customizable themes for each user
+
+### [Trello board](https://trello.com/b/3KqpvFHp)
