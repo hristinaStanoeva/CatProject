@@ -8,7 +8,6 @@ const POST = 'POST';
 
 export const routes = (req: IncomingMessage, res: ServerResponse) => {
     if (req.url === '/') {
-        console.log('get request');
         return res.end('Welcome home!');
     }
 
