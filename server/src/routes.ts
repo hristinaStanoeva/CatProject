@@ -27,9 +27,9 @@ export const routes = (req: IncomingMessage, res: ServerResponse) => {
             });
 
             return res.end();
-        })
+        });
     }
 
     res.writeHead(404, 'Not found');
     return res.end();
-}
+};

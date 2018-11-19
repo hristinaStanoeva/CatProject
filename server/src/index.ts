@@ -1,24 +1,60 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 
-import { routes } from './routes';
 import {
-	NextFunction,
-	Response,
-	Request
+    NextFunction,
+    Response,
+    Request
 } from 'express-serve-static-core';
 
+import { routes } from './routes';
+
+interface CustomRequest extends Request {
+    customData?: {
+        [key: string]: boolean;
+    };
+}
+
 const anounceOpenPort = (port: number) => () => console.log(`Listening on port ${port}`);
-const port = 3000;
+const appPort = 3000;
 
 const app = express();
 
-app.use('/internal', (req, res) => res.send('Internal route!'));
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(['/', '/home'], (req, res) => res.send('Home'));
+app.use((req: CustomRequest, res, next) => {
+    req.customData = req.customData || {};
 
-app.use((req: Request, res: Response, next: NextFunction) => {
-	console.log('hi!');
-	return next();
-})
+    req.customData = {
+        ...req.customData,
+        firstMiddleware: true
+    };
 
-app.listen(port, anounceOpenPort(port));
+    return next();
+});
+
+app.use((req: CustomRequest, res, next) => {
+    req.customData = req.customData || {};
+
+    req.customData = {
+        ...req.customData,
+        secondMiddleware: true
+    };
+
+    return next();
+});
+
+app.use('/add-user', (req, res, next) => {
+    console.log('body: ', req.body);
+    res.json(req.body);
+});
+
+app.use('/user', (req: CustomRequest, res) => {
+    return res.send('User!');
+});
+
+app.use('/', (req: CustomRequest, res) => {
+    return res.json(req.customData);
+});
+
+app.listen(appPort, anounceOpenPort(appPort));
