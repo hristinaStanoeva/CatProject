@@ -12,6 +12,10 @@ const port = 3000;
 
 const app = express();
 
+app.use('/internal', (req, res) => res.send('Internal route!'));
+
+app.use(['/', '/home'], (req, res) => res.send('Home'));
+
 app.use((req: Request, res: Response, next: NextFunction) => {
 	console.log('hi!');
 	return next();
