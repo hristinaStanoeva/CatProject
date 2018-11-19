@@ -21,7 +21,6 @@ export const routes = (req: IncomingMessage, res: ServerResponse) => {
         return req.on('data', (chunk) => {
             data += chunk.toString();
         }).on('end', () => {
-            console.log(data.split('=')[1]);
 
             res.writeHead(302, {
                 'Location': '/'
