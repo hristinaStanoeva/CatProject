@@ -1,19 +1,15 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import {
+    Request,
+    Response
+} from 'express';
 
 import {
-    NextFunction,
-    Response,
-    Request
-} from 'express-serve-static-core';
+    CustomRequest,
+} from './models';
 
-import { routes } from './routes';
-
-interface CustomRequest extends Request {
-    customData?: {
-        [key: string]: boolean;
-    };
-}
+import sampleRoutes from './routes/sample';
 
 const anounceOpenPort = (port: number) => () => console.log(`Listening on port ${port}`);
 const appPort = 3000;
@@ -44,17 +40,6 @@ app.use((req: CustomRequest, res, next) => {
     return next();
 });
 
-app.use('/add-user', (req, res, next) => {
-    console.log('body: ', req.body);
-    res.json(req.body);
-});
-
-app.use('/user', (req: CustomRequest, res) => {
-    return res.send('User!');
-});
-
-app.use('/', (req: CustomRequest, res) => {
-    return res.json(req.customData);
-});
+app.use(sampleRoutes);
 
 app.listen(appPort, anounceOpenPort(appPort));
