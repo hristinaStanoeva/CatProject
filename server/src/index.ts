@@ -1,9 +1,12 @@
 import express from 'express';
+import { join } from 'path';
 import bodyParser from 'body-parser';
 import {
     Request,
     Response
 } from 'express';
+
+import { path } from './util/path';
 
 import {
     CustomRequest,
@@ -40,6 +43,14 @@ app.use((req: CustomRequest, res, next) => {
     return next();
 });
 
-app.use(sampleRoutes);
+app.use('/api/', sampleRoutes);
+
+app.get('/home', (req, res, next) => {
+    res.sendFile(join(path.projectRoot, 'views', 'home.html'));
+});
+
+app.use((req, res, next) => {
+    res.sendStatus(404);
+});
 
 app.listen(appPort, anounceOpenPort(appPort));
