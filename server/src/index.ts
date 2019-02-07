@@ -17,6 +17,6 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/api', listsRoutes);
+app.use('/api/lists', listsRoutes);
 
 app.listen(appPort, anounceOpenPort(appPort));
