@@ -5,6 +5,11 @@
 * Shared ToDo Lists
 * Shared Shopping Lists
 * Expence Tracker
+* Notifications based on events
+	- For example when someone has arrived at a destination
+	- Birthdays
+	- Reoccuring notifications
+	- Scheduled meetings/events/going outs
 * Reminder
 * Travel Planner
 * Customizable themes for each user
