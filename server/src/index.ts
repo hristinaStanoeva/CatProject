@@ -1,12 +1,7 @@
 import express from 'express';
-import { join } from 'path';
 import bodyParser from 'body-parser';
-import {
-    Request,
-    Response
-} from 'express';
 
-import { path } from './util/path';
+import { envFile } from './util/path';
 
 import listsRoutes from './routes/lists.routes';
 import listItemsRoutes from './routes/list-items.routes';
