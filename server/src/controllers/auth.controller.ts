@@ -28,9 +28,9 @@ export const resetUserPassword = (req: ResetPasswordRequest, res: Response, next
     if (validationResult(req).isEmpty()) {
         return res.sendStatus(200);
     } else {
-        const result = validationResult<ValidationResult>(req)
+        const errors = validationResult<ValidationResult>(req)
             .array()
             .map(({ msg, param }) => ({ field: param, error: msg }));
-        return res.status(400).json(result);
+        return res.status(400).json(errors);
     }
 };
