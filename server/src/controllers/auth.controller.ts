@@ -17,11 +17,25 @@ interface ValidationResult {
 }
 
 export const loginUser = (req: LoginRequest, res: Response, next: NextFunction) => {
-    res.json('User logged in!');
+    if (validationResult(req).isEmpty()) {
+        return res.status(200).json({ userId: 'user id', token: 'token' });
+    } else {
+        const errors = validationResult<ValidationResult>(req)
+            .array()
+            .map(({ msg, param }) => ({ field: param, error: msg }));
+        return res.status(401).json(errors);
+    }
 };
 
 export const registerUser = (req: RegisterRequest, res: Response, next: NextFunction) => {
-    res.json('User registered!');
+    if (validationResult(req).isEmpty()) {
+        return res.status(200).json({ userId: 'user id', token: 'token' });
+    } else {
+        const errors = validationResult<ValidationResult>(req)
+            .array()
+            .map(({ msg, param }) => ({ field: param, error: msg }));
+        return res.status(400).json(errors);
+    }
 };
 
 export const resetUserPassword = (req: ResetPasswordRequest, res: Response, next: NextFunction) => {
