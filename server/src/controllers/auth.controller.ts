@@ -1,13 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
 
-export const loginUser = (req: Request, res: Response, next: NextFunction) => {
+interface CustomBodyRequest<K extends keyof any> extends Request {
+    body: Partial<Record<K, string>>;
+}
+
+export type LoginRequest = CustomBodyRequest<'email' | 'password'>;
+export type RegisterRequest = CustomBodyRequest<'email' | 'password' | 'confirmPassword'>;
+export type ResetPasswordRequest = CustomBodyRequest<'email'>;
+
+export const loginUser = (req: LoginRequest, res: Response, next: NextFunction) => {
     res.json('User logged in!');
 };
 
-export const registerUser = (req: Request, res: Response, next: NextFunction) => {
+export const registerUser = (req: RegisterRequest, res: Response, next: NextFunction) => {
     res.json('User registered!');
 };
 
-export const resetUserPassword = (req: Request, res: Response, next: NextFunction) => {
+export const resetUserPassword = (req: ResetPasswordRequest, res: Response, next: NextFunction) => {
     res.json('Password reset!');
 };
