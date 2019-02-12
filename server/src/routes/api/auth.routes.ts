@@ -9,7 +9,7 @@ import {
     ResetPasswordRequest,
     RegisterRequest,
     LoginRequest
-} from '../controllers';
+} from '../../controllers';
 
 const router = Router();
 

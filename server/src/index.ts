@@ -5,9 +5,7 @@ import dotenv from 'dotenv';
 import { envFile } from './util/path';
 import { sequelize } from './util/database';
 
-import listsRoutes from './routes/lists.routes';
-import listItemsRoutes from './routes/list-items.routes';
-import authRoutes from './routes/auth';
+import apiRoutes from './routes/api.routes';
 
 dotenv.config({ path: envFile });
 
@@ -18,9 +16,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-app.use('/api/lists', listsRoutes);
-app.use('/api/list-items', listItemsRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/api', apiRoutes);
 
 sequelize(process.env.DB_URL).authenticate()
     .then((res) => {
