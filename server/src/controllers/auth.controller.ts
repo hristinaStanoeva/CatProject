@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator/check';
+import { Location } from 'express-validator/check/location';
 
 interface CustomBodyRequest<K extends keyof any> extends Request {
     body: Partial<Record<K, string>>;
