@@ -7,7 +7,6 @@
 	"rules": {
 		"interface-name": false,
 		"no-console": true,
-		"object-literal-sort-keys": true,
 		"ordered-imports": false,
 		"quotemark": false,
 		"trailing-comma": [true, {
