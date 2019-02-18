@@ -14,10 +14,10 @@
 		"noFallthroughCasesInSwitch": true,
 
 		"moduleResolution": "node",
-		"baseUrl": "./src",
-		"paths": {
-			"@app/*": [ "./*" ]
-		},
+		// "baseUrl": "./src",
+		// "paths": {
+		// 	"@app/*": [ "./*" ]
+		// },
 		"esModuleInterop": true,
 
 		"resolveJsonModule": true
