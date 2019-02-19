@@ -10,6 +10,7 @@ import {
     RegisterRequest,
     LoginRequest
 } from '../../controllers';
+import { runValidators } from '../../middlewares/runValidators.middleware';
 
 const router = Router();
 
@@ -18,6 +19,7 @@ router.post('/login', [
         .normalizeEmail()
         .isEmail()
         .withMessage('Invalid email address')
+        // move to a separate middleware to check db data
         .custom((value: string, { req }: { req: LoginRequest }) => {
             if (false) {
                 return Promise.reject(`${req.body.email} is not yet registered`);
@@ -33,7 +35,8 @@ router.post('/login', [
                 return Promise.reject('Wrong password');
             }
             return Promise.resolve();
-        })
+        }),
+    runValidators
     // next middleware should get the user from db and attach it to the req object
     // the logic is that the controller gets all the data needed for doing its job(logging in the user)
 ], loginUser);
@@ -42,6 +45,7 @@ router.post('/register', [
     body('email')
         .isEmail()
         .withMessage('Invalid email address')
+        // maybe move to a separete middleware for checking if the email is in the db
         .custom((value: string, { req }: { req: RegisterRequest }) => {
             if (false) {
                 return Promise.reject(`Email ${req.body.email} already exists`);
@@ -58,20 +62,23 @@ router.post('/register', [
                 return Promise.reject('Passwords must match');
             }
             return Promise.resolve;
-        })
+        }),
+    runValidators
 ], registerUser);
 
 router.post('/reset-password', [
     body('email')
         .isEmail()
         .withMessage('Invalid email address')
+        // maybe remove this check as it is bad security practise
         .custom((value: string, { req }: { req: ResetPasswordRequest }) => {
             if (false) {
                 return Promise.reject('No such user: ' + req.body.email);
             }
             return Promise.resolve();
         })
-        .normalizeEmail()
+        .normalizeEmail(),
+    runValidators
 ], resetUserPassword);
 
 export default router;
