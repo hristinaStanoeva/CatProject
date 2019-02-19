@@ -20,6 +20,8 @@ router.post('/', [
         .withMessage('Content has to be provided')
         .isString()
         .withMessage('Content has to be string'),
+    body('checked')
+        .isBoolean(),
     runValidators
 ], createListItem);
 

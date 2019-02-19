@@ -240,7 +240,7 @@ describe('api routes', () => {
         ].forEach((v) => {
             it('POST / should return 400 when content is ' + v.stringValue, async () => {
                 const result = await request(app).post('/api/list-items').send({
-                    content: v
+                    content: v.testValue
                 });
 
                 expect(result.status).toBe(400);
@@ -252,6 +252,53 @@ describe('api routes', () => {
                     ])
                 );
             });
+        });
+
+        [
+            { testValue: undefined, stringValue: 'undefined' },
+            { testValue: null, stringValue: 'null' },
+            { testValue: [], stringValue: 'array' },
+            { testValue: {}, stringValue: 'object' },
+            { testValue: 'some string', stringValue: 'some string' },
+            { testValue: '', stringValue: 'empty string' }
+        ].forEach((v) => {
+            it('POST / should return 400 when checked is ' + v.stringValue, async () => {
+                const result = await request(app).post('/api/list-items').send({
+                    checked: v.testValue
+                });
+
+                expect(result.status).toBe(400);
+                expect(result.body).toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            field: 'checked'
+                        })
+                    ])
+                );
+            });
+        });
+
+        it('POST / should not return 400 or error when content and checked are valid', async () => {
+            const result = await request(app).post('/api/list-items').send({
+                checked: false,
+                content: 'test content'
+            });
+
+            expect(result.status).not.toBe(400);
+            expect(result.body).not.toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        field: 'checked'
+                    })
+                ])
+            );
+            expect(result.body).not.toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        field: 'content'
+                    })
+                ])
+            );
         });
     });
 });
