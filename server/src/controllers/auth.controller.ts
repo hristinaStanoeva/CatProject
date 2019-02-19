@@ -2,9 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { validationResult } from 'express-validator/check';
 import { Location } from 'express-validator/check/location';
 
-interface CustomBodyRequest<K extends keyof any> extends Request {
-    body: Partial<Record<K, string>>;
-}
+import { CustomBodyRequest } from '../models/custom-body-request.model';
 
 export type LoginRequest = CustomBodyRequest<'email' | 'password'>;
 export type RegisterRequest = CustomBodyRequest<'email' | 'password' | 'confirmPassword'>;
