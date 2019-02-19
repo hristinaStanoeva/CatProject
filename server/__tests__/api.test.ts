@@ -349,5 +349,28 @@ describe('api routes', () => {
                 );
             });
         });
+
+        it('PUT / should not return 400 or error when content and checked are valid', async () => {
+            const result = await request(app).put('/api/list-items/1').send({
+                checked: false,
+                content: 'test content'
+            });
+
+            expect(result.status).not.toBe(400);
+            expect(result.body).not.toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        field: 'checked'
+                    })
+                ])
+            );
+            expect(result.body).not.toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        field: 'content'
+                    })
+                ])
+            );
+        });
     });
 });
