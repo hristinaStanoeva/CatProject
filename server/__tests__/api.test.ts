@@ -191,5 +191,39 @@ describe('api routes', () => {
             expect(result.body.token).toBeDefined();
             expect(result.body.userId).toBeDefined();
         });
+
+        it('POST /reset-password should return status 400 when an invalid email is provided', async () => {
+            let result = await request(app).post('/api/auth/reset-password');
+
+            expect(result.status).toBe(400);
+            expect(result.body).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        field: 'email'
+                    })
+                ])
+            );
+
+            result = await request(app).post('/api/auth/reset-password').send({
+                email: 'invalid'
+            });
+
+            expect(result.status).toBe(400);
+            expect(result.body).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        field: 'email'
+                    })
+                ])
+            );
+        });
+
+        it('POST /reset-password should return status 200 when a valid email is provided', async () => {
+            const result = await request(app).post('/api/auth/reset-password').send({
+                email: 'valid@mail.com'
+            });
+
+            expect(result.status).toBe(200);
+        });
     });
 });
