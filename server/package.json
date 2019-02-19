@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "rimraf dist/ && tsc && node dist/",
-    "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"blue.bold,yellow.bold\" npm:watch-ts npm:watch-node",
+    "watch": "npm run build && concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"blue.bold,yellow.bold\" npm:watch-ts npm:watch-node",
     "watch-ts": "tsc -w",
     "watch-node": "nodemon dist/server.js",
     "build": "rimraf dist/ && tsc",
