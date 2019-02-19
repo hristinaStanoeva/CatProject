@@ -10,6 +10,7 @@ describe('api routes', () => {
 
         it('POST /login should return 400 and some error text when an invalid email is provided', async () => {
             let result = await request(app).post('/api/auth/login');
+
             expect(result.status).toBe(400);
             expect(result.body).toEqual(
                 expect.arrayContaining([
@@ -227,12 +228,30 @@ describe('api routes', () => {
         });
 
     });
-    // describe('/api/list-items', () => {
-    //     it('POST / should return 400 when no content is provided', async () => {
-    //         const result = await request(app).post('/api/list-items');
-    //
-    //         console.log(result.body);
-    //         expect(result.status).toBe(400);
-    //     });
-    // });
+    describe('/api/list-items', () => {
+        [
+            { testValue: undefined, stringValue: 'undefined' },
+            { testValue: null, stringValue: 'null' },
+            { testValue: true, stringValue: 'true' },
+            { testValue: false, stringValue: 'false' },
+            { testValue: [], stringValue: 'array' },
+            { testValue: {}, stringValue: 'object' },
+            { testValue: '', stringValue: 'empty string' }
+        ].forEach((v) => {
+            it('POST / should return 400 when content is ' + v.stringValue, async () => {
+                const result = await request(app).post('/api/list-items').send({
+                    content: v
+                });
+
+                expect(result.status).toBe(400);
+                expect(result.body).toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            field: 'content'
+                        })
+                    ])
+                );
+            });
+        });
+    });
 });
