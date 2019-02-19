@@ -300,5 +300,54 @@ describe('api routes', () => {
                 ])
             );
         });
+
+        [
+            { testValue: undefined, stringValue: 'undefined' },
+            { testValue: null, stringValue: 'null' },
+            { testValue: true, stringValue: 'true' },
+            { testValue: false, stringValue: 'false' },
+            { testValue: [], stringValue: 'array' },
+            { testValue: {}, stringValue: 'object' },
+            { testValue: '', stringValue: 'empty string' }
+        ].forEach((v) => {
+            it('PUT / should return 400 when content is ' + v.stringValue, async () => {
+                const result = await request(app).put('/api/list-items/1').send({
+                    content: v.testValue
+                });
+
+                expect(result.status).toBe(400);
+                expect(result.body).toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            field: 'content'
+                        })
+                    ])
+                );
+            });
+        });
+
+        [
+            { testValue: undefined, stringValue: 'undefined' },
+            { testValue: null, stringValue: 'null' },
+            { testValue: [], stringValue: 'array' },
+            { testValue: {}, stringValue: 'object' },
+            { testValue: 'some string', stringValue: 'some string' },
+            { testValue: '', stringValue: 'empty string' }
+        ].forEach((v) => {
+            it('PUT / should return 400 when checked is ' + v.stringValue, async () => {
+                const result = await request(app).put('/api/list-items/1').send({
+                    checked: v.testValue
+                });
+
+                expect(result.status).toBe(400);
+                expect(result.body).toEqual(
+                    expect.arrayContaining([
+                        expect.objectContaining({
+                            field: 'checked'
+                        })
+                    ])
+                );
+            });
+        });
     });
 });
