@@ -8,5 +8,8 @@ const app = express();
 app.use(bodyParser.json());
 
 app.use('/api', apiRoutes);
+app.use('*', (req, res) => {
+    return res.json(404);
+});
 
 export default app;
