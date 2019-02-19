@@ -8,9 +8,9 @@ describe('api routes', () => {
             expect(result.type).toBe('application/json');
         });
 
-        it('POST /login should return 401 and some error text when an invalid email is provided', async () => {
+        it('POST /login should return 400 and some error text when an invalid email is provided', async () => {
             let result = await request(app).post('/api/auth/login');
-            expect(result.status).toBe(401);
+            expect(result.status).toBe(400);
             expect(result.body).toEqual(
                 expect.arrayContaining([
                     expect.objectContaining({
@@ -44,9 +44,9 @@ describe('api routes', () => {
             );
         });
 
-        it('POST /login should return 401 and some error text when an invalid password is provided', async () => {
+        it('POST /login should return 400 and some error text when an invalid password is provided', async () => {
             let result = await request(app).post('/api/auth/login');
-            expect(result.status).toBe(401);
+            expect(result.status).toBe(400);
             expect(result.body).toEqual(
                 expect.arrayContaining([
                     expect.objectContaining({
@@ -58,7 +58,7 @@ describe('api routes', () => {
             result = await request(app).post('/api/auth/login').send({
                 password: '123456'
             });
-            expect(result.status).toBe(401);
+            expect(result.status).toBe(400);
             expect(result.body).toEqual(
                 expect.arrayContaining([
                     expect.objectContaining({
@@ -225,5 +225,14 @@ describe('api routes', () => {
 
             expect(result.status).toBe(200);
         });
+
     });
+    // describe('/api/list-items', () => {
+    //     it('POST / should return 400 when no content is provided', async () => {
+    //         const result = await request(app).post('/api/list-items');
+    //
+    //         console.log(result.body);
+    //         expect(result.status).toBe(400);
+    //     });
+    // });
 });
