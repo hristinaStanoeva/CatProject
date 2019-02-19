@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 
 app.use('/api', apiRoutes);
 app.use('*', (req, res) => {
-    return res.json(404);
+    return res.sendStatus(404);
 });
 
 export default app;
