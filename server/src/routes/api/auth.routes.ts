@@ -15,6 +15,7 @@ const router = Router();
 
 router.post('/login', [
     body('email')
+        .normalizeEmail()
         .isEmail()
         .withMessage('Invalid email address')
         .custom((value: string, { req }: { req: LoginRequest }) => {
@@ -65,7 +66,7 @@ router.post('/reset-password', [
         .isEmail()
         .withMessage('Invalid email address')
         .custom((value: string, { req }: { req: ResetPasswordRequest }) => {
-            if (true) {
+            if (false) {
                 return Promise.reject('No such user: ' + req.body.email);
             }
             return Promise.resolve();
