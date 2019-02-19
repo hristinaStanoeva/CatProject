@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig",
+  "compilerOptions": {
+    "rootDir": "__tests__",
+    "types": [ "jest" ]
+  },
+  "include": [
+    "./**/*.ts"
+  ]
+}
