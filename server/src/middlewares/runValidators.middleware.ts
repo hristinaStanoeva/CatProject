@@ -1,4 +1,6 @@
 import { validationResult } from 'express-validator/check';
+import { Location } from 'express-validator/check/location';
+
 interface ValidationResult {
     location: Location;
     param: string;
