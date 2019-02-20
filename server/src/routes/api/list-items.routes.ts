@@ -21,17 +21,23 @@ const contentValidator = () => body('content')
 const checkedValidator = () => body('checked')
     .isBoolean();
 
+const listIdValidator = () => body('listId')
+    .exists({ checkFalsy: true })
+    .withMessage('listId has to be provided');
+
 router.get('/', getAllListItems);
 
 router.post('/', [
     contentValidator(),
     checkedValidator(),
+    listIdValidator(),
     runValidators
 ], createListItem);
 
 router.put('/:id', [
     contentValidator(),
     checkedValidator(),
+    listIdValidator(),
     runValidators
     // get the item from db
 ], updateListItem);
