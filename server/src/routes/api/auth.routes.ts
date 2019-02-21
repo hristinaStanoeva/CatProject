@@ -24,7 +24,13 @@ const passwordValidator = () =>
     body('password')
         .trim()
         .isLength({ min: 8 })
-        .withMessage('Password has to be at least 8 characters long');
+        .withMessage('Password has to be at least 8 characters long')
+        .isLength({ max: 50 })
+        .withMessage('Password has to be maximum 50 characters')
+        .isAscii()
+        .withMessage(
+            'Password can only include latin letters, numbers and symbols'
+        );
 
 router.post(
     '/login',
