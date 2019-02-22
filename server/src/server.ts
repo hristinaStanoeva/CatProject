@@ -12,7 +12,7 @@ dotenv.config({ path: envFile });
 
 sequelize(process.env.DB_URL)
     .authenticate()
-    .then(res => {
+    .then((res) => {
         console.log('Connected!');
         app.listen(appPort, anounceOpenPort(appPort));
     })
