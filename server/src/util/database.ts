@@ -8,7 +8,7 @@ import {
     ListFactory,
     ListItemInstance,
     ListItemAttributes,
-    ListItemFactory
+    ListItemFactory,
 } from '../schemas';
 
 export interface Db {
@@ -23,10 +23,18 @@ const sequelize = new Sequelize(process.env.DB_URL, {
     operatorsAliases: false,
 });
 
-export const db: Db = {
+const dbConstruct: Db = {
     sequelize,
     Sequelize,
     User: UserFactory(sequelize, Sequelize),
     List: ListFactory(sequelize, Sequelize),
-    ListItem: ListItemFactory(sequelize, Sequelize)
+    ListItem: ListItemFactory(sequelize, Sequelize),
 };
+
+Object.keys(dbConstruct).forEach(modelName => {
+    if (dbConstruct[modelName].associate) {
+        dbConstruct[modelName].associate(dbConstruct);
+    }
+});
+
+export const db  = dbConstruct;
