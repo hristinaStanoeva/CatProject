@@ -22,8 +22,19 @@ export const UserFactory = (
             allowNull: false,
         },
         password: {
-            type: DataTypes.CHAR(60),
+            type: DataTypes.STRING(60),
             allowNull: false,
+            validate: {
+                isCorrectLength(value: string) {
+                    if (value.length !== 60) {
+                        throw new Error(
+                            'Password hash has to be exactly 60 characters'
+                        );
+                    }
+                },
+                // min: 60,
+                // max: 60,
+            },
         },
         imageUrl: {
             type: DataTypes.STRING,
