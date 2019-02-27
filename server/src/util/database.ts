@@ -1,6 +1,3 @@
 import Sequelize from 'sequelize';
 
-// if Sequelize is exported, the env variable is not set
-// and gets an undefined variable.
-export const sequelize = (url: string) =>
-    new Sequelize(url, { operatorsAliases: false });
+export const sequelize = new Sequelize(process.env.DB_URL, { operatorsAliases: false });
