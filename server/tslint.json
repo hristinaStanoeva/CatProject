@@ -14,7 +14,8 @@
 			"esSpecCompliant": true
 		}],
 		"no-console": false,
-		"object-literal-key-quotes": false
+		"object-literal-key-quotes": false,
+		"arrow-parens": false
 	},
 	"rulesDirectory": []
 }
