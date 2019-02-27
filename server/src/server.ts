@@ -11,10 +11,10 @@ const anounceOpenPort = (port: number | string) => () =>
     console.log(`Listening on port ${port}`);
 const appPort = process.env.PORT || 3000;
 
-sequelize(process.env.DB_URL)
-    .authenticate()
-    .then((res) => {
+sequelize
+    .sync({ force: true })
+    .then(res => {
         console.log('Connected!');
         app.listen(appPort, anounceOpenPort(appPort));
     })
-    .catch(console.log);
+    .catch(err => console.log('ERROR: ', err));
