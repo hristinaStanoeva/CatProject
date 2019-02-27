@@ -14,7 +14,6 @@ export const UserFactory = (
     sequelize: Sequelize.Sequelize,
     DataTypes: Sequelize.DataTypes
 ): Sequelize.Model<UserInstance, UserAttributes> => {
-
     const User = sequelize.define<UserInstance, UserAttributes>('User', {
         email: {
             type: DataTypes.STRING,
@@ -27,7 +26,6 @@ export const UserFactory = (
         },
         imageUrl: {
             type: DataTypes.STRING,
-            allowNull: false,
         },
     });
 
