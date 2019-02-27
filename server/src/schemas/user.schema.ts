@@ -32,8 +32,6 @@ export const UserFactory = (
                         );
                     }
                 },
-                // min: 60,
-                // max: 60,
             },
         },
         imageUrl: {
