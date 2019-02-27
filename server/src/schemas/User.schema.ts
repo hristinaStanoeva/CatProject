@@ -1,5 +1,6 @@
 import Sequelize from 'sequelize';
-import { BaseAttributes } from './Base.schema';
+import { BaseAttributes } from '../models/base-attributes.model';
+
 export interface UserAttributes extends BaseAttributes {
     email: string;
     password: string;
