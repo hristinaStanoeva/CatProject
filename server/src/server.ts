@@ -1,14 +1,15 @@
 import dotenv from 'dotenv';
+import { envFile } from './util/path';
+
+// environment variables are set before any other imports in order for them to be applied properly
+dotenv.config({ path: envFile });
 
 import app from './app';
 import { sequelize } from './util/database';
-import { envFile } from './util/path';
 
 const anounceOpenPort = (port: number | string) => () =>
     console.log(`Listening on port ${port}`);
 const appPort = process.env.PORT || 3000;
-
-dotenv.config({ path: envFile });
 
 sequelize(process.env.DB_URL)
     .authenticate()
