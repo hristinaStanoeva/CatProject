@@ -21,6 +21,8 @@ export interface Db {
 
 const sequelize = new Sequelize(process.env.DB_URL, {
     operatorsAliases: false,
+    logging: false,
+    define: { underscored: true },
 });
 
 const dbConstruct: Db = {
@@ -37,4 +39,4 @@ Object.keys(dbConstruct).forEach(modelName => {
     }
 });
 
-export const db  = dbConstruct;
+export const db = dbConstruct;

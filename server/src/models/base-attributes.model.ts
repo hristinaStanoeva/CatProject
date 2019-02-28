@@ -1,5 +1,5 @@
 export interface BaseAttributes {
     id?: number;
-    createdAt?: Date;
-    updatedAt?: Date;
+    created_at?: Date;
+    updated_at?: Date;
 }
