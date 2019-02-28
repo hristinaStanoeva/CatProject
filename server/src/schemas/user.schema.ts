@@ -39,5 +39,17 @@ export const UserFactory = (
         },
     });
 
+    // If hashing is done in User.beforeCreate() then the validation is skipped
+    // http://docs.sequelizejs.com/manual/tutorial/hooks.html#order-of-operations
+    User.beforeValidate((user, options) => {
+        // hash here pls
+        return Promise.resolve(
+            user.password
+                .split('')
+                .reverse()
+                .join('')
+        ).then(pw => (user.password = pw));
+    });
+
     return User;
 };
