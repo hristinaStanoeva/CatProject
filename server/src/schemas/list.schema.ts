@@ -1,9 +1,10 @@
 import Sequelize from 'sequelize';
 import { BaseAttributes } from '../models/base-attributes.model';
-import { UserInstance } from './';
+import { UserInstance, UserAttributes } from './';
 
 export interface ListAttributes extends BaseAttributes {
     title: string;
+    createdBy?: UserAttributes | UserAttributes['id'];
 }
 
 export interface ListInstance
@@ -11,6 +12,7 @@ export interface ListInstance
     ListAttributes {
         getAuthor: Sequelize.BelongsToGetAssociationMixin<UserInstance>;
         setAuthor: Sequelize.BelongsToSetAssociationMixin<UserInstance, UserInstance['id']>;
+        // add createAuthor as it exists on the actual object.
     }
 
 export const ListFactory = (
