@@ -4,7 +4,7 @@ import { BaseAttributes } from '../models/base-attributes.model';
 export interface UserAttributes extends BaseAttributes {
     email: string;
     password: string;
-    imageUrl?: string;
+    image_url?: string;
 }
 
 export interface UserInstance
@@ -34,7 +34,7 @@ export const UserFactory = (
                 },
             },
         },
-        imageUrl: {
+        image_url: {
             type: DataTypes.STRING,
         },
     });
