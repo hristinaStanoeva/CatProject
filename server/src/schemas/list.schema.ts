@@ -4,16 +4,22 @@ import { UserInstance, UserAttributes } from './';
 
 export interface ListAttributes extends BaseAttributes {
     title: string;
-    createdBy?: UserAttributes | UserAttributes['id'];
+    created_by?: UserAttributes | UserAttributes['id'];
 }
 
 export interface ListInstance
     extends Sequelize.Instance<ListAttributes>,
-    ListAttributes {
-        getAuthor: Sequelize.BelongsToGetAssociationMixin<UserInstance>;
-        setAuthor: Sequelize.BelongsToSetAssociationMixin<UserInstance, UserInstance['id']>;
-        createAuthor: Sequelize.BelongsToCreateAssociationMixin<UserAttributes, UserInstance>;
-    }
+        ListAttributes {
+    getAuthor: Sequelize.BelongsToGetAssociationMixin<UserInstance>;
+    setAuthor: Sequelize.BelongsToSetAssociationMixin<
+        UserInstance,
+        UserInstance['id']
+    >;
+    createAuthor: Sequelize.BelongsToCreateAssociationMixin<
+        UserAttributes,
+        UserInstance
+    >;
+}
 
 export const ListFactory = (
     sequelize: Sequelize.Sequelize,
@@ -27,7 +33,11 @@ export const ListFactory = (
     });
 
     List.associate = models => {
-        List.belongsTo(models.User, { as: 'author', foreignKey: 'createdBy' });
+        List.belongsTo(models.User, {
+            as: 'author',
+            foreignKey: { name: 'created_by', allowNull: false },
+            onDelete: 'CASCADE',
+        });
     };
 
     return List;
