@@ -22,6 +22,13 @@ db.sequelize
     // )
     .then(() =>
         db.User.create({
+            email: 'kote2@mail.com',
+            password:
+                '123456789012345678901234567890123456789012345678901234567890',
+        })
+    )
+    .then(() =>
+        db.User.create({
             email: 'kote1@mail.com',
             password:
                 '123456789012345678901234567890123456789012345678901234567890',
@@ -30,8 +37,11 @@ db.sequelize
     .then(() =>
         db.List.create({
             title: 'sample list',
+            createdBy: 2
         })
     )
+    // .then(() => db.List.findByPk(1))
+    // .then(list => list.setAuthor(1))
     // .then(() =>
     //     db.User.create({
     //         email: 'kote2@mail.com',
