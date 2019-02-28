@@ -12,36 +12,39 @@ const anounceOpenPort = (port: number | string) => () =>
 const appPort = process.env.PORT || 3000;
 
 db.sequelize
-    // .authenticate()
-    .sync({ force: true })
+    .authenticate()
+    // .sync({ force: true })
     // .then(() =>
     //     db.ListItem.create({
     //         content: 'do this',
     //         checked: true,
     //     })
     // )
-    .then(() =>
-        db.User.create({
-            email: 'kote2@mail.com',
-            password:
-                '123456789012345678901234567890123456789012345678901234567890',
-        })
-    )
-    .then(() =>
-        db.User.create({
-            email: 'kote1@mail.com',
-            password:
-                '123456789012345678901234567890123456789012345678901234567890',
-        })
-    )
-    .then(() =>
-        db.List.create({
-            title: 'sample list',
-            createdBy: 2
-        })
-    )
+    // .then(() =>
+    //     db.User.create({
+    //         email: 'kote2@mail.com',
+    //         password:
+    //             '123456789012345678901234567890123456789012345678901234567890',
+    //     })
+    // )
+    // .then(() =>
+    //     db.User.create({
+    //         email: 'kote1@mail.com',
+    //         password:
+    //             '123456789012345678901234567890123456789012345678901234567890',
+    //     })
+    // )
+    // .then(() =>
+    //     db.List.create({
+    //         title: 'sample list',
+    //         createdBy: 2
+    //     })
+    // )
     // .then(() => db.List.findByPk(1))
-    // .then(list => list.setAuthor(1))
+    // .then(list => list.createAuthor({
+    //     email: 'test@mail.com',
+    //     password: '123456789012345678901234567890123456789012345678901234567890'
+    // }))
     // .then(() =>
     //     db.User.create({
     //         email: 'kote2@mail.com',
