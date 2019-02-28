@@ -12,8 +12,8 @@ const anounceOpenPort = (port: number | string) => () =>
 const appPort = process.env.PORT || 3000;
 
 db.sequelize
-    .authenticate()
-    // .sync({ force: true })
+    // .authenticate()
+    .sync({ force: true })
     // .then(() =>
     //     db.ListItem.create({
     //         content: 'do this',
@@ -37,7 +37,7 @@ db.sequelize
     // .then(() =>
     //     db.List.create({
     //         title: 'sample list',
-    //         createdBy: 2
+    //         created_by: 1
     //     })
     // )
     // .then(() => db.List.findByPk(1))
