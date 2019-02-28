@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "rimraf dist/ && tsc && node dist/",
-    "watch": "npm run build && concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"blue.bold,yellow.bold\" npm:watch-ts npm:watch-node",
-    "watch-ts": "tsc -w",
-    "watch-node": "nodemon dist/server.js",
     "build": "rimraf dist/ && tsc",
+    "start": "npm run build && node dist/server.js",
+    "start:watch": "npm run build && concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"blue.bold,yellow.bold\" npm:start:watch:ts npm:start:watch:js",
+    "start:watch:ts": "tsc -w",
+    "start:watch:js": "nodemon dist/server.js",
+    "start:debug": "echo \"Has to be in /server\" &&  node --inspect dist/server.js",
+    "start:debug:brk": "echo \"Has to be in /server\" && node --inspect-brk dist/server.js",
+    "start:debug:ts": "echo \"Has to be in /server\" && node --inspect --require ts-node/register src/server.ts",
+    "start:debug:brk:ts": "echo \"Has to be in /server\" && node --inspect-brk --require ts-node/register src/server.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -26,6 +30,7 @@
     "rimraf": "^2.6.3",
     "supertest": "^3.4.2",
     "ts-jest": "^24.0.0",
+    "ts-node": "^8.0.2",
     "tslint": "^5.12.1",
     "typescript": "^3.3.3"
   },
