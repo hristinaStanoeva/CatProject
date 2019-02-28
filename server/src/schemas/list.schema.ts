@@ -12,7 +12,7 @@ export interface ListInstance
     ListAttributes {
         getAuthor: Sequelize.BelongsToGetAssociationMixin<UserInstance>;
         setAuthor: Sequelize.BelongsToSetAssociationMixin<UserInstance, UserInstance['id']>;
-        // add createAuthor as it exists on the actual object.
+        createAuthor: Sequelize.BelongsToCreateAssociationMixin<UserAttributes, UserInstance>;
     }
 
 export const ListFactory = (
