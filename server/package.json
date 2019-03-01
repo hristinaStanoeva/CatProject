@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "build": "rimraf dist/ && tsc",
-    "start": "npm run build && node dist/server.js",
-    "start:watch": "npm run build && concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"blue.bold,yellow.bold\" npm:start:watch:ts npm:start:watch:js",
+    "start": "ntl",
+    "start:js": "npm run build && node dist/server.js",
+    "start:watch:dev": "npm run build && concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"blue.bold,yellow.bold\" npm:start:watch:ts npm:start:watch:js",
     "start:watch:ts": "tsc -w",
     "start:watch:js": "nodemon dist/server.js",
-    "start:debug": " node --inspect dist/server.js",
+    "start:debug": "node --inspect dist/server.js",
     "start:debug:brk": "node --inspect-brk dist/server.js",
     "start:debug:ts": "node --inspect --require ts-node/register src/server.ts",
     "start:debug:brk:ts": "node --inspect-brk --require ts-node/register src/server.ts",
@@ -27,6 +28,7 @@
     "@types/supertest": "^2.0.7",
     "concurrently": "^4.1.0",
     "jest": "^24.1.0",
+    "ntl": "^3.1.0",
     "rimraf": "^2.6.3",
     "supertest": "^3.4.2",
     "ts-jest": "^24.0.0",
@@ -35,6 +37,7 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
+    "bcrypt": "^3.0.4",
     "body-parser": "^1.18.3",
     "dotenv": "^6.2.0",
     "express": "^4.16.4",
