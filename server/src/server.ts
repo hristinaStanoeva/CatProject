@@ -14,30 +14,21 @@ const appPort = process.env.PORT || 3000;
 db.sequelize
     // .authenticate()
     .sync({ force: true })
-    // .then(() =>
-    //     db.ListItem.create({
-    //         content: 'do this',
-    //         checked: true,
-    //     })
-    // )
-    // .then(() =>
-    //     db.User.create({
-    //         email: 'kote2@mail.com',
-    //         password:
-    //             '123456789012345678901234567890123456789012345678901234567890',
-    //     })
-    // )
-    // .then(() =>
-    //     db.User.create({
-    //         email: 'kote1@mail.com',
-    //         password: '12345678',
-    //     })
-    // )
-    // .then(user =>
-    //     user.createList({
-    //         title: 'test list',
-    //     })
-    // )
+    .then(() =>
+        db.User.create({
+            email: 'kote1@mail.com',
+            password: '12345678',
+        })
+    )
+    .then(user =>
+        user.createList({
+            title: 'test list',
+        })
+    )
+    .then(list => list.createList_item({
+        content: 'task 1',
+        checked: false
+    }))
     .then(res => {
         console.log('Connected!');
         app.listen(appPort, anounceOpenPort(appPort));
