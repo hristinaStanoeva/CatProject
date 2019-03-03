@@ -4,7 +4,7 @@ import { UserInstance, UserAttributes } from './';
 
 export interface ListAttributes extends BaseAttributes {
     title: string;
-    created_by?: UserAttributes | UserAttributes['id'];
+    author?: UserAttributes | UserAttributes['id'];
 }
 
 export interface ListInstance
@@ -35,7 +35,10 @@ export const ListFactory = (
     List.associate = models => {
         List.belongsTo(models.User, {
             as: 'author',
-            foreignKey: { name: 'created_by', allowNull: false },
+            foreignKey: {
+                name: 'author_id',
+                allowNull: false,
+            },
             onDelete: 'CASCADE',
         });
     };

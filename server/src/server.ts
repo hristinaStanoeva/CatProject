@@ -30,27 +30,12 @@ db.sequelize
     // .then(() =>
     //     db.User.create({
     //         email: 'kote1@mail.com',
-    //         password:
-    //             '123456789012345678901234567890123456789012345678901234567890',
+    //         password: '12345678',
     //     })
     // )
-    // .then(() =>
-    //     db.List.create({
-    //         title: 'sample list',
-    //         created_by: 1
-    //     })
-    // )
-    // .then(() => db.List.findByPk(1))
-    // .then(list => list.createAuthor({
-    //     email: 'test@mail.com',
-    //     password: '123456789012345678901234567890123456789012345678901234567890'
-    // }))
-    // .then(() =>
-    //     db.User.create({
-    //         email: 'kote2@mail.com',
-    //         password:
-    //             '123456789012345678901234567890123456789012345678901234567890',
-    //         imageUrl: 'some url here',
+    // .then(user =>
+    //     user.createList({
+    //         title: 'test list',
     //     })
     // )
     .then(res => {

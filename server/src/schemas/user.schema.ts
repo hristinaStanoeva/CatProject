@@ -1,9 +1,21 @@
-import Sequelize from 'sequelize';
+import Sequelize, {
+    HasManyGetAssociationsMixin,
+    HasManySetAssociationsMixin,
+    HasManyAddAssociationMixin,
+    HasManyAddAssociationsMixin,
+    HasManyCreateAssociationMixin,
+    HasManyRemoveAssociationMixin,
+    HasManyRemoveAssociationsMixin,
+    HasManyHasAssociationMixin,
+    HasManyHasAssociationsMixin,
+    HasManyCountAssociationsMixin,
+} from 'sequelize';
 import { normalizeEmail, trim } from 'validator';
 import { hash } from 'bcrypt';
 import { compose } from 'ramda';
 
 import { BaseAttributes } from '../models/base-attributes.model';
+import { ListInstance, ListAttributes } from './';
 
 export interface UserAttributes extends BaseAttributes {
     email: string;
@@ -13,7 +25,21 @@ export interface UserAttributes extends BaseAttributes {
 
 export interface UserInstance
     extends Sequelize.Instance<UserAttributes>,
-        UserAttributes {}
+        UserAttributes {
+    getLists: HasManyGetAssociationsMixin<ListInstance>;
+    setLists: HasManySetAssociationsMixin<ListInstance, ListInstance['id']>;
+    addList: HasManyAddAssociationMixin<ListInstance, ListInstance['id']>;
+    addLists: HasManyAddAssociationsMixin<ListInstance, ListInstance['id']>;
+    createList: HasManyCreateAssociationMixin<ListAttributes, ListInstance>;
+    removeList: HasManyRemoveAssociationMixin<ListInstance, ListInstance['id']>;
+    removeLists: HasManyRemoveAssociationsMixin<
+        ListInstance,
+        ListInstance['id']
+    >;
+    hasList: HasManyHasAssociationMixin<ListInstance, ListInstance['id']>;
+    hasLists: HasManyHasAssociationsMixin<ListInstance, ListInstance['id']>;
+    countLists: HasManyCountAssociationsMixin;
+}
 
 export const UserFactory = (
     sequelize: Sequelize.Sequelize,
@@ -45,6 +71,11 @@ export const UserFactory = (
         },
     });
 
+    User.associate = models => {
+        // foreign key value has to match fk value in list schema association
+        User.hasMany(models.List, { foreignKey: 'author_id' });
+    };
+
     User.beforeValidate(user => {
         user.email = compose(
             trim,
@@ -56,7 +87,7 @@ export const UserFactory = (
 
     User.beforeCreate(async (user, options) => {
         user.email = normalizeEmail(user.email) as string;
-        // // hash here pls
+
         try {
             user.password = await hash(user.password, 12);
         } catch (e) {
