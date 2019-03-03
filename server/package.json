@@ -12,8 +12,8 @@
     "start:watch:js": "nodemon dist/server.js",
     "start:debug": "node --inspect dist/server.js",
     "start:debug:brk": "node --inspect-brk dist/server.js",
-    "start:debug:ts": "node --inspect --require ts-node/register src/server.ts",
-    "start:debug:brk:ts": "node --inspect-brk --require ts-node/register src/server.ts",
+    "start:debug:ts": "nodemon --inspect --require ts-node/register src/server.ts",
+    "start:debug:brk:ts": "nodemon --inspect-brk --require ts-node/register src/server.ts",
     "test": "jest",
     "test:watch": "jest --watch"
   },
