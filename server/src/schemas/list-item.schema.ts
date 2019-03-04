@@ -10,6 +10,7 @@ export interface ListItemAttributes extends BaseAttributes {
     content: string;
     checked: boolean;
     list?: ListAttributes | ListAttributes['id'];
+    author?: UserAttributes | UserAttributes['id'];
 }
 
 export interface ListItemInstance

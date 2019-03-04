@@ -6,11 +6,13 @@ dotenv.config({ path: envFile });
 
 import app from './app';
 import { db } from './util/database';
+import { ListInstance, UserInstance } from './schemas';
 
 const anounceOpenPort = (port: number | string) => () =>
     console.log(`Listening on port ${port}`);
 const appPort = process.env.PORT || 3000;
-
+let userInstance: UserInstance;
+// let listInstance: ListInstance;
 db.sequelize
     // .authenticate()
     .sync({ force: true })
@@ -20,24 +22,22 @@ db.sequelize
             password: '12345678',
         })
     )
-    .then(user =>
-        user.createList({
+    .then(user => {
+        userInstance = user;
+        return user.createList({
             title: 'test list',
-        })
-    )
-    .then(list =>
-        list.createListItem(
-            {
-                content: 'task 1',
-                checked: false,
-                author_id: 1
-            }, {
-                include: [{ model: db.User, as: 'author' }]
-            }
-        )
-    )
+        });
+    })
+    .then(async (list) => {
+        const li = db.ListItem.build({
+            content: 'todo',
+            checked: false
+        });
+        await li.setAuthor(userInstance, { save: false });
+        await li.setList(list, { save: false });
+        return li.save();
+    })
     .then(res => {
-        // console.log(res);
         console.log('Connected!');
         app.listen(appPort, anounceOpenPort(appPort));
     })
