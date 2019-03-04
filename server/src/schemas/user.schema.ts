@@ -15,7 +15,12 @@ import { hash } from 'bcrypt';
 import { compose } from 'ramda';
 
 import { BaseAttributes } from '../models/base-attributes.model';
-import { ListInstance, ListAttributes } from './';
+import {
+    ListInstance,
+    ListAttributes,
+    ListItemInstance,
+    ListItemAttributes,
+} from './';
 
 export interface UserAttributes extends BaseAttributes {
     email: string;
@@ -39,6 +44,41 @@ export interface UserInstance
     hasList: HasManyHasAssociationMixin<ListInstance, ListInstance['id']>;
     hasLists: HasManyHasAssociationsMixin<ListInstance, ListInstance['id']>;
     countLists: HasManyCountAssociationsMixin;
+
+    getListItems: HasManyGetAssociationsMixin<ListItemInstance>;
+    setListItems: HasManySetAssociationsMixin<
+        ListItemInstance,
+        ListItemInstance['id']
+    >;
+    addListItem: HasManyAddAssociationMixin<
+        ListItemInstance,
+        ListItemInstance['id']
+    >;
+    addListItems: HasManyAddAssociationsMixin<
+        ListItemInstance,
+        ListItemInstance['id']
+    >;
+    createListItem: HasManyCreateAssociationMixin<
+        ListItemAttributes,
+        ListItemInstance
+    >;
+    removeListItem: HasManyRemoveAssociationMixin<
+        ListItemInstance,
+        ListItemInstance['id']
+    >;
+    removeListItems: HasManyRemoveAssociationsMixin<
+        ListItemInstance,
+        ListItemInstance['id']
+    >;
+    hasListItem: HasManyHasAssociationMixin<
+        ListItemInstance,
+        ListItemInstance['id']
+    >;
+    hasListItems: HasManyHasAssociationsMixin<
+        ListItemInstance,
+        ListItemInstance['id']
+    >;
+    countListItems: HasManyCountAssociationsMixin;
 }
 
 export const UserFactory = (
@@ -73,7 +113,22 @@ export const UserFactory = (
 
     User.associate = models => {
         // foreign key value has to match fk value in list schema association
-        User.hasMany(models.List, { foreignKey: 'author_id' });
+        // https://github.com/sequelize/sequelize/issues/6997
+        User.hasMany(models.List, {
+            as: 'list',
+            foreignKey: {
+                name: 'author_id',
+                allowNull: false,
+            },
+        });
+
+        User.hasMany(models.ListItem, {
+            as: 'listItem',
+            foreignKey: {
+                name: 'author_id',
+                allowNull: false,
+            },
+        });
     };
 
     User.beforeValidate(user => {

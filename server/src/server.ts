@@ -25,11 +25,19 @@ db.sequelize
             title: 'test list',
         })
     )
-    .then(list => list.createList_item({
-        content: 'task 1',
-        checked: false
-    }))
+    .then(list =>
+        list.createListItem(
+            {
+                content: 'task 1',
+                checked: false,
+                author_id: 1
+            }, {
+                include: [{ model: db.User, as: 'author' }]
+            }
+        )
+    )
     .then(res => {
+        // console.log(res);
         console.log('Connected!');
         app.listen(appPort, anounceOpenPort(appPort));
     })

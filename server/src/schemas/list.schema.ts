@@ -33,40 +33,40 @@ export interface ListInstance
     setAuthor: BelongsToSetAssociationMixin<UserInstance, UserInstance['id']>;
     createAuthor: BelongsToCreateAssociationMixin<UserAttributes, UserInstance>;
 
-    getList_items: HasManyGetAssociationsMixin<ListItemInstance>;
-    setList_items: HasManySetAssociationsMixin<
+    getListItems: HasManyGetAssociationsMixin<ListItemInstance>;
+    setListItems: HasManySetAssociationsMixin<
         ListItemInstance,
         ListItemInstance['id']
     >;
-    addList_item: HasManyAddAssociationMixin<
+    addListItem: HasManyAddAssociationMixin<
         ListItemInstance,
         ListItemInstance['id']
     >;
-    addList_items: HasManyAddAssociationsMixin<
+    addListItems: HasManyAddAssociationsMixin<
         ListItemInstance,
         ListItemInstance['id']
     >;
-    createList_item: HasManyCreateAssociationMixin<
+    createListItem: HasManyCreateAssociationMixin<
         ListItemAttributes,
         ListItemInstance
     >;
-    removeList_item: HasManyRemoveAssociationMixin<
+    removeListItem: HasManyRemoveAssociationMixin<
         ListItemInstance,
         ListItemInstance['id']
     >;
-    removeList_items: HasManyRemoveAssociationsMixin<
+    removeListItems: HasManyRemoveAssociationsMixin<
         ListItemInstance,
         ListItemInstance['id']
     >;
-    hasList_item: HasManyHasAssociationMixin<
+    hasListItem: HasManyHasAssociationMixin<
         ListItemInstance,
         ListItemInstance['id']
     >;
-    hasList_items: HasManyHasAssociationsMixin<
+    hasListItems: HasManyHasAssociationsMixin<
         ListItemInstance,
         ListItemInstance['id']
     >;
-    countList_items: HasManyCountAssociationsMixin;
+    countListItems: HasManyCountAssociationsMixin;
 }
 
 export const ListFactory = (
@@ -91,7 +91,11 @@ export const ListFactory = (
         });
 
         List.hasMany(models.ListItem, {
-            foreignKey: 'list_id',
+            as: 'listItem',
+            foreignKey: {
+                name: 'list_id',
+                allowNull: false,
+            },
         });
     };
 

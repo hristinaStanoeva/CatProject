@@ -4,7 +4,7 @@ import Sequelize, {
     BelongsToCreateAssociationMixin,
 } from 'sequelize';
 import { BaseAttributes } from '../models/base-attributes.model';
-import { ListAttributes, ListInstance } from './';
+import { ListAttributes, ListInstance, UserInstance, UserAttributes } from './';
 
 export interface ListItemAttributes extends BaseAttributes {
     content: string;
@@ -18,6 +18,10 @@ export interface ListItemInstance
     getList: BelongsToGetAssociationMixin<ListInstance>;
     setList: BelongsToSetAssociationMixin<ListInstance, ListInstance['id']>;
     createList: BelongsToCreateAssociationMixin<ListAttributes, ListInstance>;
+
+    getAuthor: BelongsToGetAssociationMixin<UserInstance>;
+    setAuthor: BelongsToSetAssociationMixin<UserInstance, UserInstance['id']>;
+    createAuthor: BelongsToCreateAssociationMixin<UserAttributes, UserInstance>;
 }
 
 export const ListItemFactory = (
@@ -44,6 +48,15 @@ export const ListItemFactory = (
             as: 'list',
             foreignKey: {
                 name: 'list_id',
+                allowNull: false,
+            },
+            onDelete: 'CASCADE',
+        });
+
+        ListItem.belongsTo(models.User, {
+            as: 'author',
+            foreignKey: {
+                name: 'author_id',
                 allowNull: false,
             },
             onDelete: 'CASCADE',
