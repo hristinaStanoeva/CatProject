@@ -1,10 +1,9 @@
 {
-  "extends": "../tsconfig",
-  "compilerOptions": {
-    "rootDir": "__tests__",
-    "types": [ "jest" ]
-  },
-  "include": [
-    "./**/*.ts"
-  ]
+    "extends": "../tsconfig",
+    "compilerOptions": {
+        "rootDir": "__tests__",
+        "types": ["jest"],
+        "lib": ["dom", "ESNext"]
+    },
+    "include": ["./**/*.ts"]
 }
