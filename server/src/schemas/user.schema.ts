@@ -22,6 +22,31 @@ import {
     ListItemAttributes,
 } from './';
 
+// getLists: HasManyGetAssociationsMixin<ListInstance>;
+// setLists: HasManySetAssociationsMixin<ListInstance, ListInstance['id']>;
+// addList: HasManyAddAssociationMixin<ListInstance, ListInstance['id']>;
+// addLists: HasManyAddAssociationsMixin<ListInstance, ListInstance['id']>;
+// createList: HasManyCreateAssociationMixin<ListAttributes, ListInstance>;
+// removeList: HasManyRemoveAssociationMixin<ListInstance, ListInstance['id']>;
+// removeLists: HasManyRemoveAssociationsMixin<
+//     ListInstance,
+//     ListInstance['id']
+// >;
+// hasList: HasManyHasAssociationMixin<ListInstance, ListInstance['id']>;
+// hasLists: HasManyHasAssociationsMixin<ListInstance, ListInstance['id']>;
+// countLists: HasManyCountAssociationsMixin;
+
+const getMethodName = Symbol('get' + 'list');
+const modelName = 'list';
+const enum methodName {
+    get = 'get' + 'list',
+}
+interface Test<TInstance = any> {
+    [methodName.get]: HasManyGetAssociationsMixin<TInstance>;
+}
+const test: Test = {
+};
+
 // Needed for instance methods
 // https://gist.github.com/evfleet/810cc5f463f70c04e1ecb321ee30466e
 // https://github.com/sequelize/sequelize/issues/9760
