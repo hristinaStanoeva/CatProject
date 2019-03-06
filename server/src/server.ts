@@ -28,16 +28,18 @@ db.sequelize
             title: 'test list',
         });
     })
-    .then(async (list) => {
+    .then(async list => {
         const li = db.ListItem.build({
             content: 'todo',
-            checked: false
+            checked: false,
         });
         await li.setAuthor(userInstance, { save: false });
         await li.setList(list, { save: false });
         return li.save();
     })
+    .then(() => userInstance.isPasswordValid('12345678'))
     .then(res => {
+        console.log(res);
         console.log('Connected!');
         app.listen(appPort, anounceOpenPort(appPort));
     })

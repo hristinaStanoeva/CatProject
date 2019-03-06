@@ -11,7 +11,7 @@ import Sequelize, {
     HasManyCountAssociationsMixin,
 } from 'sequelize';
 import { normalizeEmail, trim } from 'validator';
-import { hash } from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 import { compose } from 'ramda';
 
 import { BaseAttributes } from '../models/base-attributes.model';
@@ -22,15 +22,27 @@ import {
     ListItemAttributes,
 } from './';
 
+// Needed for instance methods
+// https://gist.github.com/evfleet/810cc5f463f70c04e1ecb321ee30466e
+// https://github.com/sequelize/sequelize/issues/9760
+interface UserInstanceMethods {
+    isPasswordValid: (password: string) => Promise<boolean>;
+}
+
 export interface UserAttributes extends BaseAttributes {
     email: string;
     password: string;
     image_url?: string;
 }
 
+interface UserModel extends Sequelize.Model<UserInstance, UserAttributes> {
+    prototype?: UserInstanceMethods;
+}
+
 export interface UserInstance
     extends Sequelize.Instance<UserAttributes>,
-        UserAttributes {
+        UserAttributes,
+        UserInstanceMethods {
     getLists: HasManyGetAssociationsMixin<ListInstance>;
     setLists: HasManySetAssociationsMixin<ListInstance, ListInstance['id']>;
     addList: HasManyAddAssociationMixin<ListInstance, ListInstance['id']>;
@@ -84,32 +96,35 @@ export interface UserInstance
 export const UserFactory = (
     sequelize: Sequelize.Sequelize,
     DataTypes: Sequelize.DataTypes
-): Sequelize.Model<UserInstance, UserAttributes> => {
-    const User = sequelize.define<UserInstance, UserAttributes>('user', {
-        email: {
-            type: DataTypes.STRING,
-            unique: true,
-            allowNull: false,
-            validate: {
-                notEmpty: true,
-                isEmail: true,
+): UserModel => {
+    const User: UserModel = sequelize.define<UserInstance, UserAttributes>(
+        'user',
+        {
+            email: {
+                type: DataTypes.STRING,
+                unique: true,
+                allowNull: false,
+                validate: {
+                    notEmpty: true,
+                    isEmail: true,
+                },
             },
-        },
-        password: {
-            type: DataTypes.STRING(60),
-            allowNull: false,
-            validate: {
-                len: [8, 50],
-                isAscii: true,
+            password: {
+                type: DataTypes.STRING(60),
+                allowNull: false,
+                validate: {
+                    len: [8, 50],
+                    isAscii: true,
+                },
             },
-        },
-        image_url: {
-            type: DataTypes.STRING,
-            validate: {
-                isUrl: true,
+            image_url: {
+                type: DataTypes.STRING,
+                validate: {
+                    isUrl: true,
+                },
             },
-        },
-    });
+        }
+    );
 
     User.associate = models => {
         // foreign key value has to match fk value in list schema association
@@ -149,6 +164,10 @@ export const UserFactory = (
             console.error('Hashing failed. Pls handle error');
         }
     });
+
+    User.prototype.isPasswordValid = function(password: string) {
+        return compare(password, this.password);
+    };
 
     return User;
 };
