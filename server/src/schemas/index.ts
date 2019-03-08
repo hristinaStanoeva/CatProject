@@ -1,3 +1,3 @@
-export * from './user.schema';
-export * from './list.schema';
-export * from './list-item.schema';
+export * from './user';
+export * from './list';
+export * from './list-item';
