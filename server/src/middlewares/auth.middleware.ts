@@ -4,6 +4,7 @@ import { db } from '../util/database';
 import { CustomLocalsResponse, Middleware } from '../models';
 import { UserInstance } from '../schemas';
 import { OperationalError } from '../util/errors';
+import { LoginRequest } from '../controllers';
 
 export type ResponseWithUser = CustomLocalsResponse<{ user: UserInstance }>;
 
@@ -29,6 +30,29 @@ export const throwIfUserExists: Middleware<Request, ResponseWithUser> = (
 ) => {
     if (res.locals.user) {
         return next(new OperationalError(400, 'User exists'));
+    }
+    return next();
+};
+
+export const throwIfUserDoesNotExist: Middleware<
+    LoginRequest,
+    ResponseWithUser
+> = (req, res, next) => {
+    if (!res.locals.user) {
+        return next(
+            new OperationalError(400, `${req.body.email} is not yet registered`)
+        );
+    }
+    return next();
+};
+
+export const checkPassword: Middleware<LoginRequest, ResponseWithUser> = (
+    req,
+    res,
+    next
+) => {
+    if (!res.locals.user.isPasswordValid(req.body.password)) {
+        return next(new OperationalError(400, 'Invalid password'));
     }
     return next();
 };

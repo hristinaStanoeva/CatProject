@@ -8,10 +8,13 @@ import {
     resetUserPassword,
     ResetPasswordRequest,
     RegisterRequest,
-    LoginRequest,
 } from '../../controllers';
 import { runValidators } from '../../middlewares/run-validators.middleware';
-import { getUser, throwIfUserExists } from '../../middlewares/auth.middleware';
+import {
+    getUser,
+    throwIfUserExists,
+    throwIfUserDoesNotExist,
+} from '../../middlewares/auth.middleware';
 
 const router = Router();
 
@@ -36,27 +39,11 @@ const passwordValidator = () =>
 router.post(
     '/login',
     [
-        emailValidator()
-            // move to a separate middleware to check db data
-            .custom((value: string, { req }: { req: LoginRequest }) => {
-                if (false) {
-                    return Promise.reject(
-                        `${req.body.email} is not yet registered`
-                    );
-                }
-                return Promise.resolve();
-            }),
-        passwordValidator()
-            // maybe move check for password in db in a separate middleware
-            .custom((value: string, { req }: { req: LoginRequest }) => {
-                if (false) {
-                    return Promise.reject('Wrong password');
-                }
-                return Promise.resolve();
-            }),
+        emailValidator(),
+        passwordValidator(),
         runValidators,
-        // next middleware should get the user from db and attach it to the req object
-        // the logic is that the controller gets all the data needed for doing its job(logging in the user)
+        getUser,
+        throwIfUserDoesNotExist,
     ],
     loginUser
 );
