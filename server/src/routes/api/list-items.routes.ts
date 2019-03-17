@@ -8,7 +8,7 @@ import {
     updateListItem,
     deleteListItemById,
 } from '../../controllers';
-import { runValidators } from '../../middlewares/runValidators.middleware';
+import { runValidators } from '../../middlewares/run-validators.middleware';
 
 const router = Router();
 
