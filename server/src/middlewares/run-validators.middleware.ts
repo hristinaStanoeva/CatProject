@@ -1,5 +1,6 @@
 import { validationResult } from 'express-validator/check';
 import { Location } from 'express-validator/check/location';
+import { OperationalError } from '../util/errors';
 
 interface ValidationResult {
     location: Location;
@@ -14,7 +15,7 @@ export const runValidators = (req, res, next) => {
     } else {
         const errors = validationResult<ValidationResult>(req)
             .array()
-            .map(({ msg, param }) => ({ field: param, error: msg }));
-        return res.status(400).json(errors);
+            .map(({ msg }) => msg);
+        next(new OperationalError(400, errors));
     }
 };
