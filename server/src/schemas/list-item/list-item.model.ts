@@ -4,7 +4,7 @@ import Sequelize, {
     BelongsToCreateAssociationMixin,
 } from 'sequelize';
 
-import { BaseAttributes } from '../../models/base-attributes.model';
+import { BaseAttributes } from '../../models';
 
 import { ListAttributes, ListInstance } from '../list';
 import { UserAttributes, UserInstance } from '../';

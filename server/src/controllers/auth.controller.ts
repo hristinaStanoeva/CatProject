@@ -1,7 +1,7 @@
 import { Response, NextFunction } from 'express';
 
 import { db } from '../util/database';
-import { CustomBodyRequest } from '../models/custom-body-request.model';
+import { CustomBodyRequest } from '../models';
 
 export type LoginRequest = CustomBodyRequest<'email' | 'password'>;
 export type RegisterRequest = CustomBodyRequest<

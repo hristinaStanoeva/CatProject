@@ -11,7 +11,7 @@ import Sequelize, {
     HasManyCountAssociationsMixin,
 } from 'sequelize';
 
-import { BaseAttributes } from '../../models/base-attributes.model';
+import { BaseAttributes } from '../../models';
 import { ListInstance, ListAttributes } from '../list';
 import { ListItemInstance, ListItemAttributes } from '../';
 

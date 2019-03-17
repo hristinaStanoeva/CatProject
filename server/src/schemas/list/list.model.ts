@@ -14,7 +14,7 @@ import Sequelize, {
     BelongsToCreateAssociationMixin,
 } from 'sequelize';
 
-import { BaseAttributes } from '../../models/base-attributes.model';
+import { BaseAttributes } from '../../models';
 
 import {
     UserAttributes,

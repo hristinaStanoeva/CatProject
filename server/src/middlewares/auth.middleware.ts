@@ -1,8 +1,7 @@
 import { Request } from 'express';
 
 import { db } from '../util/database';
-import { CustomLocalsResponse } from '../models/custom-locals-response.model';
-import { Middleware } from '../models/middleware.model';
+import { CustomLocalsResponse, Middleware } from '../models';
 import { UserInstance } from '../schemas';
 import { OperationalError } from '../util/errors';
 

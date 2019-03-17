@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { CustomBodyRequest } from '../models/custom-body-request.model';
+import { CustomBodyRequest } from '../models';
 
 type ListItemRequest = CustomBodyRequest<'content' | 'checked'>;
 
