@@ -8,7 +8,7 @@
         // "isolatedModules": true,               /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
 
         // "strict": true,
-        // "noUnusedLocals": true,                /* Report errors on unused locals. */
+        "noUnusedLocals": true,
         // "noUnusedParameters": true,            /* Report errors on unused parameters. */
         // "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
         "noFallthroughCasesInSwitch": true,
