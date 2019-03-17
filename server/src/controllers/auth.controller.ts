@@ -1,7 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
-import { validationResult } from 'express-validator/check';
-import { Location } from 'express-validator/check/location';
+import { Response, NextFunction } from 'express';
 
+import { db } from '../util/database';
 import { CustomBodyRequest } from '../models/custom-body-request.model';
 
 export type LoginRequest = CustomBodyRequest<'email' | 'password'>;
@@ -18,12 +17,22 @@ export const loginUser = (
     return res.status(200).json({ userId: 'user id', token: 'token' });
 };
 
-export const registerUser = (
+export const registerUser = async (
     req: RegisterRequest,
     res: Response,
     next: NextFunction
 ) => {
-    return res.status(200).json({ userId: 'user id', token: 'token' });
+    try {
+        // @ts-ignore
+        const user = await db.User.create({
+            email: req.body.email,
+            password: req.body.password,
+        });
+
+        return res.status(200).json({ userId: 'user id', token: 'token' });
+    } catch (e) {
+        next(e);
+    }
 };
 
 export const resetUserPassword = (

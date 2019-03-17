@@ -11,6 +11,7 @@ import {
     LoginRequest,
 } from '../../controllers';
 import { runValidators } from '../../middlewares/run-validators.middleware';
+import { getUser, throwIfUserExists } from '../../middlewares/auth.middleware';
 
 const router = Router();
 
@@ -63,16 +64,7 @@ router.post(
 router.post(
     '/register',
     [
-        emailValidator()
-            // maybe move to a separete middleware for checking if the email is in the db
-            .custom((value: string, { req }: { req: RegisterRequest }) => {
-                if (false) {
-                    return Promise.reject(
-                        `Email ${req.body.email} already exists`
-                    );
-                }
-                return Promise.resolve();
-            }),
+        emailValidator(),
         passwordValidator().custom(
             (value: string, { req }: { req: RegisterRequest }) => {
                 if (value !== req.body.confirmPassword) {
@@ -82,6 +74,8 @@ router.post(
             }
         ),
         runValidators,
+        getUser,
+        throwIfUserExists,
     ],
     registerUser
 );
