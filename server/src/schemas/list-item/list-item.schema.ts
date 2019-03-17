@@ -1,7 +1,5 @@
 import Sequelize from 'sequelize';
 
-import { BaseAttributes } from '../../models/base-attributes.model';
-
 import { ListItemInstance, ListItemAttributes } from './';
 
 export const ListItemFactory = (

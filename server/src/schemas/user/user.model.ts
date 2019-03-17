@@ -10,9 +10,6 @@ import Sequelize, {
     HasManyHasAssociationsMixin,
     HasManyCountAssociationsMixin,
 } from 'sequelize';
-import { normalizeEmail, trim } from 'validator';
-import { hash, compare } from 'bcrypt';
-import { compose } from 'ramda';
 
 import { BaseAttributes } from '../../models/base-attributes.model';
 import { ListInstance, ListAttributes } from '../list';
