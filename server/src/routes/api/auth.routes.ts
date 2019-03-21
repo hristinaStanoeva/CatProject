@@ -14,6 +14,7 @@ import {
     getUser,
     throwIfUserExists,
     throwIfUserDoesNotExist,
+    checkPassword,
 } from '../../middlewares/auth.middleware';
 
 const router = Router();
@@ -44,6 +45,7 @@ router.post(
         runValidators,
         getUser,
         throwIfUserDoesNotExist,
+        checkPassword,
     ],
     loginUser
 );
