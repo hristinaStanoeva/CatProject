@@ -9,10 +9,11 @@ export class OperationalError extends Error {
     }
 }
 
-// maybe not really needed.
+// needed for errors outside of middleware/routing, e.g. schema validation
 // tslint:disable-next-line:max-classes-per-file
 export class ServerError extends OperationalError {
-    constructor() {
+    constructor(e: Error) {
+        console.log(e);
         super(500, 'Server error');
     }
 }
