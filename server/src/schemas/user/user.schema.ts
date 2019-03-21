@@ -78,8 +78,8 @@ export const UserFactory = (
         }
     });
 
-    User.prototype.isPasswordValid = function(password: string) {
-        return compare(password, this.password);
+    User.prototype.isPasswordValid = async function(password: string) {
+        return await compare(password, this.password);
     };
 
     return User;
