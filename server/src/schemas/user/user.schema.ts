@@ -4,6 +4,7 @@ import { hash, compare } from 'bcrypt';
 import { compose } from 'ramda';
 
 import { UserModel, UserInstance, UserAttributes } from './';
+import { ServerError } from '../../util/errors';
 
 export const UserFactory = (
     sequelize: Sequelize.Sequelize,
@@ -73,7 +74,7 @@ export const UserFactory = (
         try {
             user.password = await hash(user.password, 12);
         } catch (e) {
-            console.error('Hashing failed. Pls handle error');
+            throw new ServerError(e);
         }
     });
 
