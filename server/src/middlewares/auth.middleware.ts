@@ -46,12 +46,12 @@ export const throwIfUserDoesNotExist: Middleware<
     return next();
 };
 
-export const checkPassword: Middleware<LoginRequest, ResponseWithUser> = (
+export const checkPassword: Middleware<LoginRequest, ResponseWithUser> = async (
     req,
     res,
     next
 ) => {
-    if (!res.locals.user.isPasswordValid(req.body.password)) {
+    if (!(await res.locals.user.isPasswordValid(req.body.password))) {
         return next(new OperationalError(400, 'Invalid password'));
     }
     return next();
