@@ -1,7 +1,9 @@
 import { Response, NextFunction } from 'express';
+import { sign } from 'jsonwebtoken';
 
 import { db } from '../util/database';
 import { CustomBodyRequest } from '../models';
+import { ResponseWithUser } from '../middlewares/auth.middleware';
 
 export type LoginRequest = CustomBodyRequest<'email' | 'password'>;
 export type RegisterRequest = CustomBodyRequest<
@@ -11,10 +13,18 @@ export type ResetPasswordRequest = CustomBodyRequest<'email'>;
 
 export const loginUser = (
     req: LoginRequest,
-    res: Response,
+    res: ResponseWithUser,
     next: NextFunction
 ) => {
-    return res.status(200).json({ userId: 'user id', token: 'token' });
+    const token = sign(
+        {
+            email: res.locals.user.email,
+            id: res.locals.user.id,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: '2h' }
+    );
+    return res.status(200).json({ userId: res.locals.user.id, token });
 };
 
 export const registerUser = async (
