@@ -8,13 +8,16 @@ import {
     resetUserPassword,
     ResetPasswordRequest,
     RegisterRequest,
+    LoginRequest,
 } from '../../controllers';
 import { runValidators } from '../../middlewares/run-validators.middleware';
 import {
     getUser,
-    throwIfUserExists,
-    throwIfUserDoesNotExist,
+    // throwIfUserExists,
+    // throwIfUserDoesNotExist,
     checkPassword,
+    throwIf,
+    ResponseWithUser,
 } from '../../middlewares/auth.middleware';
 
 const router = Router();
@@ -37,6 +40,14 @@ const passwordValidator = () =>
             'Password can only include latin letters, numbers and symbols'
         );
 
+const throwIfUserDoesNotExist = throwIf<LoginRequest, ResponseWithUser>(
+    400,
+    'Not yet registered'
+)((req, res) => !res.locals.user);
+const throwIfUserExists = throwIf<RegisterRequest, ResponseWithUser>(
+    400,
+    'User exists'
+)((req, res) => !!res.locals.user);
 router.post(
     '/login',
     [
@@ -44,6 +55,7 @@ router.post(
         passwordValidator(),
         runValidators,
         getUser,
+        // throwIf<LoginRequest, ResponseWithUser>(),
         throwIfUserDoesNotExist,
         checkPassword,
     ],
@@ -64,6 +76,9 @@ router.post(
         ),
         runValidators,
         getUser,
+        // throwIf<RegisterRequest, ResponseWithUser>(
+        //     (req, res) => !!res.locals.user
+        // ),
         throwIfUserExists,
     ],
     registerUser

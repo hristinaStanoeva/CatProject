@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request, NextFunction } from 'express';
 
 import { db } from '../util/database';
 import { CustomLocalsResponse, Middleware } from '../models';
@@ -56,3 +56,8 @@ export const checkPassword: Middleware<LoginRequest, ResponseWithUser> = async (
     }
     return next();
 };
+
+export const throwIf = <TReq, TRes>(code: number, message: string) => (
+    predicate: (req: TReq, res: TRes) => boolean
+): Middleware<TReq, TRes> => (req: TReq, res: TRes, next: NextFunction) =>
+    predicate(req, res) ? next(new OperationalError(code, message)) : next();
