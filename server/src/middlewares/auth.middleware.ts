@@ -23,15 +23,15 @@ export const getUser: Middleware<Request, ResponseWithUser> = async (
 };
 
 export const throwIf = <TReq, TRes>(
-    errCallback: (req: TReq, res: TRes) => { code: number; message: string }
+    errCallback: Middleware<TReq, TRes, { code: number; message: string }>
 ) => (
-    predicate: (req: TReq, res: TRes) => boolean | Promise<boolean>
+    predicate: Middleware<TReq, TRes, boolean>
 ): Middleware<TReq, TRes> => async (
     req: TReq,
     res: TRes,
     next: NextFunction
 ) => {
-    const { code, message } = errCallback(req, res);
+    const { code, message } = await errCallback(req, res);
     (await predicate(req, res))
         ? next(new OperationalError(code, message))
         : next();
