@@ -1,7 +1,7 @@
 import { NextFunction } from 'express';
 
-export type Middleware<TReq, TRes> = (
+export type Middleware<TReq, TRes, TReturn = void> = (
     req: TReq,
     res: TRes,
-    next: NextFunction
-) => void | Promise<void>;
+    next?: NextFunction
+) => TReturn | Promise<TReturn>;
