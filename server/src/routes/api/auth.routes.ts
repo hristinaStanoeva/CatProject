@@ -15,7 +15,6 @@ import {
     getUser,
     // throwIfUserExists,
     // throwIfUserDoesNotExist,
-    checkPassword,
     throwIf,
     ResponseWithUser,
 } from '../../middlewares/auth.middleware';
@@ -41,13 +40,26 @@ const passwordValidator = () =>
         );
 
 const throwIfUserDoesNotExist = throwIf<LoginRequest, ResponseWithUser>(
-    400,
-    'Not yet registered'
+    (req, res) => {
+        return {
+            code: 400,
+            message: `${req.body.email} is not yet registered!`,
+        };
+    }
 )((req, res) => !res.locals.user);
 const throwIfUserExists = throwIf<RegisterRequest, ResponseWithUser>(
-    400,
-    'User exists'
+    (req, res) => {
+        return { code: 400, message: `${req.body.email} already exists!` };
+    }
 )((req, res) => !!res.locals.user);
+
+const throwIfInvalidPassowrd = throwIf<LoginRequest, ResponseWithUser>(
+    (req, res) => ({ code: 400, message: 'Invalid password' })
+)(
+    async (req, res) =>
+        !(await res.locals.user.isPasswordValid(req.body.password))
+);
+
 router.post(
     '/login',
     [
@@ -55,9 +67,8 @@ router.post(
         passwordValidator(),
         runValidators,
         getUser,
-        // throwIf<LoginRequest, ResponseWithUser>(),
         throwIfUserDoesNotExist,
-        checkPassword,
+        throwIfInvalidPassowrd,
     ],
     loginUser
 );
@@ -76,9 +87,6 @@ router.post(
         ),
         runValidators,
         getUser,
-        // throwIf<RegisterRequest, ResponseWithUser>(
-        //     (req, res) => !!res.locals.user
-        // ),
         throwIfUserExists,
     ],
     registerUser

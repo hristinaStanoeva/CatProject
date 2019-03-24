@@ -4,7 +4,6 @@ import { db } from '../util/database';
 import { CustomLocalsResponse, Middleware } from '../models';
 import { UserInstance } from '../schemas';
 import { OperationalError } from '../util/errors';
-import { LoginRequest } from '../controllers';
 
 export type ResponseWithUser = CustomLocalsResponse<{ user: UserInstance }>;
 
@@ -23,41 +22,17 @@ export const getUser: Middleware<Request, ResponseWithUser> = async (
     }
 };
 
-export const throwIfUserExists: Middleware<Request, ResponseWithUser> = (
-    req,
-    res,
-    next
+export const throwIf = <TReq, TRes>(
+    errCallback: (req: TReq, res: TRes) => { code: number; message: string }
+) => (
+    predicate: (req: TReq, res: TRes) => boolean | Promise<boolean>
+): Middleware<TReq, TRes> => async (
+    req: TReq,
+    res: TRes,
+    next: NextFunction
 ) => {
-    if (res.locals.user) {
-        return next(new OperationalError(400, 'User exists'));
-    }
-    return next();
+    const { code, message } = errCallback(req, res);
+    (await predicate(req, res))
+        ? next(new OperationalError(code, message))
+        : next();
 };
-
-export const throwIfUserDoesNotExist: Middleware<
-    LoginRequest,
-    ResponseWithUser
-> = (req, res, next) => {
-    if (!res.locals.user) {
-        return next(
-            new OperationalError(400, `${req.body.email} is not yet registered`)
-        );
-    }
-    return next();
-};
-
-export const checkPassword: Middleware<LoginRequest, ResponseWithUser> = async (
-    req,
-    res,
-    next
-) => {
-    if (!(await res.locals.user.isPasswordValid(req.body.password))) {
-        return next(new OperationalError(400, 'Invalid password'));
-    }
-    return next();
-};
-
-export const throwIf = <TReq, TRes>(code: number, message: string) => (
-    predicate: (req: TReq, res: TRes) => boolean
-): Middleware<TReq, TRes> => (req: TReq, res: TRes, next: NextFunction) =>
-    predicate(req, res) ? next(new OperationalError(code, message)) : next();
