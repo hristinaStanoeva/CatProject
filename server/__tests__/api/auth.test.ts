@@ -1,7 +1,21 @@
+import SequelizeMock from 'sequelize-mock';
+// @ts-ignore
+import Sequelize from 'sequelize';
+jest.mock('sequelize', () => jest.fn(() => new SequelizeMock()));
+// jest.genMockFromModule('../../src/util/database');
+console.log(SequelizeMock.STRING);
+// jest.setMock('sequelize', Sequelize);
+
 import request from 'supertest';
 import app from '../../src/app';
+// @ts-ignore
+// import Sequelize from 'sequelize';
+// jest.requireMock('../../src/util/database');
 
 describe('/api/auth', () => {
+    beforeEach(() =>
+        jest.doMock('sequelize', () => jest.fn(() => new SequelizeMock()))
+    );
     it('POST /login should set Content-Type to application/json', async () => {
         const result = await request(app).post('/api/auth/login');
         expect(result.type).toBe('application/json');
