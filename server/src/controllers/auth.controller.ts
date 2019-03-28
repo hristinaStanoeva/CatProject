@@ -24,6 +24,17 @@ export const loginUser = (
         process.env.JWT_SECRET,
         { expiresIn: '2h' }
     );
+    // try {
+    //     console.log(jwt.verify(token, process.env.JWT_SECRET + 'aaa'));
+    // } catch (e) {
+    //     if (e instanceof jwt.JsonWebTokenError) {
+    //         console.log('jwt error!');
+    //         console.log(e.name);
+    //         console.log(e.message);
+    //     } else {
+    //         console.log(e);
+    //     }
+    // }
     return res.status(200).json({ userId: res.locals.user.id, token });
 };
 
