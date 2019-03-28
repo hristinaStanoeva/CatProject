@@ -1,4 +1,5 @@
 import { Request, NextFunction } from 'express';
+import { curry } from 'ramda';
 
 import { db } from '../util/database';
 import { CustomLocalsResponse, Middleware } from '../models';
@@ -23,8 +24,7 @@ export const getUser: Middleware<Request, ResponseWithUser> = async (
 };
 
 export const throwIf = <TReq, TRes>(
-    errCallback: Middleware<TReq, TRes, { code: number; message: string }>
-) => (
+    errCallback: Middleware<TReq, TRes, { code: number; message: string }>,
     predicate: Middleware<TReq, TRes, boolean>
 ): Middleware<TReq, TRes> => async (
     req: TReq,
@@ -36,3 +36,4 @@ export const throwIf = <TReq, TRes>(
         ? next(new OperationalError(code, message))
         : next();
 };
+export const throwIfCurried = curry(throwIf);
