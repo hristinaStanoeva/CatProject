@@ -6,12 +6,12 @@ import { NextFunction, Response, Request } from 'express';
 import { OperationalError } from './util/errors';
 
 const app = express();
-
 app.use(bodyParser.json());
 
 app.use('/api', apiRoutes);
-app.use('*', (req, res) => {
-    return res.sendStatus(404);
+app.use('*', (req, res, next) => {
+    return next(new OperationalError(404, 'Not Found'));
+
 });
 
 app.use(
