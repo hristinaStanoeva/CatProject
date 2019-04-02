@@ -1,9 +1,9 @@
 import { Response, NextFunction } from 'express';
 import { sign } from 'jsonwebtoken';
 
-import { db } from '../util/database';
+// import { db } from '../util/database';
 import { CustomBodyRequest } from '../models';
-import { ResponseWithUser } from '../middlewares/auth.middleware';
+// import { ResponseWithUser } from '../middlewares/auth.middleware';
 
 export type LoginRequest = CustomBodyRequest<'email' | 'password'>;
 export type RegisterRequest = CustomBodyRequest<
@@ -13,7 +13,7 @@ export type ResetPasswordRequest = CustomBodyRequest<'email'>;
 
 export const loginUser = (
     req: LoginRequest,
-    res: ResponseWithUser,
+    res: Response /* ResponseWithUser */,
     next: NextFunction
 ) => {
     const token = sign(
@@ -44,11 +44,10 @@ export const registerUser = async (
     next: NextFunction
 ) => {
     try {
-        // @ts-ignore
-        const user = await db.User.create({
-            email: req.body.email,
-            password: req.body.password,
-        });
+        // const user = await db.User.create({
+        //     email: req.body.email,
+        //     password: req.body.password,
+        // });
 
         return res.status(200).json({ userId: 'user id', token: 'token' });
     } catch (e) {
