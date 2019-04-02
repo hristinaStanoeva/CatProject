@@ -1,23 +1,23 @@
-import { Request, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { curry } from 'ramda';
 
-import { db } from '../util/database';
-import { CustomLocalsResponse, Middleware } from '../models';
-import { UserInstance } from '../schemas';
+// import { db } from '../util/database';
+import { /* CustomLocalsResponse, */ Middleware } from '../models';
+// import { UserInstance } from '../schemas';
 import { OperationalError } from '../util/errors';
 
-export type ResponseWithUser = CustomLocalsResponse<{ user: UserInstance }>;
+// export type ResponseWithUser = CustomLocalsResponse<{ user: UserInstance }>;
 
-export const getUser: Middleware<Request, ResponseWithUser> = async (
+export const getUser: Middleware<Request, Response /* ResponseWithUser */> = async (
     req,
     res,
     next
 ) => {
     try {
-        res.locals.user = await db.User.findOne({
-            where: { email: req.body.email },
-        });
-        return next();
+        // res.locals.user = await db.User.findOne({
+        //     where: { email: req.body.email },
+        // });
+        return next({});
     } catch (e) {
         return next(e);
     }
