@@ -15,7 +15,8 @@
     "start:debug:ts": "nodemon --inspect --require ts-node/register src/server.ts",
     "start:debug:brk:ts": "nodemon --inspect-brk --require ts-node/register src/server.ts",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "author": "Pi",
   "license": "ISC",
@@ -35,6 +36,7 @@
     "supertest": "^3.4.2",
     "ts-jest": "^24.0.0",
     "ts-node": "^8.0.3",
+    "tsconfig-paths": "^3.8.0",
     "tslint": "^5.14.0",
     "typescript": "^3.3.4000"
   },
