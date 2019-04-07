@@ -11,7 +11,6 @@ app.use(bodyParser.json());
 app.use('/api', apiRoutes);
 app.use('*', (req, res, next) => {
     return next(new OperationalError(404, 'Not Found'));
-
 });
 
 app.use(
@@ -22,7 +21,9 @@ app.use(
         next: NextFunction
     ) => {
         if (err instanceof OperationalError) {
-            return res.status(err.statusCode).json({ messages: err.errorMessages });
+            return res
+                .status(err.statusCode)
+                .json({ messages: err.errorMessages });
         }
         console.log(err);
         return res.status(500).json({ message: 'Server error' });
