@@ -11,11 +11,12 @@ const anounceOpenPort = (port: number | string) => () =>
     console.log(`Listening on port ${port}`);
 const appPort = process.env.PORT || 3000;
 
-db({ synchronize: true })
+// Unlike sequelize's sync, typeorm synchronize syncs the columns, but does not drop the table
+db({ synchronize: true, dropSchema: true })
     .then(async (connection: Connection) => {
         console.log('Connected! ');
         const user = getUserRepository().create({
-            email: 'koot@mail.com',
+            email: 'kotat@mail.com',
             password: '1234567890',
         });
         await getUserRepository().save(user);
