@@ -4,15 +4,16 @@ import {
     ConnectionOptions,
 } from 'typeorm';
 
-import { User } from '../entities/User.entity';
+// import { UserEntity } from '../entities';
 
-export const db = ({ synchronize = false, logging = true } = {}) =>
+export const db = ({ synchronize = false, logging = true, dropSchema = false } = {}) =>
     getConnectionOptions().then((options: ConnectionOptions) =>
         createConnection({
             ...options,
-            entities: [User],
-            subscribers: [],
-            migrations: [],
+            // entities: [UserEntity],
+            // subscribers: [],
+            // migrations: [],
+            dropSchema,
             synchronize,
             logging
         })
