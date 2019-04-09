@@ -10,7 +10,7 @@ export class UserEntity extends BaseEntity {
     @Column({ unique: true })
     public email: string;
 
-    @Column({ width: 60 })
+    @Column({ length: 60 })
     public password: string;
 
     @Column({ name: 'image_url', nullable: true })
