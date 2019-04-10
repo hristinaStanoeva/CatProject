@@ -13,5 +13,9 @@
 * Reminder
 * Travel Planner
 * Customizable themes for each user
+* Chrome extension
+	- Quickly skim through lists
+	- Add new items to lists
+	- Open app
 
 ### [Trello board](https://trello.com/b/3KqpvFHp)
