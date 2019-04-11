@@ -1,4 +1,4 @@
-import { Router, Response } from 'express';
+import { Router } from 'express';
 
 import { body } from 'express-validator/check';
 
@@ -13,10 +13,8 @@ import {
 import { runValidators } from '../../middlewares/run-validators.middleware';
 import {
     getUser,
-    // throwIfUserExists,
-    // throwIfUserDoesNotExist,
     throwIf,
-    // ResponseWithUser,
+    ResponseWithUser,
 } from '../../middlewares/auth.middleware';
 import { Middleware } from '../../models';
 
@@ -52,20 +50,18 @@ const createNotRegisteredError: Middleware<
 });
 const checkUserExistance: Middleware<
     LoginRequest,
-    Response,
-    // ResponseWithUser,
+    ResponseWithUser,
     boolean
 > = (req, res) => !res.locals.user;
 
 const throwIfUserDoesNotExist = throwIf<
     LoginRequest,
-    Response /* ResponseWithUser */
+    ResponseWithUser
 >(createNotRegisteredError, checkUserExistance);
 
 const createAlreadyRegisteredError: Middleware<
     RegisterRequest,
-    Response,
-    // ResponseWithUser,
+    ResponseWithUser,
     { code: number; message: string }
 > = (req, res) => {
     return { code: 400, message: `${req.body.email} already exists!` };
@@ -73,12 +69,12 @@ const createAlreadyRegisteredError: Middleware<
 
 const throwIfUserExists = throwIf<
     RegisterRequest,
-    Response /* ResponseWithUser */
+    ResponseWithUser
 >(createAlreadyRegisteredError, (req, res) => !!res.locals.user);
 
 const throwIfInvalidPassowrd = throwIf<
     LoginRequest,
-    Response /* ResponseWithUser */
+    ResponseWithUser
 >(
     (req, res) => ({ code: 400, message: 'Invalid password' }),
     async (req, res) =>
