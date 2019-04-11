@@ -2,6 +2,7 @@ import 'reflect-metadata';
 import './util/environment';
 
 import { Connection } from 'typeorm';
+// import { validate } from 'class-validator';
 
 import app from './app';
 import { db } from './util/database';
@@ -15,6 +16,9 @@ const appPort = process.env.PORT || 3000;
 db({ synchronize: false, dropSchema: false })
     .then(async (connection: Connection) => {
         console.log('Connected! ');
+        // const user = await getUserRepository().findOne({ email: 'pisanka@mail.com', password: '123' });
+        // console.log(user);
+        // validate({}).then(console.log);
         // await getUserRepository().delete(3);
         // await getUserRepository()
         //     .createQueryBuilder('user')
