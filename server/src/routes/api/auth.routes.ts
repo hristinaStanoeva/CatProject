@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { body } from 'express-validator/check';
+import { compare } from 'bcrypt';
 
 import {
     loginUser,
@@ -41,8 +42,7 @@ const passwordValidator = () =>
 
 const createNotRegisteredError: Middleware<
     LoginRequest,
-    Response,
-    // ResponseWithUser,
+    ResponseWithUser,
     { code: number; message: string }
 > = (req, res) => ({
     code: 400,
@@ -78,7 +78,7 @@ const throwIfInvalidPassowrd = throwIf<
 >(
     (req, res) => ({ code: 400, message: 'Invalid password' }),
     async (req, res) =>
-        !(await res.locals.user.isPasswordValid(req.body.password))
+        !(await compare(req.body.password, res.locals.user.password))
 );
 
 router.post(
