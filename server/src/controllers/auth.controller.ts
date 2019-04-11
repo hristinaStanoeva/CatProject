@@ -3,6 +3,7 @@ import { sign } from 'jsonwebtoken';
 
 // import { db } from '../util/database';
 import { CustomBodyRequest } from '../models';
+import { getUserRepository } from '../entities';
 // import { ResponseWithUser } from '../middlewares/auth.middleware';
 
 export type LoginRequest = CustomBodyRequest<'email' | 'password'>;
@@ -44,12 +45,11 @@ export const registerUser = async (
     next: NextFunction
 ) => {
     try {
-        // const user = await db.User.create({
-        //     email: req.body.email,
-        //     password: req.body.password,
-        // });
-
-        return res.status(200).json({ userId: 'user id', token: 'token' });
+        const { id } = await getUserRepository().save({
+            email: req.body.email,
+            password: req.body.password
+        });
+        return res.status(200).json({ userId: id, token: 'token' });
     } catch (e) {
         next(e);
     }
