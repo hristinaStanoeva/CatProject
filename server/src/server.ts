@@ -6,8 +6,8 @@ import { Connection } from 'typeorm';
 
 import app from './app';
 import { db } from './util/database';
-// import { getUserRepository } from './entities';
-import { getListRepository } from './entities';
+import { getUserRepository } from './entities';
+import { getListRepository, ListEntity } from './entities';
 
 const anounceOpenPort = (port: number | string) => () =>
     console.log(`Listening on port ${port}`);
@@ -17,7 +17,15 @@ const appPort = process.env.PORT || 3000;
 db({ synchronize: true, dropSchema: false })
     .then(async (connection: Connection) => {
         console.log('Connected!');
-        await getListRepository().save({ title: 'Sample list' });
+        // await getListRepository().save({ title: 'Sample list' });
+        // await getUserRepository().save({ email: 'kot@mail.com', password: '1234567890' });
+        const user = await getUserRepository().findOne();
+        const list = new ListEntity();
+        list.title = 'Other list';
+        list.author = user;
+        await getListRepository().save(list);
+        // user.lists = [list];
+        // await getUserRepository().update(user.id, user);
         // const user = await getUserRepository().findOne({ email: 'pisanka@mail.com', password: '123' });
         // console.log(user);
         // validate({}).then(console.log);
