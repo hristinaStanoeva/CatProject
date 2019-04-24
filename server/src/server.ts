@@ -7,15 +7,17 @@ import { Connection } from 'typeorm';
 import app from './app';
 import { db } from './util/database';
 // import { getUserRepository } from './entities';
+import { getListRepository } from './entities';
 
 const anounceOpenPort = (port: number | string) => () =>
     console.log(`Listening on port ${port}`);
 const appPort = process.env.PORT || 3000;
 
 // Unlike sequelize's sync, typeorm synchronize syncs the columns, but does not drop the table
-db({ synchronize: false, dropSchema: false })
+db({ synchronize: true, dropSchema: false })
     .then(async (connection: Connection) => {
-        console.log('Connected! ');
+        console.log('Connected!');
+        await getListRepository().save({ title: 'Sample list' });
         // const user = await getUserRepository().findOne({ email: 'pisanka@mail.com', password: '123' });
         // console.log(user);
         // validate({}).then(console.log);
