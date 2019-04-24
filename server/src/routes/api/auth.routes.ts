@@ -17,7 +17,6 @@ import {
     throwIf,
     ResponseWithUser,
 } from '../../middlewares/auth.middleware';
-import { Middleware } from '../../models';
 
 const router = Router();
 
@@ -40,42 +39,28 @@ const passwordValidator = () =>
             'Password can only include latin letters, numbers and symbols'
         );
 
-const createNotRegisteredError: Middleware<
-    LoginRequest,
-    ResponseWithUser,
-    { code: number; message: string }
-> = (req, res) => ({
+const createNotRegisteredError = (req, res) => ({
     code: 400,
     message: `${req.body.email} is not yet registered!`,
 });
-const checkUserExistance: Middleware<
-    LoginRequest,
-    ResponseWithUser,
-    boolean
-> = (req, res) => !res.locals.user;
 
-const throwIfUserDoesNotExist = throwIf<
-    LoginRequest,
-    ResponseWithUser
->(createNotRegisteredError, checkUserExistance);
+const checkUserExistance = (req, res) => !res.locals.user;
 
-const createAlreadyRegisteredError: Middleware<
-    RegisterRequest,
-    ResponseWithUser,
-    { code: number; message: string }
-> = (req, res) => {
+const throwIfUserDoesNotExist = throwIf<LoginRequest, ResponseWithUser>(
+    createNotRegisteredError,
+    checkUserExistance
+);
+
+const createAlreadyRegisteredError = (req, res) => {
     return { code: 400, message: `${req.body.email} already exists!` };
 };
 
-const throwIfUserExists = throwIf<
-    RegisterRequest,
-    ResponseWithUser
->(createAlreadyRegisteredError, (req, res) => !!res.locals.user);
+const throwIfUserExists = throwIf<RegisterRequest, ResponseWithUser>(
+    createAlreadyRegisteredError,
+    (req, res) => !!res.locals.user
+);
 
-const throwIfInvalidPassowrd = throwIf<
-    LoginRequest,
-    ResponseWithUser
->(
+const throwIfInvalidPassowrd = throwIf<LoginRequest, ResponseWithUser>(
     (req, res) => ({ code: 400, message: 'Invalid password' }),
     async (req, res) =>
         !(await compare(req.body.password, res.locals.user.password))
