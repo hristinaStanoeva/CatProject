@@ -17,13 +17,21 @@ const appPort = process.env.PORT || 3000;
 db({ synchronize: true, dropSchema: false })
     .then(async (connection: Connection) => {
         console.log('Connected!');
+        // const list = await getListRepository().findOne();
+        // await getListRepository().delete({ id: list.id });
         // await getListRepository().save({ title: 'Sample list' });
-        // await getUserRepository().save({ email: 'kot@mail.com', password: '1234567890' });
-        const user = await getUserRepository().findOne();
+        // await getUserRepository().save({ email: 'kotkot@mail.com', password: '1234567890' });
+        const user = await getUserRepository().findOne({ email: 'kotkot@mail.com' });
+        // await getUserRepository().delete({ email: user.email });
         const list = new ListEntity();
-        list.title = 'Other list';
+        list.title = 'Other other list';
         list.author = user;
         await getListRepository().save(list);
+        const userWithLists = await getUserRepository().find({
+            where: { email: 'kot@mail.com' },
+            relations: ['lists'],
+        });
+        console.log(userWithLists[0].lists);
         // user.lists = [list];
         // await getUserRepository().update(user.id, user);
         // const user = await getUserRepository().findOne({ email: 'pisanka@mail.com', password: '123' });
