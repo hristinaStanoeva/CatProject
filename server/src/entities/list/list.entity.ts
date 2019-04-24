@@ -9,6 +9,7 @@ export class ListEntity extends BaseEntity {
     public title: string;
 
     @ManyToOne(type => UserEntity, user => user.lists, {
+        onDelete: 'CASCADE',
         cascade: true,
         nullable: false,
     })
