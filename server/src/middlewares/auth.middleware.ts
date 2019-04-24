@@ -1,7 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, NextFunction } from 'express';
 import { curry } from 'ramda';
 
-// import { db } from '../util/database';
 import { CustomLocalsResponse, Middleware } from '../models';
 import { OperationalError } from '../util/errors';
 import { UserEntity } from '../entities/';
@@ -9,10 +8,11 @@ import { getUserRepository } from '../entities';
 
 export type ResponseWithUser = CustomLocalsResponse<{ user: UserEntity }>;
 
-export const getUser: Middleware<
-    Request,
-    Response /* ResponseWithUser */
-> = async (req, res, next) => {
+export const getUser: Middleware<Request, ResponseWithUser> = async (
+    req,
+    res,
+    next
+) => {
     try {
         res.locals.user = await getUserRepository().findOne({
             email: req.body.email,
