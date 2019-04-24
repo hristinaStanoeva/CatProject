@@ -14,6 +14,6 @@ export class UserEntity extends BaseEntity {
     @Column({ name: 'image_url', nullable: true })
     public imageUrl: string;
 
-    @OneToMany(type => ListEntity, list => list.author)
+    @OneToMany(type => ListEntity, list => list.author, { onDelete: 'CASCADE' })
     public lists: ListEntity[];
 }
