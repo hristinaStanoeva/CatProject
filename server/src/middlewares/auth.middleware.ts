@@ -7,6 +7,10 @@ import { UserEntity } from '../entities/';
 import { getUserRepository } from '../entities';
 
 export type ResponseWithUser = CustomLocalsResponse<{ user: UserEntity }>;
+interface HttpError {
+    code: number;
+    message: string;
+}
 
 export const getUser: Middleware<Request, ResponseWithUser> = async (
     req,
@@ -24,7 +28,7 @@ export const getUser: Middleware<Request, ResponseWithUser> = async (
 };
 
 export const throwIf = <TReq, TRes>(
-    errCallback: Middleware<TReq, TRes, { code: number; message: string }>,
+    errCallback: Middleware<TReq, TRes, HttpError>,
     predicate: Middleware<TReq, TRes, boolean>
 ): Middleware<TReq, TRes> => async (
     req: TReq,
