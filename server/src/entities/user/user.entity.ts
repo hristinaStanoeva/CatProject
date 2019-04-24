@@ -1,6 +1,7 @@
-import { Entity,  Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 
 import { BaseEntity } from '../base.entity';
+import { ListEntity } from '../';
 
 @Entity({ name: 'users' })
 export class UserEntity extends BaseEntity {
@@ -12,4 +13,7 @@ export class UserEntity extends BaseEntity {
 
     @Column({ name: 'image_url', nullable: true })
     public imageUrl: string;
+
+    @OneToMany(type => ListEntity, list => list.author)
+    public lists: ListEntity[];
 }
