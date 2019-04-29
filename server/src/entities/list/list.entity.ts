@@ -1,7 +1,7 @@
-import { Entity, Column, JoinColumn, ManyToOne } from 'typeorm';
+import { Entity, Column, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 
 import { BaseEntity } from '../base.entity';
-import { UserEntity } from '../';
+import { UserEntity, ListItemEntity } from '../';
 
 @Entity({ name: 'lists' })
 export class ListEntity extends BaseEntity {
@@ -15,4 +15,9 @@ export class ListEntity extends BaseEntity {
     })
     @JoinColumn({ name: 'author_id' })
     public author: UserEntity;
+
+    @OneToMany(type => ListItemEntity, listItem => listItem.list, {
+        onDelete: 'CASCADE',
+    })
+    public items: ListItemEntity[];
 }
