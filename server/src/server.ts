@@ -6,32 +6,50 @@ import { Connection } from 'typeorm';
 
 import app from './app';
 import { db } from './util/database';
-import { getUserRepository } from './entities';
-import { getListRepository, ListEntity } from './entities';
+// import { getUserRepository, UserEntity } from './entities';
+// import { getListRepository, ListEntity } from './entities';
+// import { getListItemRepository, ListItemEntity } from './entities';
 
 const anounceOpenPort = (port: number | string) => () =>
     console.log(`Listening on port ${port}`);
 const appPort = process.env.PORT || 3000;
 
 // Unlike sequelize's sync, typeorm synchronize syncs the columns, but does not drop the table
-db({ synchronize: true, dropSchema: false })
+db({ synchronize: false, dropSchema: false })
     .then(async (connection: Connection) => {
         console.log('Connected!');
+        // const user = await getUserRepository().findOne({
+        //     email: 'kot@mail.com',
+        // });
+        // const list = await getListRepository().findOne({
+        //     title: 'Other other list',
+        // });
+        // const listItem = new ListItemEntity();
+        // listItem.content = 'Pls pls Pls do me as well';
+        // listItem.author = user;
+        // listItem.list = list;
+        // await getListItemRepository().save(listItem);
+        // const list = await getListRepository().findOne({ id: 5 });
+        // const listItem = new ListItemEntity();
+        // listItem.content = 'some todo';
+        // listItem.list = list;
+        // await getListItemRepository().save(listItem);
+        // await getListRepository().delete({ id: 5 });
         // const list = await getListRepository().findOne();
         // await getListRepository().delete({ id: list.id });
         // await getListRepository().save({ title: 'Sample list' });
         // await getUserRepository().save({ email: 'kotkot@mail.com', password: '1234567890' });
-        const user = await getUserRepository().findOne({ email: 'kotkot@mail.com' });
+        // const user = await getUserRepository().findOne({ email: 'kotkot@mail.com' });
         // await getUserRepository().delete({ email: user.email });
-        const list = new ListEntity();
-        list.title = 'Other other list';
-        list.author = user;
-        await getListRepository().save(list);
-        const userWithLists = await getUserRepository().find({
-            where: { email: 'kot@mail.com' },
-            relations: ['lists'],
-        });
-        console.log(userWithLists[0].lists);
+        // const list = new ListEntity();
+        // list.title = 'Other other list';
+        // list.author = user;
+        // await getListRepository().save(list);
+        // const userWithLists = await getUserRepository().find({
+        //     where: { email: 'kot@mail.com' },
+        //     relations: ['lists'],
+        // });
+        // console.log(userWithLists[0].lists.map(l => l.title));
         // user.lists = [list];
         // await getUserRepository().update(user.id, user);
         // const user = await getUserRepository().findOne({ email: 'pisanka@mail.com', password: '123' });
