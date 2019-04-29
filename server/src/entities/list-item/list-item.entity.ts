@@ -19,11 +19,11 @@ export class ListItemEntity extends BaseEntity {
     @JoinColumn({ name: 'list_id' })
     public list: ListEntity;
 
-    // @ManyToOne(type => UserEntity, user => user.lists, {
-    //     onDelete: 'CASCADE',
-    //     cascade: true,
-    //     nullable: false,
-    // })
-    // @JoinColumn({ name: 'author_id' })
-    // public author: UserEntity;
+    @ManyToOne(type => UserEntity, user => user.listItems, {
+        onDelete: 'CASCADE',
+        cascade: true,
+        nullable: false,
+    })
+    @JoinColumn({ name: 'author_id' })
+    public author: UserEntity;
 }
