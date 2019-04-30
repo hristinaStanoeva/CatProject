@@ -38,7 +38,7 @@ db({ synchronize: false, dropSchema: false })
         // const list = await getListRepository().findOne();
         // await getListRepository().delete({ id: list.id });
         // await getListRepository().save({ title: 'Sample list' });
-        // await getUserRepository().save({ email: 'kotkot@mail.com', password: '1234567890' });
+        // await getUserRepository().save({ email: 'kot@mail.com', password: '1234567890' });
         // const user = await getUserRepository().findOne({ email: 'kotkot@mail.com' });
         // await getUserRepository().delete({ email: user.email });
         // const list = new ListEntity();
