@@ -11,9 +11,9 @@ module.exports = {
     database: process.env.DB_NAME,
     // next three entries are needed for cli migration generation
     // and autoinjecting in the connection options(but seems like a black box)
-    entities: ['dist/entities/**/*.entity.js'],
+    entities: ['dist/entities/**/*.js'],
     migrations: ['dist/migrations/**/*.js'],
-    subscribers: ['dist/subscribers/**/*.subscriber.js'],
+    subscribers: ['dist/subscribers/**/*.js'],
     cli: {
         entitiesDir: 'src/entities',
         migrationsDir: 'src/migrations',
