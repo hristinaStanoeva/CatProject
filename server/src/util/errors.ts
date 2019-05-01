@@ -1,11 +1,6 @@
 export class OperationalError extends Error {
-    public errorMessages: string | string[];
-
-    constructor(public statusCode: number, errorMessages: string | string[]) {
+    constructor(public statusCode: number, public errorMessage: string) {
         super();
-        this.errorMessages = Array.isArray(errorMessages)
-            ? errorMessages
-            : [errorMessages];
     }
 }
 

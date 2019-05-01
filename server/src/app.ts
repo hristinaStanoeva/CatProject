@@ -23,7 +23,7 @@ app.use(
         if (err instanceof OperationalError) {
             return res
                 .status(err.statusCode)
-                .json({ messages: err.errorMessages });
+                .json({ message: err.errorMessage });
         }
         console.log(err);
         return res.status(500).json({ message: 'Server error' });
