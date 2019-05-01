@@ -14,7 +14,8 @@
 		}],
 		"no-console": false,
 		"object-literal-key-quotes": false,
-		"arrow-parens": false
+		"arrow-parens": false,
+		"max-line-length": false
 	},
 	"rulesDirectory": []
 }
