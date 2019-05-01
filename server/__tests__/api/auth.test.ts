@@ -1,126 +1,126 @@
-import SequelizeMock from 'sequelize-mock';
-// @ts-ignore
-import Sequelize from 'sequelize';
-jest.mock('sequelize', () => jest.fn(() => new SequelizeMock()));
-// jest.genMockFromModule('../../src/util/database');
-console.log(SequelizeMock.STRING);
-// jest.setMock('sequelize', Sequelize);
-
 import request from 'supertest';
 import app from '../../src/app';
-// @ts-ignore
-// import Sequelize from 'sequelize';
-// jest.requireMock('../../src/util/database');
 
 describe('/api/auth', () => {
-    beforeEach(() =>
-        jest.doMock('sequelize', () => jest.fn(() => new SequelizeMock()))
-    );
-    it('POST /login should set Content-Type to application/json', async () => {
+    // storing login as a const here is keeping the value received in the first test
+    fit('POST /login should set Content-Type to application/json', async () => {
         const result = await request(app).post('/api/auth/login');
         expect(result.type).toBe('application/json');
     });
 
-    it('POST /login should return 400 and some error text when an invalid email is provided', async () => {
+    // should be for the whole app!
+    fit('POST /login should return json object in the form { message: "error text" } on error', async () => {
+        const result = await request(app).post('/api/auth/login');
+
+        expect(result.body.message).toBeDefined();
+    });
+
+    fit('POST /login should return 400 and relevant error text when email and/or password is missing', async () => {
         let result = await request(app).post('/api/auth/login');
 
         expect(result.status).toBe(400);
-        expect(result.body).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    field: 'email',
-                }),
-            ])
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('required')
+        );
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('email')
+        );
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('password')
         );
 
         result = await request(app)
             .post('/api/auth/login')
+            .send({ email: 'somemail@mail.com' });
+
+        expect(result.status).toBe(400);
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('required')
+        );
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('password')
+        );
+
+        result = await request(app)
+            .post('/api/auth/login')
+            .send({ password: '1234' });
+
+        expect(result.status).toBe(400);
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('required')
+        );
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('email')
+        );
+    });
+
+    fit('POST /login should return 400 and some error text when email is invalid but password is provided', async () => {
+        let result = await request(app)
+            .post('/api/auth/login')
             .send({
                 email: 'invalid',
+                password: '1234567890',
             });
 
-        expect(result.body).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    field: 'email',
-                }),
-            ])
-        );
+        expect(result.body.message.toLowerCase()).toBe('invalid email address');
 
         result = await request(app)
             .post('/api/auth/login')
             .send({
                 email: 'invalid@invalid',
+                password: '1234567890',
             });
 
-        expect(result.body).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    field: 'email',
-                }),
-            ])
-        );
+        expect(result.body.message.toLowerCase()).toBe('invalid email address');
     });
 
-    it('POST /login should return 400 and some error text when no password is provided', async () => {
-        const result = await request(app).post('/api/auth/login');
-        expect(result.status).toBe(400);
-        expect(result.body).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    field: 'password',
-                }),
-            ])
-        );
-    });
-
-    it('POST /login should return 400 and some error text when a password is too short(< 8 chars)', async () => {
-        const result = await request(app)
+    fit('POST /login should return 400 and some error text when password is invalid but email is valid', async () => {
+        let result = await request(app)
             .post('/api/auth/login')
             .send({
-                password: '123456',
-            });
-        expect(result.status).toBe(400);
-        expect(result.body).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    field: 'password',
-                }),
-            ])
-        );
-    });
-
-    it('POST /login should return 400 and some error text when a password is too long(> 50 chars)', async () => {
-        const result = await request(app)
-            .post('/api/auth/login')
-            .send({
-                password: '123456789012345678901234567890123456789012345678901',
+                email: 'test@mail.com',
+                password: '1234567',
             });
 
-        expect(result.status).toBe(400);
-        expect(result.body).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    field: 'password',
-                }),
-            ])
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('password')
         );
-    });
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('8')
+        );
 
-    it('POST /login should return 400 and some error text when a password contains invalid characters', async () => {
-        const result = await request(app)
+        result = await request(app)
             .post('/api/auth/login')
             .send({
+                email: 'test@mail.com',
+                password: '012345678901234567890123456789012345678901234567890', // length = 51
+            });
+
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('password')
+        );
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('50')
+        );
+
+        result = await request(app)
+            .post('/api/auth/login')
+            .send({
+                email: 'test@mail.com',
                 password: '1234567890' + String.fromCharCode(960), // String.fromCharCode(960) === pi
             });
 
-        expect(result.status).toBe(400);
-        expect(result.body).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({
-                    field: 'password',
-                }),
-            ])
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('password')
+        );
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('letters')
+        );
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('numbers')
+        );
+        expect(result.body.message.toLowerCase()).toEqual(
+            expect.stringContaining('symbols')
         );
     });
 

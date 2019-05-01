@@ -1,7 +1,9 @@
-import { Router } from 'express';
+import { Router, Response } from 'express';
 
 import { body } from 'express-validator/check';
 import { compare } from 'bcrypt';
+import { pipe, length, lte, gte, allPass } from 'ramda';
+import { trim, isEmail, normalizeEmail, isAscii } from 'validator';
 
 import {
     loginUser,
@@ -39,28 +41,77 @@ const passwordValidator = () =>
             'Password can only include latin letters, numbers and symbols'
         );
 
+const createNoEmailOrPasswordError = (req, res) => ({
+    code: 400,
+    message: 'Email and password are required',
+});
+
+const createInvalidEmailError = (req, res) => ({
+    code: 400,
+    message: 'Invalid email address',
+});
+
+const createInvalidPasswordError = (req, res) => ({
+    code: 400,
+    message:
+        'Password has to be between 8 and 50 characters long and include latin letters, numbers and symbols',
+});
+
+const isEmailValid: (email: string) => boolean = pipe(
+    trim,
+    normalizeEmail,
+    isEmail
+);
+
+const isNotTooShort = pipe(
+    length,
+    lte(8)
+);
+const isNotTooLong = pipe(
+    length,
+    gte(50)
+);
+
+const isPasswordValid: (password: string) => boolean = pipe(
+    trim,
+    allPass([isNotTooShort, isNotTooLong, isAscii])
+);
+
 const createNotRegisteredError = (req, res) => ({
     code: 400,
     message: `${req.body.email} is not yet registered!`,
 });
 
-const checkUserExistance = (req, res) => !res.locals.user;
-
-const throwIfUserDoesNotExist = throwIf<LoginRequest, ResponseWithUser>(
-    createNotRegisteredError,
-    checkUserExistance
-);
-
 const createAlreadyRegisteredError = (req, res) => {
     return { code: 400, message: `${req.body.email} already exists!` };
 };
+
+const throwIfNoEmailOrPassword = throwIf<LoginRequest, Response>(
+    createNoEmailOrPasswordError,
+    (req, res) => !req.body.email || !req.body.password
+);
+
+const throwIfInvalidEmail = throwIf<LoginRequest, Response>(
+    createInvalidEmailError,
+    (req, res) => !isEmailValid(req.body.email)
+);
+
+const throwIfInvalidPassword = throwIf<LoginRequest, Response>(
+    createInvalidPasswordError,
+    (req, res) => !isPasswordValid(req.body.password)
+);
 
 const throwIfUserExists = throwIf<RegisterRequest, ResponseWithUser>(
     createAlreadyRegisteredError,
     (req, res) => !!res.locals.user
 );
 
-const throwIfInvalidPassowrd = throwIf<LoginRequest, ResponseWithUser>(
+const throwIfUserDoesNotExist = throwIf<LoginRequest, ResponseWithUser>(
+    createNotRegisteredError,
+    (req, res) => !res.locals.user
+);
+
+const throwIfIncorrectPassword = throwIf<LoginRequest, ResponseWithUser>(
     (req, res) => ({ code: 400, message: 'Invalid password' }),
     async (req, res) =>
         !(await compare(req.body.password, res.locals.user.password))
@@ -69,12 +120,15 @@ const throwIfInvalidPassowrd = throwIf<LoginRequest, ResponseWithUser>(
 router.post(
     '/login',
     [
-        emailValidator(),
-        passwordValidator(),
-        runValidators,
+        throwIfNoEmailOrPassword,
+        throwIfInvalidEmail,
+        throwIfInvalidPassword,
+        // emailValidator(),
+        // passwordValidator(),
+        // runValidators,
         getUser,
         throwIfUserDoesNotExist,
-        throwIfInvalidPassowrd,
+        throwIfIncorrectPassword,
     ],
     loginUser
 );
