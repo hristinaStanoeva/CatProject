@@ -1,6 +1,5 @@
 import { Router, Response } from 'express';
 
-import { body } from 'express-validator/check';
 import { compare } from 'bcrypt';
 import { pipe, length, lte, gte, allPass } from 'ramda';
 import { trim, isEmail, normalizeEmail, isAscii } from 'validator';
@@ -9,11 +8,10 @@ import {
     loginUser,
     registerUser,
     resetUserPassword,
-    ResetPasswordRequest,
+    // ResetPasswordRequest,
     RegisterRequest,
     LoginRequest,
 } from '../../controllers';
-import { runValidators } from '../../middlewares/run-validators.middleware';
 import {
     getUser,
     throwIf,
@@ -21,41 +19,6 @@ import {
 } from '../../middlewares/auth.middleware';
 
 const router = Router();
-
-const emailValidator = () =>
-    body('email')
-        .trim()
-        .isEmail()
-        .normalizeEmail()
-        .withMessage('Invalid email address');
-
-const passwordValidator = () =>
-    body('password')
-        .trim()
-        .isLength({ min: 8 })
-        .withMessage('Password has to be at least 8 characters long')
-        .isLength({ max: 50 })
-        .withMessage('Password has to be maximum 50 characters')
-        .isAscii()
-        .withMessage(
-            'Password can only include latin letters, numbers and symbols'
-        );
-
-const createNoEmailOrPasswordError = (req, res) => ({
-    code: 400,
-    message: 'Email and password are required',
-});
-
-const createInvalidEmailError = (req, res) => ({
-    code: 400,
-    message: 'Invalid email address',
-});
-
-const createInvalidPasswordError = (req, res) => ({
-    code: 400,
-    message:
-        'Password has to be between 8 and 50 characters long and include latin letters, numbers and symbols',
-});
 
 const isEmailValid: (email: string) => boolean = pipe(
     trim,
@@ -77,6 +40,32 @@ const isPasswordValid: (password: string) => boolean = pipe(
     allPass([isNotTooShort, isNotTooLong, isAscii])
 );
 
+const createNoEmailOrPasswordError = (req, res) => ({
+    code: 400,
+    message: 'Email and password are required',
+});
+
+const createNoEmailPasswordOrConfirmPasswordError = (req, res) => ({
+    code: 400,
+    message: 'Email, password and confirmPassword are required',
+});
+
+const createInvalidEmailError = (req, res) => ({
+    code: 400,
+    message: 'Invalid email address',
+});
+
+const createInvalidPasswordError = (req, res) => ({
+    code: 400,
+    message:
+        'Password has to be between 8 and 50 characters long and include latin letters, numbers and symbols',
+});
+
+const createPasswordsNotMatchingError = (req, res) => ({
+    code: 400,
+    message: 'Passwords must match',
+});
+
 const createNotRegisteredError = (req, res) => ({
     code: 400,
     message: `${req.body.email} is not yet registered!`,
@@ -91,14 +80,31 @@ const throwIfNoEmailOrPassword = throwIf<LoginRequest, Response>(
     (req, res) => !req.body.email || !req.body.password
 );
 
-const throwIfInvalidEmail = throwIf<LoginRequest, Response>(
+const throwIfNoEmailPasswordOrConfirmPassword = throwIf<
+    RegisterRequest,
+    Response
+>(
+    createNoEmailPasswordOrConfirmPasswordError,
+    (req, res) =>
+        !req.body.email || !req.body.password || !req.body.confirmPassword
+);
+
+const throwIfInvalidEmail = throwIf<LoginRequest | RegisterRequest, Response>(
     createInvalidEmailError,
     (req, res) => !isEmailValid(req.body.email)
 );
 
-const throwIfInvalidPassword = throwIf<LoginRequest, Response>(
+const throwIfInvalidPassword = throwIf<
+    LoginRequest | RegisterRequest,
+    Response
+>(
     createInvalidPasswordError,
     (req, res) => !isPasswordValid(req.body.password)
+);
+
+const throwIfNoMatchingPasswords = throwIf<RegisterRequest, Response>(
+    createPasswordsNotMatchingError,
+    (req, res) => req.body.password !== req.body.confirmPassword
 );
 
 const throwIfUserExists = throwIf<RegisterRequest, ResponseWithUser>(
@@ -123,9 +129,6 @@ router.post(
         throwIfNoEmailOrPassword,
         throwIfInvalidEmail,
         throwIfInvalidPassword,
-        // emailValidator(),
-        // passwordValidator(),
-        // runValidators,
         getUser,
         throwIfUserDoesNotExist,
         throwIfIncorrectPassword,
@@ -136,16 +139,10 @@ router.post(
 router.post(
     '/register',
     [
-        emailValidator(),
-        passwordValidator().custom(
-            (value: string, { req }: { req: RegisterRequest }) => {
-                if (value !== req.body.confirmPassword) {
-                    return Promise.reject('Passwords must match');
-                }
-                return Promise.resolve;
-            }
-        ),
-        runValidators,
+        throwIfNoEmailPasswordOrConfirmPassword,
+        throwIfInvalidEmail,
+        throwIfInvalidPassword,
+        throwIfNoMatchingPasswords,
         getUser,
         throwIfUserExists,
     ],
@@ -155,15 +152,15 @@ router.post(
 router.post(
     '/reset-password',
     [
-        emailValidator()
-            // maybe remove this check as it is bad security practise
-            .custom((value: string, { req }: { req: ResetPasswordRequest }) => {
-                if (false) {
-                    return Promise.reject('No such user: ' + req.body.email);
-                }
-                return Promise.resolve();
-            }),
-        runValidators,
+        // emailValidator()
+        //     // maybe remove this check as it is bad security practise
+        //     .custom((value: string, { req }: { req: ResetPasswordRequest }) => {
+        //         if (false) {
+        //             return Promise.reject('No such user: ' + req.body.email);
+        //         }
+        //         return Promise.resolve();
+        //     }),
+        // runValidators,
     ],
     resetUserPassword
 );
