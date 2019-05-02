@@ -3,19 +3,18 @@ import app from '../../src/app';
 
 describe('/api/auth', () => {
     // storing login as a const here is keeping the value received in the first test
-    fit('POST /login should set Content-Type to application/json', async () => {
+    it('POST /login should set Content-Type to application/json', async () => {
         const result = await request(app).post('/api/auth/login');
         expect(result.type).toBe('application/json');
     });
 
-    // should be for the whole app!
-    fit('POST /login should return json object in the form { message: "error text" } on error', async () => {
+    it('POST /login should return json object in the form { message: "error text" } on error', async () => {
         const result = await request(app).post('/api/auth/login');
 
         expect(result.body.message).toBeDefined();
     });
 
-    fit('POST /login should return 400 and relevant error text when email and/or password is missing', async () => {
+    it('POST /login should return 400 and relevant error text when email and/or password is missing', async () => {
         let result = await request(app).post('/api/auth/login');
 
         expect(result.status).toBe(400);
@@ -43,7 +42,7 @@ describe('/api/auth', () => {
 
         result = await request(app)
             .post('/api/auth/login')
-            .send({ password: '1234' });
+            .send({ password: '1234567890' });
 
         expect(result.status).toBe(400);
         expect(result.body.message.toLowerCase()).toEqual(
@@ -54,7 +53,7 @@ describe('/api/auth', () => {
         );
     });
 
-    fit('POST /login should return 400 and some error text when email is invalid but password is provided', async () => {
+    it('POST /login should return 400 and some error text when email is invalid but password is valid', async () => {
         let result = await request(app)
             .post('/api/auth/login')
             .send({
@@ -62,6 +61,7 @@ describe('/api/auth', () => {
                 password: '1234567890',
             });
 
+        expect(result.status).toBe(400);
         expect(result.body.message.toLowerCase()).toBe('invalid email address');
 
         result = await request(app)
@@ -71,10 +71,11 @@ describe('/api/auth', () => {
                 password: '1234567890',
             });
 
+        expect(result.status).toBe(400);
         expect(result.body.message.toLowerCase()).toBe('invalid email address');
     });
 
-    fit('POST /login should return 400 and some error text when password is invalid but email is valid', async () => {
+    it('POST /login should return 400 and some error text when password is invalid but email is valid', async () => {
         let result = await request(app)
             .post('/api/auth/login')
             .send({
@@ -82,6 +83,7 @@ describe('/api/auth', () => {
                 password: '1234567',
             });
 
+        expect(result.status).toBe(400);
         expect(result.body.message.toLowerCase()).toEqual(
             expect.stringContaining('password')
         );
@@ -96,6 +98,7 @@ describe('/api/auth', () => {
                 password: '012345678901234567890123456789012345678901234567890', // length = 51
             });
 
+        expect(result.status).toBe(400);
         expect(result.body.message.toLowerCase()).toEqual(
             expect.stringContaining('password')
         );
@@ -110,6 +113,7 @@ describe('/api/auth', () => {
                 password: '1234567890' + String.fromCharCode(960), // String.fromCharCode(960) === pi
             });
 
+        expect(result.status).toBe(400);
         expect(result.body.message.toLowerCase()).toEqual(
             expect.stringContaining('password')
         );
@@ -124,7 +128,7 @@ describe('/api/auth', () => {
         );
     });
 
-    it('POST /login should return 200 when both email and password are valid', async () => {
+    xit('POST /login should return 200 when both email and password are valid', async () => {
         const result = await request(app)
             .post('/api/auth/login')
             .send({
