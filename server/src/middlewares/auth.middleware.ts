@@ -31,21 +31,6 @@ import { getUserRepository } from '../entities';
 
 type ResponseWithUser = CustomLocalsResponse<{ user: UserEntity }>;
 
-export const getUser: Middleware<Request, ResponseWithUser> = async (
-    req,
-    res,
-    next
-) => {
-    try {
-        res.locals.user = await getUserRepository().findOne({
-            email: req.body.email,
-        });
-        return next();
-    } catch (e) {
-        return next(e);
-    }
-};
-
 const isString = is(String);
 
 const throwIf = <TReq, TRes>(
@@ -144,3 +129,18 @@ export const throwIfIncorrectPassword = throwIf<LoginRequest, ResponseWithUser>(
     async (req, res) =>
         !(await compare(req.body.password, res.locals.user.password))
 );
+
+export const getUser: Middleware<Request, ResponseWithUser> = async (
+    req,
+    res,
+    next
+) => {
+    try {
+        res.locals.user = await getUserRepository().findOne({
+            email: req.body.email,
+        });
+        return next();
+    } catch (e) {
+        return next(e);
+    }
+};
