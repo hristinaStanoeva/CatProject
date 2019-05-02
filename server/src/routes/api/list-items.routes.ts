@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import { body } from 'express-validator/check';
+// import { body } from 'express-validator/check';
 
 import {
     getAllListItems,
@@ -8,41 +8,41 @@ import {
     updateListItem,
     deleteListItemById,
 } from '../../controllers';
-import { runValidators } from '../../middlewares/run-validators.middleware';
+// import { runValidators } from '../../middlewares/run-validators.middleware';
 
 const router = Router();
 
-const contentValidator = () =>
-    body('content')
-        .exists({ checkFalsy: true })
-        .withMessage('Content has to be provided')
-        .isString()
-        .withMessage('Content has to be string');
+// const contentValidator = () =>
+//     body('content')
+//         .exists({ checkFalsy: true })
+//         .withMessage('Content has to be provided')
+//         .isString()
+//         .withMessage('Content has to be string');
 
-const checkedValidator = () => body('checked').isBoolean();
+// const checkedValidator = () => body('checked').isBoolean();
 
-const listIdValidator = () =>
-    body('listId')
-        .exists({ checkFalsy: true })
-        .withMessage('listId has to be provided');
+// const listIdValidator = () =>
+//     body('listId')
+//         .exists({ checkFalsy: true })
+//         .withMessage('listId has to be provided');
 
 router.get('/', getAllListItems);
 
 router.post(
     '/',
-    [contentValidator(), checkedValidator(), listIdValidator(), runValidators],
+    // [contentValidator(), checkedValidator(), listIdValidator(), runValidators],
     createListItem
 );
 
 router.put(
     '/:id',
-    [
-        contentValidator(),
-        checkedValidator(),
-        listIdValidator(),
-        runValidators,
-        // get the item from db
-    ],
+    // [
+    //     contentValidator(),
+    //     checkedValidator(),
+    //     listIdValidator(),
+    //     runValidators,
+    //     // get the item from db
+    // ],
     updateListItem
 );
 
