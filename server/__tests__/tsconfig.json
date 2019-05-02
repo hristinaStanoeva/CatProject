@@ -3,7 +3,8 @@
     "compilerOptions": {
         "rootDir": "__tests__",
         "types": ["jest"],
-        "lib": ["dom", "ESNext"]
+        "lib": ["dom", "ESNext"],
+        "noUnusedLocals": false
     },
     "include": ["./**/*.ts"]
 }
