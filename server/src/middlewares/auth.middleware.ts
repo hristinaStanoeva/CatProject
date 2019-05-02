@@ -14,6 +14,11 @@ import {
     ifElse,
     F,
     trim,
+    isEmpty,
+    isNil,
+    either,
+    ap,
+    or,
 } from 'ramda';
 import { isEmail, normalizeEmail, isAscii } from 'validator';
 
@@ -31,7 +36,9 @@ import { getUserRepository } from '../entities';
 
 type ResponseWithUser = CustomLocalsResponse<{ user: UserEntity }>;
 
+// TODO: Move to util/common and test!
 const isString = is(String);
+const hasNoValue = either(isEmpty, isNil);
 
 const throwIf = <TReq, TRes>(
     errCallback: Middleware<TReq, TRes, HttpError>,
@@ -74,7 +81,8 @@ const isPasswordValid: (password: string) => boolean = ifElse(
 
 export const throwIfNoEmailOrPassword = throwIf<LoginRequest, Response>(
     (req, res) => createBadRequestError('Email and password are required'),
-    (req, res) => !req.body.email || !req.body.password
+    // (req, res) => hasNoValue(req.body.email) || hasNoValue(req.body.password)
+    (req, res) => or(...ap([hasNoValue], [req.body.email, req.body.password]))
 );
 
 export const throwIfNoEmailPasswordOrConfirmPassword = throwIf<
