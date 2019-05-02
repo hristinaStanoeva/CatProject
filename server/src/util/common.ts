@@ -1,6 +1,8 @@
 import { curry } from 'ramda';
 
-const createErrorObject = curry((code: number, message: string) => ({
+import { HttpError } from '../models';
+
+const createErrorObject = curry((code: number, message: string): HttpError => ({
     code,
     message,
 }));

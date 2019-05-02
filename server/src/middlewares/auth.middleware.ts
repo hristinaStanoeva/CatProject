@@ -10,16 +10,12 @@ import {
 } from '../controllers';
 import { createBadRequestError } from '../util/common';
 
-import { CustomLocalsResponse, Middleware } from '../models';
+import { CustomLocalsResponse, Middleware, HttpError } from '../models';
 import { OperationalError } from '../util/errors';
 import { UserEntity } from '../entities/';
 import { getUserRepository } from '../entities';
 
 type ResponseWithUser = CustomLocalsResponse<{ user: UserEntity }>;
-interface HttpError {
-    code: number;
-    message: string;
-}
 
 export const getUser: Middleware<Request, ResponseWithUser> = async (
     req,
