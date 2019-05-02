@@ -1,7 +1,21 @@
 import { Request, Response, NextFunction } from 'express';
 import { compare } from 'bcrypt';
-import { pipe, length, lte, gte, allPass } from 'ramda';
-import { trim, isEmail, normalizeEmail, isAscii } from 'validator';
+import {
+    pipe,
+    length,
+    lte,
+    gte,
+    allPass,
+    __,
+    both,
+    min,
+    max,
+    is,
+    ifElse,
+    F,
+    trim,
+} from 'ramda';
+import { isEmail, normalizeEmail, isAscii } from 'validator';
 
 import {
     // ResetPasswordRequest,
@@ -32,6 +46,8 @@ export const getUser: Middleware<Request, ResponseWithUser> = async (
     }
 };
 
+const isString = is(String);
+
 const throwIf = <TReq, TRes>(
     errCallback: Middleware<TReq, TRes, HttpError>,
     predicate: Middleware<TReq, TRes, boolean>
@@ -46,24 +62,29 @@ const throwIf = <TReq, TRes>(
         : next();
 };
 
-const isEmailValid: (email: string) => boolean = pipe(
-    trim,
-    normalizeEmail,
-    isEmail
+const isEmailValid: (email: string) => boolean = ifElse(
+    isString,
+    pipe(
+        trim,
+        normalizeEmail,
+        isEmail
+    ),
+    F
 );
 
-const isNotTooShort = pipe(
-    length,
-    lte(8)
-);
-const isNotTooLong = pipe(
-    length,
-    gte(50)
-);
+const isLengthBetween = (limit1: number, limit2: number) =>
+    pipe(
+        length,
+        both(gte(__, min(limit1, limit2)), lte(__, max(limit1, limit2)))
+    );
 
-const isPasswordValid: (password: string) => boolean = pipe(
-    trim,
-    allPass([isNotTooShort, isNotTooLong, isAscii])
+const isPasswordValid: (password: string) => boolean = ifElse(
+    isString,
+    pipe(
+        trim,
+        allPass([isLengthBetween(8, 50), isAscii])
+    ),
+    F
 );
 
 export const throwIfNoEmailOrPassword = throwIf<LoginRequest, Response>(
@@ -97,7 +118,7 @@ export const throwIfInvalidPassword = throwIf<
 >(
     (req, res) =>
         createBadRequestError(
-            'Password has to be between 8 and 50 characters long and include latin letters, numbers and symbols'
+            'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
         ),
     (req, res) => !isPasswordValid(req.body.password)
 );
