@@ -1,7 +1,7 @@
 import request from 'supertest';
 import app from '../../src/app';
 
-describe('/api/lists', () => {
+xdescribe('/api/lists', () => {
     [
         { testValue: undefined, stringValue: 'undefined' },
         { testValue: null, stringValue: 'null' },

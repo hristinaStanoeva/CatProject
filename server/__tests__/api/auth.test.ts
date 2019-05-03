@@ -138,30 +138,6 @@ describe('/api/auth', () => {
         expect(result.body.message.toLowerCase()).toEqual(
             expect.stringContaining('email')
         );
-
-        result = await request(app)
-            .post('/api/auth/login')
-            .send({
-                email: 'test@mail.com',
-                password: {},
-            });
-
-        expect(result.status).toBe(400);
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('password')
-        );
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('letters')
-        );
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('numbers')
-        );
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('symbols')
-        );
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('string')
-        );
     });
 
     xit('POST /login should return 200 when both email and password are valid', async () => {
