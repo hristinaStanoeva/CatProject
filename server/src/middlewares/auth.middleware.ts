@@ -35,9 +35,11 @@ import { getUserRepository } from '../entities';
 
 type ResponseWithUser = CustomLocalsResponse<{ user: UserEntity }>;
 
-// TODO: Move to util/common and test!
+// TODO: Move to util/common and test with lots of different cases
+// For the middleware use onlyfew test cases to see what and when is generated.
 const isString = is(String);
 const hasNoValue = either(isEmpty, isNil);
+const anyHasNoValue = (values: any[]) => any(hasNoValue, values);
 
 const throwIf = <TReq, TRes>(
     errCallback: Middleware<TReq, TRes, HttpError>,
@@ -80,7 +82,7 @@ const isPasswordValid: (password: string) => boolean = ifElse(
 
 export const throwIfNoEmailOrPassword = throwIf<LoginRequest, Response>(
     (req, res) => createBadRequestError('Email and password are required'),
-    (req, res) => any(hasNoValue, [req.body.email, req.body.password])
+    (req, res) => anyHasNoValue([req.body.email, req.body.password])
 );
 
 export const throwIfNoEmailPasswordOrConfirmPassword = throwIf<
@@ -92,7 +94,11 @@ export const throwIfNoEmailPasswordOrConfirmPassword = throwIf<
             'Email, password and confirmPassword are required'
         ),
     (req, res) =>
-        !req.body.email || !req.body.password || !req.body.confirmPassword
+        anyHasNoValue([
+            req.body.email,
+            req.body.password,
+            req.body.confirmPassword,
+        ])
 );
 
 export const throwIfInvalidEmail = throwIf<
