@@ -4,6 +4,7 @@ import { LoginRequest, RegisterRequest } from '../../src/controllers';
 import {
     throwIfNoEmailOrPassword,
     throwIfNoEmailPasswordOrConfirmPassword,
+    throwIfInvalidEmail,
 } from '../../src/middlewares/auth.middleware';
 import { OperationalError } from '../../src/util/errors';
 
@@ -286,6 +287,98 @@ describe('middleware', () => {
                     expect(nextFnMock.mock.calls[0][0].statusCode).toBe(400);
                     expect(nextFnMock.mock.calls[0][0].errorMessage).toBe(
                         'Email, password and confirmPassword are required'
+                    );
+                });
+            });
+        });
+
+        fdescribe('throwIfInvalidEmail', () => {
+            it('should call next without parameters when email is valid', async () => {
+                const requestMock = createMockRequest({
+                    email: 'test@mail.com',
+                });
+                const nextFnMock = jest.fn();
+
+                await throwIfInvalidEmail(
+                    requestMock as any,
+                    {} as any,
+                    nextFnMock
+                );
+
+                expect(nextFnMock).toHaveBeenCalledWith();
+            });
+
+            [
+                {
+                    email: 'test@mail.com',
+                },
+                {
+                    email: 'user.name@mail.com',
+                },
+                {
+                    email: 'user_name@gmail.com',
+                },
+            ].forEach(({ email }) => {
+                it(`should call next without parameters when provided email is valid: email=${toString(
+                    email
+                )}`, async () => {
+                    const requestMock = createMockRequest({
+                        email,
+                    });
+                    const nextFnMock = jest.fn();
+
+                    await throwIfInvalidEmail(
+                        requestMock as any,
+                        {} as any,
+                        nextFnMock
+                    );
+
+                    expect(nextFnMock).toHaveBeenCalledWith();
+                });
+            });
+
+            [
+                {},
+                {
+                    email: 'invalid',
+                },
+                {
+                    email: [],
+                },
+                {
+                    email: {},
+                },
+                {
+                    email: null,
+                },
+                {
+                    email: '',
+                },
+                {
+                    email: 't@t.t',
+                },
+            ].forEach(({ email }) => {
+                it(`should call next with new OperationalError(400, "Invalid email address") when provided email is invalid: email=${toString(
+                    email
+                )}`, async () => {
+                    const requestMock = createMockRequest({
+                        email,
+                    });
+                    const nextFnMock = jest.fn();
+
+                    await throwIfInvalidEmail(
+                        requestMock as any,
+                        {} as any,
+                        nextFnMock
+                    );
+
+                    expect(nextFnMock).toHaveBeenCalled();
+                    expect(
+                        nextFnMock.mock.calls[0][0] instanceof OperationalError
+                    ).toBe(true);
+                    expect(nextFnMock.mock.calls[0][0].statusCode).toBe(400);
+                    expect(nextFnMock.mock.calls[0][0].errorMessage).toBe(
+                        'Invalid email address'
                     );
                 });
             });
