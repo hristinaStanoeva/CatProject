@@ -17,9 +17,7 @@ import {
     isEmpty,
     isNil,
     either,
-    ap,
     any,
-    map,
 } from 'ramda';
 import { isEmail, normalizeEmail, isAscii } from 'validator';
 
@@ -82,7 +80,6 @@ const isPasswordValid: (password: string) => boolean = ifElse(
 
 export const throwIfNoEmailOrPassword = throwIf<LoginRequest, Response>(
     (req, res) => createBadRequestError('Email and password are required'),
-    // (req, res) => hasNoValue(req.body.email) || hasNoValue(req.body.password)
     (req, res) => any(hasNoValue, [req.body.email, req.body.password])
 );
 

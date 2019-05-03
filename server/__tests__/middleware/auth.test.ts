@@ -85,7 +85,7 @@ describe('middleware', () => {
                     password: '12345'
                 }
             ].forEach(({ email, password }) => {
-                fit(`should call next with new OperationalError(400, "Email and password are required") when email="${email}", password="${password}"`, async () => {
+                it(`should call next with new OperationalError(400, "Email and password are required") when email="${email}", password="${password}"`, async () => {
                     const requestMock = createMockRequest({
                         email,
                         password,
