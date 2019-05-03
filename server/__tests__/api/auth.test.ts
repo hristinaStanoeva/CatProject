@@ -126,18 +126,6 @@ describe('/api/auth', () => {
         expect(result.body.message.toLowerCase()).toEqual(
             expect.stringContaining('symbols')
         );
-
-        result = await request(app)
-            .post('/api/auth/login')
-            .send({
-                email: {},
-                password: '123456789',
-            });
-
-        expect(result.status).toBe(400);
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('email')
-        );
     });
 
     xit('POST /login should return 200 when both email and password are valid', async () => {
@@ -290,44 +278,6 @@ describe('/api/auth', () => {
         expect(result.body.message.toLowerCase()).toEqual(
             expect.stringContaining('symbols')
         );
-
-        result = await request(app)
-            .post('/api/auth/register')
-            .send({
-                email: {},
-                password: '123456789',
-                confirmPassword: '15aaaaaaa6789',
-            });
-
-        expect(result.status).toBe(400);
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('email')
-        );
-
-        result = await request(app)
-            .post('/api/auth/register')
-            .send({
-                email: 'test@mail.com',
-                password: {},
-                confirmPassword: [],
-            });
-
-        expect(result.status).toBe(400);
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('password')
-        );
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('letters')
-        );
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('numbers')
-        );
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('symbols')
-        );
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('string')
-        );
     });
 
     it('POST /register should return 400 and some error text when password(with matching confirmPassword) is invalid but email is valid', async () => {
@@ -384,44 +334,6 @@ describe('/api/auth', () => {
         );
         expect(result.body.message.toLowerCase()).toEqual(
             expect.stringContaining('symbols')
-        );
-
-        result = await request(app)
-            .post('/api/auth/register')
-            .send({
-                email: {},
-                password: '123456789',
-                confirmPassword: '123456789',
-            });
-
-        expect(result.status).toBe(400);
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('email')
-        );
-
-        result = await request(app)
-            .post('/api/auth/register')
-            .send({
-                email: 'test@mail.com',
-                password: {},
-                confirmPassword: {},
-            });
-
-        expect(result.status).toBe(400);
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('password')
-        );
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('letters')
-        );
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('numbers')
-        );
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('symbols')
-        );
-        expect(result.body.message.toLowerCase()).toEqual(
-            expect.stringContaining('string')
         );
     });
 
