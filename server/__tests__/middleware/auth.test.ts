@@ -5,6 +5,7 @@ import {
     throwIfNoEmailOrPassword,
     throwIfNoEmailPasswordOrConfirmPassword,
     throwIfInvalidEmail,
+    throwIfInvalidPassword,
 } from '../../src/middlewares/auth.middleware';
 import { OperationalError } from '../../src/util/errors';
 
@@ -365,6 +366,99 @@ describe('middleware', () => {
                     expect(nextFnMock.mock.calls[0][0].errorMessage).toBe(
                         'Invalid email address'
                     );
+                });
+            });
+        });
+
+        describe('throwIfInvalidPassword', () => {
+            [
+                {
+                    password: '1234567890',
+                },
+                {
+                    password: '_123@pass%',
+                },
+                {
+                    password: '()0-=vvmdl;',
+                },
+            ].forEach(({ password }) => {
+                it(`should call next without parameters when provided password is valid: password=${toString(
+                    password
+                )}`, async () => {
+                    const requestMock = createMockRequest({
+                        password,
+                    });
+                    const nextFnMock = jest.fn();
+
+                    await throwIfInvalidPassword(
+                        requestMock as any,
+                        {} as any,
+                        nextFnMock
+                    );
+
+                    expect(nextFnMock).toHaveBeenCalledWith();
+                });
+            });
+
+            [
+                {},
+                {
+                    password: '1',
+                },
+                {
+                    password: '   j',
+                },
+                {
+                    password: {},
+                },
+                {
+                    password: null,
+                },
+                {
+                    password: '',
+                },
+                {
+                    password:
+                        '12345678901234567890123456789012345678901234567890a', // length = 51
+                },
+                {
+                    password: '🥰1234567890',
+                },
+                {
+                    password: '1234567890' + String.fromCharCode(960), // String.fromCharCode(960) === pi
+                },
+            ].forEach(({ password }) => {
+                it(`should call next with new OperationalError(400, "{Relevant-error-text}") when provided password is invalid: email=${toString(
+                    password
+                )}`, async () => {
+                    const requestMock = createMockRequest({
+                        password,
+                    });
+                    const nextFnMock = jest.fn();
+
+                    await throwIfInvalidPassword(
+                        requestMock as any,
+                        {} as any,
+                        nextFnMock
+                    );
+
+                    expect(nextFnMock).toHaveBeenCalled();
+                    expect(
+                        nextFnMock.mock.calls[0][0] instanceof OperationalError
+                    ).toBe(true);
+                    expect(nextFnMock.mock.calls[0][0].statusCode).toBe(400);
+                    expect(
+                        nextFnMock.mock.calls[0][0].errorMessage.toLowerCase()
+                    ).toEqual(expect.stringContaining('password'));
+                    expect(
+                        nextFnMock.mock.calls[0][0].errorMessage.toLowerCase()
+                    ).toEqual(expect.stringContaining('letters'));
+                    expect(
+                        nextFnMock.mock.calls[0][0].errorMessage.toLowerCase()
+                    ).toEqual(expect.stringContaining('numbers'));
+                    expect(
+                        nextFnMock.mock.calls[0][0].errorMessage.toLowerCase()
+                    ).toEqual(expect.stringContaining('symbols'));
                 });
             });
         });
