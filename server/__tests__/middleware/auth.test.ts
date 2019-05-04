@@ -292,22 +292,7 @@ describe('middleware', () => {
             });
         });
 
-        fdescribe('throwIfInvalidEmail', () => {
-            it('should call next without parameters when email is valid', async () => {
-                const requestMock = createMockRequest({
-                    email: 'test@mail.com',
-                });
-                const nextFnMock = jest.fn();
-
-                await throwIfInvalidEmail(
-                    requestMock as any,
-                    {} as any,
-                    nextFnMock
-                );
-
-                expect(nextFnMock).toHaveBeenCalledWith();
-            });
-
+        describe('throwIfInvalidEmail', () => {
             [
                 {
                     email: 'test@mail.com',
