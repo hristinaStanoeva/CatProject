@@ -33,7 +33,8 @@ import { OperationalError } from '../util/errors';
 import { UserEntity } from '../entities/';
 import { getUserRepository } from '../entities';
 
-type ResponseWithUser = CustomLocalsResponse<{ user: UserEntity }>;
+// move to separate file
+export type ResponseWithUser = CustomLocalsResponse<{ user: UserEntity }>;
 
 // TODO: Move to util/common and test with lots of different cases
 // For the middleware use onlyfew test cases to see what and when is generated.
