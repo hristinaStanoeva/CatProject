@@ -6,6 +6,7 @@ import {
     throwIfNoEmailPasswordOrConfirmPassword,
     throwIfInvalidEmail,
     throwIfInvalidPassword,
+    throwIfNoMatchingPasswords,
 } from '../../src/middlewares/auth.middleware';
 import { OperationalError } from '../../src/util/errors';
 
@@ -459,6 +460,104 @@ describe('middleware', () => {
                     expect(
                         nextFnMock.mock.calls[0][0].errorMessage.toLowerCase()
                     ).toEqual(expect.stringContaining('symbols'));
+                });
+            });
+        });
+
+        describe('throwIfNoMatchingPasswords', () => {
+            [
+                {
+                    password: '1234567890',
+                    confirmPassword: '1234567890',
+                },
+                {
+                    password: '_123@pass%',
+                    confirmPassword: '_123@pass%',
+                },
+                {
+                    password: '()0-=vvmdl;',
+                    confirmPassword: '()0-=vvmdl;',
+                },
+            ].forEach(({ password, confirmPassword }) => {
+                it(`should call next without parameters when provided password and confirmPassword match: password=${toString(
+                    password
+                )}, confirmPassword=${toString(confirmPassword)}`, async () => {
+                    const requestMock = createMockRequest({
+                        password,
+                        confirmPassword,
+                    });
+                    const nextFnMock = jest.fn();
+
+                    await throwIfNoMatchingPasswords(
+                        requestMock as any,
+                        {} as any,
+                        nextFnMock
+                    );
+
+                    expect(nextFnMock).toHaveBeenCalledWith();
+                });
+            });
+
+            [
+                {
+                    password: '1asd123asd',
+                },
+                {
+                    confirmPassword: '1asd123asd',
+                },
+                {
+                    password: '   j',
+                    confirmPassword: '1asd123asd',
+                },
+                {
+                    password: {},
+                    confirmPassword: '1asd123asd',
+                },
+                {
+                    password: null,
+                    confirmPassword: '1asd123asd',
+                },
+                {
+                    password: '',
+                    confirmPassword: '1asd123asd',
+                },
+                {
+                    password:
+                        '12345678901234567890123456789012345678901234567890a', // length = 51
+                    confirmPassword: '1asd123asd',
+                },
+                {
+                    password: '🥰1234567890',
+                    confirmPassword: '1asd123asd',
+                },
+                {
+                    password: '1234567890' + String.fromCharCode(960), // String.fromCharCode(960) === pi
+                    confirmPassword: '1asd123asd',
+                },
+            ].forEach(({ password, confirmPassword }) => {
+                it(`should call next with new OperationalError(400, "Passwords must match") when provided password and confirmPassword do not match: email=${toString(
+                    password
+                )}, confirmPassword=${confirmPassword}`, async () => {
+                    const requestMock = createMockRequest({
+                        password,
+                        confirmPassword,
+                    });
+                    const nextFnMock = jest.fn();
+
+                    await throwIfNoMatchingPasswords(
+                        requestMock as any,
+                        {} as any,
+                        nextFnMock
+                    );
+
+                    expect(nextFnMock).toHaveBeenCalled();
+                    expect(
+                        nextFnMock.mock.calls[0][0] instanceof OperationalError
+                    ).toBe(true);
+                    expect(nextFnMock.mock.calls[0][0].statusCode).toBe(400);
+                    expect(nextFnMock.mock.calls[0][0].errorMessage).toBe(
+                        'Passwords must match'
+                    );
                 });
             });
         });
