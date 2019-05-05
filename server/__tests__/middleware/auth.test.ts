@@ -2,6 +2,7 @@ import { toString } from 'ramda';
 
 import { LoginRequest, RegisterRequest } from '../../src/controllers';
 import {
+    ResponseWithUser,
     throwIfNoEmailOrPassword,
     throwIfNoEmailPasswordOrConfirmPassword,
     throwIfInvalidEmail,
@@ -9,6 +10,7 @@ import {
     throwIfNoMatchingPasswords,
 } from '../../src/middlewares/auth.middleware';
 import { OperationalError } from '../../src/util/errors';
+import { UserEntity } from '../../src/entities';
 
 const createMockRequest = ({
     email,
@@ -24,6 +26,14 @@ const createMockRequest = ({
         password,
         confirmPassword,
     },
+});
+
+const createMockResponse = ({
+    user,
+}: {
+    user: UserEntity;
+}): Partial<ResponseWithUser> => ({
+    locals: { user },
 });
 
 describe('middleware', () => {
