@@ -18,6 +18,12 @@ import {
     isNil,
     either,
     any,
+    lensProp,
+    view,
+    Lens,
+    compose,
+    converge,
+    equals,
 } from 'ramda';
 import { isEmail, normalizeEmail, isAscii } from 'validator';
 
@@ -41,6 +47,29 @@ export type ResponseWithUser = CustomLocalsResponse<{ user: UserEntity }>;
 const isString = is(String);
 const hasNoValue = either(isEmpty, isNil);
 const anyHasNoValue = (values: any[]) => any(hasNoValue, values);
+
+const bodyLens = lensProp('body');
+const emailLens = lensProp('email');
+const passwordLens = lensProp('password');
+const confirmPasswordLens = lensProp('confirmPassword');
+
+const emailView: (req: any) => string = view(compose(
+    bodyLens,
+    emailLens
+) as Lens);
+const passwordView: (req: any) => string = view(
+    // when using compose for lenses, the order is intuitive
+    compose(
+        bodyLens,
+        passwordLens
+    ) as Lens /* If casting is not present, TS complains with a strange error even though the code runs without errors. */
+);
+const confirmPasswordView: (req: any) => string = view(compose(
+    bodyLens,
+    confirmPasswordLens
+) as Lens);
+
+const passwordsAreEqual = converge(equals, [passwordView, confirmPasswordView]);
 
 const throwIf = <TReq, TRes>(
     errCallback: Middleware<TReq, TRes, HttpError>,
@@ -83,7 +112,7 @@ const isPasswordValid: (password: string) => boolean = ifElse(
 
 export const throwIfNoEmailOrPassword = throwIf<LoginRequest, Response>(
     (req, res) => createBadRequestError('Email and password are required'),
-    (req, res) => anyHasNoValue([req.body.email, req.body.password])
+    (req, res) => anyHasNoValue([emailView(req), passwordView(req)])
 );
 
 export const throwIfNoEmailPasswordOrConfirmPassword = throwIf<
@@ -96,9 +125,9 @@ export const throwIfNoEmailPasswordOrConfirmPassword = throwIf<
         ),
     (req, res) =>
         anyHasNoValue([
-            req.body.email,
-            req.body.password,
-            req.body.confirmPassword,
+            emailView(req),
+            passwordView(req),
+            confirmPasswordView(req),
         ])
 );
 
@@ -107,7 +136,7 @@ export const throwIfInvalidEmail = throwIf<
     Response
 >(
     (req, res) => createBadRequestError('Invalid email address'),
-    (req, res) => !isEmailValid(req.body.email)
+    (req, res) => !isEmailValid(emailView(req))
 );
 
 export const throwIfInvalidPassword = throwIf<
@@ -118,12 +147,12 @@ export const throwIfInvalidPassword = throwIf<
         createBadRequestError(
             'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
         ),
-    (req, res) => !isPasswordValid(req.body.password)
+    (req, res) => !isPasswordValid(passwordView(req))
 );
 
 export const throwIfNoMatchingPasswords = throwIf<RegisterRequest, Response>(
     (req, res) => createBadRequestError('Passwords must match'),
-    (req, res) => req.body.password !== req.body.confirmPassword
+    (req, res) => !passwordsAreEqual(req)
 );
 
 export const throwIfUserExists = throwIf<RegisterRequest, ResponseWithUser>(
