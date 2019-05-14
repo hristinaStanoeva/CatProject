@@ -24,6 +24,7 @@ import {
     compose,
     converge,
     equals,
+    complement,
 } from 'ramda';
 import { isEmail, normalizeEmail, isAscii } from 'validator';
 
@@ -46,12 +47,16 @@ export type ResponseWithUser = CustomLocalsResponse<{ user: UserEntity }>;
 // For the middleware use onlyfew test cases to see what and when is generated.
 const isString = is(String);
 const hasNoValue = either(isEmpty, isNil);
+const hasValue = complement(hasNoValue);
 const anyHasNoValue = (values: any[]) => any(hasNoValue, values);
 
 const bodyLens = lensProp('body');
 const emailLens = lensProp('email');
 const passwordLens = lensProp('password');
 const confirmPasswordLens = lensProp('confirmPassword');
+
+const localsLens = lensProp('locals');
+const userLens = lensProp('user');
 
 const emailView: (req: any) => string = view(compose(
     bodyLens,
@@ -69,7 +74,16 @@ const confirmPasswordView: (req: any) => string = view(compose(
     confirmPasswordLens
 ) as Lens);
 
+const userView = view(compose(
+    localsLens,
+    userLens
+) as Lens);
+
 const passwordsAreEqual = converge(equals, [passwordView, confirmPasswordView]);
+const hasUser = pipe(
+    userView,
+    both(hasValue, is(UserEntity))
+);
 
 const throwIf = <TReq, TRes>(
     errCallback: Middleware<TReq, TRes, HttpError>,
@@ -157,7 +171,7 @@ export const throwIfNoMatchingPasswords = throwIf<RegisterRequest, Response>(
 
 export const throwIfUserExists = throwIf<RegisterRequest, ResponseWithUser>(
     (req, res) => createBadRequestError(`${req.body.email} already exists!`),
-    (req, res) => !!res.locals.user
+    (req, res) => hasUser(res)
 );
 
 export const throwIfUserDoesNotExist = throwIf<LoginRequest, ResponseWithUser>(

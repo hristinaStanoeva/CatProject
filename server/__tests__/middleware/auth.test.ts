@@ -8,6 +8,7 @@ import {
     throwIfInvalidEmail,
     throwIfInvalidPassword,
     throwIfNoMatchingPasswords,
+    throwIfUserExists,
 } from '../../src/middlewares/auth.middleware';
 import { OperationalError } from '../../src/util/errors';
 import { UserEntity } from '../../src/entities';
@@ -569,6 +570,84 @@ describe('middleware', () => {
                         'Passwords must match'
                     );
                 });
+            });
+        });
+
+        describe('throwIfUserExists', () => {
+            [{}, undefined, null, '', []].forEach((user: any) => {
+                it(`should call next without parameters when a user does not exist, user=${toString(
+                    user
+                )}`, async () => {
+                    const requestMock = createMockRequest({
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                    });
+                    const responseMock = createMockResponse({
+                        user,
+                    });
+                    const nextFnMock = jest.fn();
+
+                    await throwIfUserExists(
+                        requestMock as any,
+                        responseMock as any,
+                        nextFnMock
+                    );
+
+                    expect(nextFnMock).toHaveBeenCalledWith();
+                });
+            });
+            [true, false, { email: 'test@mail.com' }, 'test@mail.com'].forEach(
+                (user: any) => {
+                    it(`should call next without parameters when a user is not an instance of UserEntity, user=${toString(
+                        user
+                    )}`, async () => {
+                        const requestMock = createMockRequest({
+                            email: 'test@mail.com',
+                            password: '1234567890',
+                        });
+                        const responseMock = createMockResponse({
+                            user,
+                        });
+                        const nextFnMock = jest.fn();
+
+                        await throwIfUserExists(
+                            requestMock as any,
+                            responseMock as any,
+                            nextFnMock
+                        );
+
+                        expect(nextFnMock).toHaveBeenCalledWith();
+                    });
+                }
+            );
+
+            it('should call with new OperationalError(400, test@mail.com already exists) when user already exists', async () => {
+                const requestMock = createMockRequest({
+                    email: 'test@mail.com',
+                    password: '1234567890',
+                });
+                const user = new UserEntity();
+                user.email = 'test@mail.com';
+
+                const responseMock = createMockResponse({
+                    user,
+                });
+                const nextFnMock = jest.fn();
+
+                await throwIfUserExists(
+                    requestMock as any,
+                    responseMock as any,
+                    nextFnMock
+                );
+
+                expect(nextFnMock).toHaveBeenCalled();
+                expect(
+                    nextFnMock.mock.calls[0][0] instanceof OperationalError
+                ).toBe(true);
+                expect(nextFnMock.mock.calls[0][0].statusCode).toBe(400);
+                expect(
+                    nextFnMock.mock.calls[0][0].errorMessage.toLowerCase()
+                ).toBe(`${user.email} already exists!`);
             });
         });
     });
