@@ -9,6 +9,7 @@ import {
     throwIfInvalidPassword,
     throwIfNoMatchingPasswords,
     throwIfUserExists,
+    throwIfUserDoesNotExist,
 } from '../../src/middlewares/auth.middleware';
 import { OperationalError } from '../../src/util/errors';
 import { UserEntity } from '../../src/entities';
@@ -652,6 +653,97 @@ describe('middleware', () => {
                 expect(
                     nextFnMock.mock.calls[0][0].errorMessage.toLowerCase()
                 ).toBe(`${user.email} already exists!`);
+            });
+        });
+
+        describe('throwIfUserDoesNotExist', () => {
+            [undefined, null, '', {}, []].forEach((user: any) => {
+                it(`should call next with new OperationalError(400, "test@mail.com is not yet registered!") when user does not exist, user=${toString(
+                    user
+                )}`, async () => {
+                    const requestMock = createMockRequest({
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                    });
+
+                    const responseMock = createMockResponse({
+                        user,
+                    });
+                    const nextFnMock = jest.fn();
+
+                    await throwIfUserDoesNotExist(
+                        requestMock as any,
+                        responseMock as any,
+                        nextFnMock
+                    );
+
+                    expect(nextFnMock).toHaveBeenCalled();
+                    expect(
+                        nextFnMock.mock.calls[0][0] instanceof OperationalError
+                    ).toBe(true);
+                    expect(nextFnMock.mock.calls[0][0].statusCode).toBe(400);
+                    expect(
+                        nextFnMock.mock.calls[0][0].errorMessage.toLowerCase()
+                    ).toBe('test@mail.com is not yet registered!');
+                });
+            });
+            [
+                true,
+                false,
+                { email: 'test@mail.com' },
+                'test@mail.com',
+                { email: 'test@mail.com', password: '1234567890' },
+            ].forEach((user: any) => {
+                it(`should call next with new OperationalError(400, "test@mail.com is not yet registered!") when user is not an instance of UserEntity, user=${toString(
+                    user
+                )}`, async () => {
+                    const requestMock = createMockRequest({
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                    });
+
+                    const responseMock = createMockResponse({
+                        user,
+                    });
+                    const nextFnMock = jest.fn();
+
+                    await throwIfUserDoesNotExist(
+                        requestMock as any,
+                        responseMock as any,
+                        nextFnMock
+                    );
+
+                    expect(nextFnMock).toHaveBeenCalled();
+                    expect(
+                        nextFnMock.mock.calls[0][0] instanceof OperationalError
+                    ).toBe(true);
+                    expect(nextFnMock.mock.calls[0][0].statusCode).toBe(400);
+                    expect(
+                        nextFnMock.mock.calls[0][0].errorMessage.toLowerCase()
+                    ).toBe('test@mail.com is not yet registered!');
+                });
+            });
+
+            it('should call next without parameters when user exists and is an instance of UserEntity', async () => {
+                const requestMock = createMockRequest({
+                    email: 'test@mail.com',
+                    password: '1234567890',
+                });
+                const user = new UserEntity();
+                user.email = 'test@mail.com';
+
+                const responseMock = createMockResponse({
+                    user,
+                });
+                const nextFnMock = jest.fn();
+
+                await throwIfUserDoesNotExist(
+                    requestMock as any,
+                    responseMock as any,
+                    nextFnMock
+                );
+
+                expect(nextFnMock).toHaveBeenCalledWith();
             });
         });
     });

@@ -84,6 +84,7 @@ const hasUser = pipe(
     userView,
     both(hasValue, is(UserEntity))
 );
+const hasNoUser = complement(hasUser);
 
 const throwIf = <TReq, TRes>(
     errCallback: Middleware<TReq, TRes, HttpError>,
@@ -177,7 +178,7 @@ export const throwIfUserExists = throwIf<RegisterRequest, ResponseWithUser>(
 export const throwIfUserDoesNotExist = throwIf<LoginRequest, ResponseWithUser>(
     (req, res) =>
         createBadRequestError(`${req.body.email} is not yet registered!`),
-    (req, res) => !res.locals.user
+    (req, res) => hasNoUser(res)
 );
 
 export const throwIfIncorrectPassword = throwIf<LoginRequest, ResponseWithUser>(
