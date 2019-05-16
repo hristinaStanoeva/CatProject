@@ -596,32 +596,36 @@ describe('middleware', () => {
                     expect(nextFnMock).toHaveBeenCalledWith();
                 });
             });
-            [true, false, { email: 'test@mail.com' }, 'test@mail.com'].forEach(
-                (user: any) => {
-                    it(`should call next without parameters when a user is not an instance of UserEntity, user=${toString(
-                        user
-                    )}`, async () => {
-                        const requestMock = createMockRequest({
-                            email: 'test@mail.com',
-                            password: '1234567890',
-                        });
-                        const responseMock = createMockResponse({
-                            user,
-                        });
-                        const nextFnMock = jest.fn();
-
-                        await throwIfUserExists(
-                            requestMock as any,
-                            responseMock as any,
-                            nextFnMock
-                        );
-
-                        expect(nextFnMock).toHaveBeenCalledWith();
+            [
+                true,
+                false,
+                { email: 'test@mail.com' },
+                'test@mail.com',
+                { email: 'test@mail.com', password: '1234567890' },
+            ].forEach((user: any) => {
+                it(`should call next without parameters when a user is not an instance of UserEntity, user=${toString(
+                    user
+                )}`, async () => {
+                    const requestMock = createMockRequest({
+                        email: 'test@mail.com',
+                        password: '1234567890',
                     });
-                }
-            );
+                    const responseMock = createMockResponse({
+                        user,
+                    });
+                    const nextFnMock = jest.fn();
 
-            it('should call with new OperationalError(400, test@mail.com already exists) when user already exists', async () => {
+                    await throwIfUserExists(
+                        requestMock as any,
+                        responseMock as any,
+                        nextFnMock
+                    );
+
+                    expect(nextFnMock).toHaveBeenCalledWith();
+                });
+            });
+
+            it('should call with new OperationalError(400, "test@mail.com already exists") when user already exists and is an instance of UserEntity', async () => {
                 const requestMock = createMockRequest({
                     email: 'test@mail.com',
                     password: '1234567890',
