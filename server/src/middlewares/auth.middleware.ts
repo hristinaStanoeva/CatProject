@@ -18,6 +18,7 @@ import {
     reqHasUser,
     reqHasNoUser,
 } from '../util/middleware.utils';
+import { ServerError } from '../util/errors';
 
 import { CustomLocalsResponse, Middleware } from '../models';
 import { UserEntity } from '../entities/';
@@ -99,6 +100,6 @@ export const getUser: Middleware<Request, ResponseWithUser> = async (
         });
         return next();
     } catch (e) {
-        return next(e);
+        return next(new ServerError(e));
     }
 };
