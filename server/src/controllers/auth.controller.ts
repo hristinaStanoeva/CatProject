@@ -12,11 +12,13 @@ export type RegisterRequest = CustomBodyRequest<
 >;
 export type ResetPasswordRequest = CustomBodyRequest<'email'>;
 
+// const loginUser = (authService: AuthService) => (req, res...) =>
 export const loginUser = (
     req: LoginRequest,
     res: Response /* ResponseWithUser */,
     next: NextFunction
 ) => {
+    // auth-service.login({user}).then(...)
     const token = sign(
         {
             email: res.locals.user.email,

@@ -57,6 +57,7 @@ export const reqPasswordsAreEqual = converge(equals, [
     confirmPasswordView,
 ]);
 export const reqPasswordsAreNotEqual = complement(reqPasswordsAreEqual);
+
 export const reqHasUser = pipe(
     userView,
     both(hasValue, is(UserEntity))
