@@ -3,23 +3,25 @@ describe('core', () => {
     describe('entities', () => {
         describe('createUser', () => {
             it('should throw if no email is provided', () => {
-                expect(() => createUser({})).toThrow('Invalid email for user');
+                expect(() => createUser({} as any)).toThrow(
+                    'Invalid email for user'
+                );
             });
 
             it('should throw if email is invalid string', () => {
-                expect(() => createUser({ email: '' })).toThrow(
+                expect(() => createUser({ email: '' } as any)).toThrow(
                     'Invalid email for user'
                 );
-                expect(() => createUser({ email: 'test' })).toThrow(
+                expect(() => createUser({ email: 'test' } as any)).toThrow(
                     'Invalid email for user'
                 );
             });
 
             it('should throw if email is null or undefined', () => {
-                expect(() => createUser({ email: undefined })).toThrow(
+                expect(() => createUser({ email: undefined } as any)).toThrow(
                     'Invalid email for user'
                 );
-                expect(() => createUser({ email: null })).toThrow(
+                expect(() => createUser({ email: null } as any)).toThrow(
                     'Invalid email for user'
                 );
             });
@@ -39,7 +41,9 @@ describe('core', () => {
             });
 
             it('should throw if no password is provided', () => {
-                expect(() => createUser({ email: 'test@mail.com' })).toThrow(
+                expect(() =>
+                    createUser({ email: 'test@mail.com' } as any)
+                ).toThrow(
                     'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
                 );
             });

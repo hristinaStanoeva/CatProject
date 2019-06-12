@@ -23,7 +23,7 @@ export const createUser = ({
 export interface User {
     email: string;
     password: string;
-    imageUrl: string;
-    lists: any[];
-    listItems: any[];
+    imageUrl?: string;
+    lists?: any[];
+    listItems?: any[];
 }
