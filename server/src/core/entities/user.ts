@@ -7,6 +7,7 @@ export const createUser = ({
     lists = [],
     listItems = [],
 }: User): User => {
+    // think about either monad instead of throwing exceptions
     if (isEmailInvalid(email)) {
         throw new Error('Invalid email for user');
     }
