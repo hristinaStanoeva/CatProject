@@ -1,32 +1,32 @@
+import { pipe, range, join, repeat } from 'ramda';
 import { createUser } from '../../../src/core/entities/user';
+
+const createStringOfLength = pipe(
+    repeat('1'),
+    join('')
+);
+
 describe('core', () => {
     describe('entities', () => {
         describe('createUser', () => {
-            it('should throw if no email is provided', () => {
-                expect(() => createUser({} as any)).toThrow(
-                    'Invalid email for user'
-                );
-            });
-
             it('should throw if email is invalid string', () => {
-                expect(() => createUser({ email: '' } as any)).toThrow(
-                    'Invalid email for user'
-                );
-                expect(() => createUser({ email: 'test' } as any)).toThrow(
-                    'Invalid email for user'
-                );
+                expect(() =>
+                    createUser({ email: '', password: '1234567890' })
+                ).toThrow('Invalid email for user');
+                expect(() =>
+                    createUser({ email: 'test', password: '1234567890' })
+                ).toThrow('Invalid email for user');
             });
 
             it('should throw if email is null or undefined', () => {
-                expect(() => createUser({ email: undefined } as any)).toThrow(
-                    'Invalid email for user'
-                );
-                expect(() => createUser({ email: null } as any)).toThrow(
-                    'Invalid email for user'
-                );
+                expect(() =>
+                    createUser({ email: undefined, password: '1234567890' })
+                ).toThrow('Invalid email for user');
+                expect(() =>
+                    createUser({ email: null, password: '1234567890' })
+                ).toThrow('Invalid email for user');
             });
 
-            // maybe move as last test
             it('should return object with provided valid email', () => {
                 expect(
                     createUser({
@@ -40,30 +40,42 @@ describe('core', () => {
                 );
             });
 
-            it('should throw if no password is provided', () => {
-                expect(() =>
-                    createUser({ email: 'test@mail.com' } as any)
-                ).toThrow(
-                    'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
-                );
-            });
-
-            it('should throw if password is not a string', () => {
+            it('should throw if password is null or undefined', () => {
                 expect(() =>
                     createUser({
                         email: 'test@mail.com',
-                        password: 123123123123 as any,
+                        password: undefined,
                     })
                 ).toThrow(
                     'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
                 );
                 expect(() =>
-                    createUser({ email: 'test@mail.com', password: [] as any })
+                    createUser({
+                        email: 'test@mail.com',
+                        password: null,
+                    })
                 ).toThrow(
                     'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
                 );
+            });
+
+            it('should throw if password is less than 8 characters', () => {
                 expect(() =>
-                    createUser({ email: 'test@mail.com', password: null })
+                    createUser({
+                        email: 'test@mail.com',
+                        password: createStringOfLength(7),
+                    })
+                ).toThrow(
+                    'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
+                );
+            });
+
+            it('should throw if password is more than 50 characters', () => {
+                expect(() =>
+                    createUser({
+                        email: 'test@mail.com',
+                        password: createStringOfLength(51),
+                    })
                 ).toThrow(
                     'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
                 );
