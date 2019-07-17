@@ -11,25 +11,30 @@ describe('core', () => {
         describe('createUser', () => {
             it('should throw if email is invalid string', () => {
                 expect(() =>
-                    createUser({ email: '', password: '1234567890' })
+                    createUser({ id: 1, email: '', password: '1234567890' })
                 ).toThrow('Invalid email for user');
                 expect(() =>
-                    createUser({ email: 'test', password: '1234567890' })
+                    createUser({ id: 1, email: 'test', password: '1234567890' })
                 ).toThrow('Invalid email for user');
             });
 
             it('should throw if email is null or undefined', () => {
                 expect(() =>
-                    createUser({ email: undefined, password: '1234567890' })
+                    createUser({
+                        id: 1,
+                        email: undefined,
+                        password: '1234567890',
+                    })
                 ).toThrow('Invalid email for user');
                 expect(() =>
-                    createUser({ email: null, password: '1234567890' })
+                    createUser({ id: 1, email: null, password: '1234567890' })
                 ).toThrow('Invalid email for user');
             });
 
             it('should return object with provided valid email', () => {
                 expect(
                     createUser({
+                        id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
                     })
@@ -43,6 +48,7 @@ describe('core', () => {
             it('should throw if password is null or undefined', () => {
                 expect(() =>
                     createUser({
+                        id: 1,
                         email: 'test@mail.com',
                         password: undefined,
                     })
@@ -51,6 +57,7 @@ describe('core', () => {
                 );
                 expect(() =>
                     createUser({
+                        id: 1,
                         email: 'test@mail.com',
                         password: null,
                     })
@@ -62,6 +69,7 @@ describe('core', () => {
             it('should throw if password is less than 8 characters', () => {
                 expect(() =>
                     createUser({
+                        id: 1,
                         email: 'test@mail.com',
                         password: createStringOfLength(7),
                     })
@@ -73,6 +81,7 @@ describe('core', () => {
             it('should throw if password is more than 50 characters', () => {
                 expect(() =>
                     createUser({
+                        id: 1,
                         email: 'test@mail.com',
                         password: createStringOfLength(51),
                     })
@@ -84,6 +93,7 @@ describe('core', () => {
             it('should throw if password includes invalid characters', () => {
                 expect(() =>
                     createUser({
+                        id: 1,
                         email: 'mail@test.com',
                         password: '1234567890' + String.fromCharCode(960),
                     })
@@ -95,16 +105,65 @@ describe('core', () => {
             it('should return user object with email and password and all other fields are defaults', () => {
                 expect(
                     createUser({
+                        id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
                     })
                 ).toEqual({
+                    id: 1,
                     email: 'test@mail.com',
                     password: '1234567890',
                     imageUrl: null,
-                    lists: [],
+                    listIds: [],
                     listItems: [],
                 });
+            });
+
+            it('should return user object with provided email, password and single list id', () => {
+                expect(
+                    createUser({
+                        id: 1,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                        listIds: [1],
+                    })
+                ).toEqual({
+                    id: 1,
+                    email: 'test@mail.com',
+                    password: '1234567890',
+                    imageUrl: null,
+                    listIds: [1],
+                    listItems: [],
+                });
+            });
+
+            it('should return user object with provided email, password and multiple list ids', () => {
+                expect(
+                    createUser({
+                        id: 1,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                        listIds: [1, 2, 3],
+                    })
+                ).toEqual({
+                    id: 1,
+                    email: 'test@mail.com',
+                    password: '1234567890',
+                    imageUrl: null,
+                    listIds: [1, 2, 3],
+                    listItems: [],
+                });
+            });
+
+            it('should throw when duplicated list ids are provided', () => {
+                expect(() =>
+                    createUser({
+                        id: 1,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                        listIds: [1, 1],
+                    })
+                ).toThrow('A user cannot have duplicated list ids');
             });
         });
     });

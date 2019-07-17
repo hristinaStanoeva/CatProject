@@ -1,10 +1,13 @@
+import { List } from './list';
 import { isEmailInvalid, isPasswordInvalid } from '../../util/middleware.utils';
+import { arrayHasOnlyUniques } from '../../util/common';
 
 export const createUser = ({
+    id,
     email = '',
     password = '',
     imageUrl = null,
-    lists = [],
+    listIds = [],
     listItems = [],
 }: User): User => {
     // think about either monad instead of throwing exceptions
@@ -18,13 +21,18 @@ export const createUser = ({
         );
     }
 
-    return { email, password, imageUrl, lists, listItems };
+    if (!arrayHasOnlyUniques(listIds)) {
+        throw new Error('A user cannot have duplicated list ids');
+    }
+
+    return { id, email, password, imageUrl, listIds, listItems };
 };
 
 export interface User {
+    id: number;
     email: string;
     password: string;
     imageUrl?: string;
-    lists?: any[];
+    listIds?: Array<List['id']>;
     listItems?: any[];
 }

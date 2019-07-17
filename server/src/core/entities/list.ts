@@ -6,11 +6,11 @@ import { hasNoValue, isString } from '../../util/common';
 const isNotNonEmptyString = either(hasNoValue, complement(isString));
 
 export const createList = ({
+    id,
     title = '',
     author = null,
     items = [],
 }: List): List => {
-    // call createUser somewhere to go through all user checks
     if (isNotNonEmptyString(title)) {
         throw new Error('List title has to be non empty string');
     }
@@ -19,11 +19,12 @@ export const createList = ({
         throw new Error('Invalid author');
     }
 
-    return { title, author, items };
+    return { id, title, author, items };
 };
 
-interface List {
+export interface List {
+    id: number;
     title: string;
-    author: User;
+    author: Pick<User, 'id'>;
     items?: any[];
 }
