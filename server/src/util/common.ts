@@ -6,14 +6,17 @@ import {
     any,
     is,
     complement,
+    converge,
     pipe,
     length,
     both,
     gte,
     lte,
+    equals,
     min,
     max,
     __,
+    uniq,
 } from 'ramda';
 
 import { HttpError } from '../models';
@@ -29,7 +32,13 @@ export const createBadRequestError = createErrorObject(400);
 export const isString = is(String);
 export const hasNoValue = either(isEmpty, isNil);
 export const hasValue = complement(hasNoValue);
-export const anyHasNoValue = (values: any[]) => any(hasNoValue, values);
+export const anyHasNoValue = (values: any[]): boolean =>
+    any(hasNoValue, values);
+const getUniquesLength = pipe(
+    uniq,
+    length
+);
+export const arrayHasOnlyUniques = converge(equals, [getUniquesLength, length]);
 
 export const isLengthBetween = (limit1: number, limit2: number) =>
     pipe(
