@@ -9,6 +9,34 @@ const createStringOfLength = pipe(
 describe('core', () => {
     describe('entities', () => {
         describe('createUser', () => {
+            it('should throw if id is null or undefined', () => {
+                expect(() =>
+                    createUser({
+                        id: undefined,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                    })
+                ).toThrow('User id has to be a positive number');
+
+                expect(() =>
+                    createUser({
+                        id: null,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                    })
+                ).toThrow('User id has to be a positive number');
+            });
+
+            it('should throw if id is not positive', () => {
+                expect(() =>
+                    createUser({
+                        id: -1,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                    })
+                ).toThrow('User id has to be a positive number');
+            });
+
             it('should throw if email is invalid string', () => {
                 expect(() =>
                     createUser({ id: 1, email: '', password: '1234567890' })
@@ -105,6 +133,45 @@ describe('core', () => {
                 });
             });
 
+            it('should throw when listIds is null or undefined', () => {
+                expect(() =>
+                    createUser({
+                        id: 1,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                        listIds: null,
+                    })
+                ).toThrow(
+                    'A user has to have list of unique positive list ids'
+                );
+            });
+
+            it('should throw when duplicated list ids are provided', () => {
+                expect(() =>
+                    createUser({
+                        id: 1,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                        listIds: [1, 1],
+                    })
+                ).toThrow(
+                    'A user has to have list of unique positive list ids'
+                );
+            });
+
+            it('should throw when list ids contains non-positive numbers', () => {
+                expect(() =>
+                    createUser({
+                        id: 1,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                        listIds: [1, -1],
+                    })
+                ).toThrow(
+                    'A user has to have list of unique positive list ids'
+                );
+            });
+
             it('should return user object with provided email, password and single list id', () => {
                 expect(
                     createUser({
@@ -141,16 +208,7 @@ describe('core', () => {
                 });
             });
 
-            it('should throw when duplicated list ids are provided', () => {
-                expect(() =>
-                    createUser({
-                        id: 1,
-                        email: 'test@mail.com',
-                        password: '1234567890',
-                        listIds: [1, 1],
-                    })
-                ).toThrow('A user cannot have duplicated list ids');
-            });
+            // add tests for list items ids
         });
     });
 });
