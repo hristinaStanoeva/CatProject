@@ -1,30 +1,35 @@
-import { either, complement } from 'ramda';
+import { either, complement, lte, anyPass, __ } from 'ramda';
 import { User } from './user';
 
 import { hasNoValue, isString } from '../../util/common';
 
-const isNotNonEmptyString = either(hasNoValue, complement(isString));
+const isEmptyString = either(hasNoValue, complement(isString));
+const idIsInvalid = anyPass([hasNoValue, lte(__, 0)]);
 
 export const createList = ({
     id,
     title = '',
-    author = null,
-    items = [],
+    authorId = null,
+    itemIds = [],
 }: List): List => {
-    if (isNotNonEmptyString(title)) {
+    if (idIsInvalid(id)) {
+        throw new Error('List id has to be a positive number');
+    }
+
+    if (isEmptyString(title)) {
         throw new Error('List title has to be non empty string');
     }
 
-    if (hasNoValue(author)) {
-        throw new Error('Invalid author');
+    if (idIsInvalid(authorId)) {
+        throw new Error('A list has to have a positive author id');
     }
 
-    return { id, title, author, items };
+    return { id, title, authorId, itemIds };
 };
 
 export interface List {
     id: number;
     title: string;
-    author: Pick<User, 'id'>;
-    items?: any[];
+    authorId: User['id'];
+    itemIds?: any[];
 }
