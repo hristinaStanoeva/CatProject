@@ -5,10 +5,10 @@
         "sourceMap": true,
         "outDir": "dist",
         "rootDir": "src",
-        // "isolatedModules": true,               /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
 
         // "strict": true,
         "noUnusedLocals": true,
+        // "strictNullChecks": true,              /* In the future could be useful but for now causes more trouble than it helps. */
         // "noUnusedParameters": true,            /* Report errors on unused parameters. */
         // "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
         "noFallthroughCasesInSwitch": true,
