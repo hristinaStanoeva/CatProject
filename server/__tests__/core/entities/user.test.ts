@@ -172,7 +172,7 @@ describe('core', () => {
                 );
             });
 
-            it('should return user object with provided email, password and single list id', () => {
+            it('should return user object with provided id, email, password and single list id', () => {
                 expect(
                     createUser({
                         id: 1,
@@ -190,7 +190,7 @@ describe('core', () => {
                 });
             });
 
-            it('should return user object with provided email, password and multiple list ids', () => {
+            it('should return user object with provided id, email, password and multiple list ids', () => {
                 expect(
                     createUser({
                         id: 1,
