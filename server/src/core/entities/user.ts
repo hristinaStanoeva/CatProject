@@ -1,14 +1,13 @@
-import { isNil, lte, anyPass, __ } from 'ramda';
+import { isNil, anyPass, __ } from 'ramda';
 import { List } from './list';
 import { isEmailInvalid, isPasswordInvalid } from '../../util/middleware.utils';
 import {
-    hasNoValue,
+    idIsInvalid,
     arrayHasDuplicates,
     arrayHasNonPositiveValues,
 } from '../../util/common';
 
 // think if this should be put somewhere else
-const idIsInvalid = anyPass([hasNoValue, lte(__, 0)]);
 const listIdsAreInvalid = anyPass([
     isNil,
     arrayHasDuplicates,

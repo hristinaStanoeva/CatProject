@@ -1,11 +1,6 @@
-import { anyPass, lte, __, either, complement } from 'ramda';
-
 import { List } from './list';
 import { User } from './user';
-import { hasNoValue, isString } from '../../util/common';
-
-const idIsInvalid = anyPass([hasNoValue, lte(__, 0)]);
-const isEmptyString = either(hasNoValue, complement(isString));
+import { hasNoValue, isEmptyString, idIsInvalid } from '../../util/common';
 
 export const createListItem = ({
     id,
