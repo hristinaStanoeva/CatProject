@@ -1,5 +1,6 @@
 import {
     all,
+    anyPass,
     curry,
     isEmpty,
     isNil,
@@ -32,6 +33,7 @@ const createErrorObject = curry(
 
 export const createBadRequestError = createErrorObject(400);
 export const isString = is(String);
+export const isNumber = is(Number);
 export const hasNoValue = either(isEmpty, isNil);
 export const hasValue = complement(hasNoValue);
 export const anyHasNoValue = any(hasNoValue);
@@ -39,6 +41,11 @@ export const isEmptyString: (value: string) => boolean = either(
     hasNoValue,
     complement(isString)
 );
+export const idIsInvalid = anyPass([
+    complement(isNumber),
+    hasNoValue,
+    lte(__, 0),
+]);
 
 const getUniquesLength = pipe(
     uniq,
