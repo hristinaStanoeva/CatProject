@@ -31,20 +31,24 @@ export const createUser = ({
 }: User): User => {
     // think about either monad instead of throwing exceptions
     if (idIsInvalid(id)) {
-        throw new Error('User id has to be a positive number');
+        throw new Error('Core -> User: Id has to be a positive number');
     }
     if (isEmailInvalid(email)) {
-        throw new Error('Invalid email for user');
+        throw new Error(
+            'Core -> User: Email has to be a string in the form "name@domain.tld"'
+        );
     }
 
     if (isPasswordInvalid(password)) {
         throw new Error(
-            'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
+            'Core -> User: Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
         );
     }
 
     if (listIdsAreInvalid(listIds)) {
-        throw new Error('A user has to have list of unique positive list ids');
+        throw new Error(
+            'Core -> User: List ids has to be a list of unique positive numbers'
+        );
     }
 
     return { id, email, password, imageUrl, listIds, listItemIds };

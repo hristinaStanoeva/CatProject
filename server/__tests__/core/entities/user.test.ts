@@ -16,7 +16,7 @@ describe('core', () => {
                         email: 'test@mail.com',
                         password: '1234567890',
                     })
-                ).toThrow('User id has to be a positive number');
+                ).toThrow('Core -> User: Id has to be a positive number');
 
                 expect(() =>
                     createUser({
@@ -24,7 +24,7 @@ describe('core', () => {
                         email: 'test@mail.com',
                         password: '1234567890',
                     })
-                ).toThrow('User id has to be a positive number');
+                ).toThrow('Core -> User: Id has to be a positive number');
             });
 
             it('should throw if id is not positive', () => {
@@ -34,16 +34,20 @@ describe('core', () => {
                         email: 'test@mail.com',
                         password: '1234567890',
                     })
-                ).toThrow('User id has to be a positive number');
+                ).toThrow('Core -> User: Id has to be a positive number');
             });
 
             it('should throw if email is invalid string', () => {
                 expect(() =>
                     createUser({ id: 1, email: '', password: '1234567890' })
-                ).toThrow('Invalid email for user');
+                ).toThrow(
+                    'Core -> User: Email has to be a string in the form "name@domain.tld"'
+                );
                 expect(() =>
                     createUser({ id: 1, email: 'test', password: '1234567890' })
-                ).toThrow('Invalid email for user');
+                ).toThrow(
+                    'Core -> User: Email has to be a string in the form "name@domain.tld"'
+                );
             });
 
             it('should throw if email is null or undefined', () => {
@@ -53,10 +57,14 @@ describe('core', () => {
                         email: undefined,
                         password: '1234567890',
                     })
-                ).toThrow('Invalid email for user');
+                ).toThrow(
+                    'Core -> User: Email has to be a string in the form "name@domain.tld"'
+                );
                 expect(() =>
                     createUser({ id: 1, email: null, password: '1234567890' })
-                ).toThrow('Invalid email for user');
+                ).toThrow(
+                    'Core -> User: Email has to be a string in the form "name@domain.tld"'
+                );
             });
 
             it('should throw if password is null or undefined', () => {
@@ -67,7 +75,7 @@ describe('core', () => {
                         password: undefined,
                     })
                 ).toThrow(
-                    'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
+                    'Core -> User: Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
                 );
                 expect(() =>
                     createUser({
@@ -76,7 +84,7 @@ describe('core', () => {
                         password: null,
                     })
                 ).toThrow(
-                    'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
+                    'Core -> User: Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
                 );
             });
 
@@ -88,7 +96,7 @@ describe('core', () => {
                         password: createStringOfLength(7),
                     })
                 ).toThrow(
-                    'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
+                    'Core -> User: Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
                 );
             });
 
@@ -100,7 +108,7 @@ describe('core', () => {
                         password: createStringOfLength(51),
                     })
                 ).toThrow(
-                    'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
+                    'Core -> User: Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
                 );
             });
 
@@ -112,7 +120,7 @@ describe('core', () => {
                         password: '1234567890' + String.fromCharCode(960),
                     })
                 ).toThrow(
-                    'Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
+                    'Core -> User: Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
                 );
             });
 
@@ -142,7 +150,7 @@ describe('core', () => {
                         listIds: null,
                     })
                 ).toThrow(
-                    'A user has to have list of unique positive list ids'
+                    'Core -> User: List ids has to be a list of unique positive numbers'
                 );
             });
 
@@ -155,7 +163,7 @@ describe('core', () => {
                         listIds: [1, 1],
                     })
                 ).toThrow(
-                    'A user has to have list of unique positive list ids'
+                    'Core -> User: List ids has to be a list of unique positive numbers'
                 );
             });
 
@@ -168,7 +176,7 @@ describe('core', () => {
                         listIds: [1, -1],
                     })
                 ).toThrow(
-                    'A user has to have list of unique positive list ids'
+                    'Core -> User: List ids has to be a list of unique positive numbers'
                 );
             });
 

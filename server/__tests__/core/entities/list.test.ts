@@ -11,7 +11,7 @@ describe('core', () => {
                         title: 'some title',
                         authorId: 1,
                     })
-                ).toThrow('List id has to be a positive number');
+                ).toThrow('Core -> List: Id has to be a positive number');
 
                 expect(() =>
                     createList({
@@ -19,7 +19,7 @@ describe('core', () => {
                         title: 'some title',
                         authorId: 1,
                     })
-                ).toThrow('List id has to be a positive number');
+                ).toThrow('Core -> List: Id has to be a positive number');
             });
 
             it('should throw when id is not positive', () => {
@@ -29,7 +29,7 @@ describe('core', () => {
                         title: 'some title',
                         authorId: 1,
                     })
-                ).toThrow('List id has to be a positive number');
+                ).toThrow('Core -> List: Id has to be a positive number');
             });
 
             it('should throw when title is null or undefined', () => {
@@ -39,7 +39,7 @@ describe('core', () => {
                         title: null,
                         authorId: 1,
                     })
-                ).toThrow('List title has to be non empty string');
+                ).toThrow('Core -> List: Title has to be non empty string');
             });
 
             it('should throw when title is empty string', () => {
@@ -49,7 +49,7 @@ describe('core', () => {
                         title: '',
                         authorId: 1,
                     })
-                ).toThrow('List title has to be non empty string');
+                ).toThrow('Core -> List: Title has to be non empty string');
             });
 
             it('should throw if author id is null or undefined', () => {
@@ -59,7 +59,9 @@ describe('core', () => {
                         title: 'Title',
                         authorId: undefined,
                     })
-                ).toThrow('A list has to have a positive author id');
+                ).toThrow(
+                    'Core -> List: Author id has to be a positive number'
+                );
 
                 expect(() =>
                     createList({
@@ -67,7 +69,9 @@ describe('core', () => {
                         title: 'Title',
                         authorId: null,
                     })
-                ).toThrow('A list has to have a positive author id');
+                ).toThrow(
+                    'Core -> List: Author id has to be a positive number'
+                );
             });
 
             it('should throw when author id is not positive number', () => {
@@ -77,7 +81,9 @@ describe('core', () => {
                         title: 'Title',
                         authorId: -1,
                     })
-                ).toThrow('A list has to have a positive author id');
+                ).toThrow(
+                    'Core -> List: Author id has to be a positive number'
+                );
             });
 
             it('should return list object with provided id, title and authorId', () => {
