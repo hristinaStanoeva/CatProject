@@ -9,15 +9,7 @@ const createStringOfLength = pipe(
 describe('core', () => {
     describe('entities', () => {
         describe('createUser', () => {
-            it('should throw if id is null or undefined', () => {
-                expect(() =>
-                    createUser({
-                        id: undefined,
-                        email: 'test@mail.com',
-                        password: '1234567890',
-                    })
-                ).toThrow('Core -> User: Id has to be a positive number');
-
+            it('should throw if id is null', () => {
                 expect(() =>
                     createUser({
                         id: null,
@@ -50,16 +42,7 @@ describe('core', () => {
                 );
             });
 
-            it('should throw if email is null or undefined', () => {
-                expect(() =>
-                    createUser({
-                        id: 1,
-                        email: undefined,
-                        password: '1234567890',
-                    })
-                ).toThrow(
-                    'Core -> User: Email has to be a string in the form "name@domain.tld"'
-                );
+            it('should throw if email is null', () => {
                 expect(() =>
                     createUser({ id: 1, email: null, password: '1234567890' })
                 ).toThrow(
@@ -67,16 +50,7 @@ describe('core', () => {
                 );
             });
 
-            it('should throw if password is null or undefined', () => {
-                expect(() =>
-                    createUser({
-                        id: 1,
-                        email: 'test@mail.com',
-                        password: undefined,
-                    })
-                ).toThrow(
-                    'Core -> User: Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
-                );
+            it('should throw if password is null', () => {
                 expect(() =>
                     createUser({
                         id: 1,
@@ -141,7 +115,7 @@ describe('core', () => {
                 });
             });
 
-            it('should throw when listIds is null or undefined', () => {
+            it('should throw when listIds is null', () => {
                 expect(() =>
                     createUser({
                         id: 1,
