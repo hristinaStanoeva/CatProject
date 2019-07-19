@@ -27,7 +27,7 @@ export const createUser = ({
     password = '',
     imageUrl = null,
     listIds = [],
-    listItems = [],
+    listItemIds = [],
 }: User): User => {
     // think about either monad instead of throwing exceptions
     if (idIsInvalid(id)) {
@@ -47,7 +47,7 @@ export const createUser = ({
         throw new Error('A user has to have list of unique positive list ids');
     }
 
-    return { id, email, password, imageUrl, listIds, listItems };
+    return { id, email, password, imageUrl, listIds, listItemIds };
 };
 
 export interface User {
@@ -56,5 +56,5 @@ export interface User {
     password: string;
     imageUrl?: string;
     listIds?: Array<List['id']>;
-    listItems?: any[];
+    listItemIds?: any[];
 }

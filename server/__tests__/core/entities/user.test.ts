@@ -129,7 +129,7 @@ describe('core', () => {
                     password: '1234567890',
                     imageUrl: null,
                     listIds: [],
-                    listItems: [],
+                    listItemIds: [],
                 });
             });
 
@@ -186,7 +186,7 @@ describe('core', () => {
                     password: '1234567890',
                     imageUrl: null,
                     listIds: [1],
-                    listItems: [],
+                    listItemIds: [],
                 });
             });
 
@@ -204,7 +204,7 @@ describe('core', () => {
                     password: '1234567890',
                     imageUrl: null,
                     listIds: [1, 2, 3],
-                    listItems: [],
+                    listItemIds: [],
                 });
             });
 
