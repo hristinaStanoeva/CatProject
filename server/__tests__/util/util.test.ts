@@ -4,6 +4,7 @@ import {
     isString,
     hasValue,
     hasNoValue,
+    isEmptyString,
     anyHasNoValue,
     arrayHasOnlyUniques,
     arrayHasDuplicates,
@@ -138,6 +139,21 @@ describe('utils', () => {
                     { email: 'test@mail.com' },
                 ])
             ).toBe(false);
+        });
+    });
+
+    describe('isEmptyString', () => {
+        it('should return false if string is not empty', () => {
+            expect(isEmptyString('some string')).toBe(false);
+        });
+
+        it('should return true if string is empty', () => {
+            expect(isEmptyString('')).toBe(true);
+        });
+
+        it('should return true if input is null or undefined', () => {
+            expect(isEmptyString(null)).toBe(true);
+            expect(isEmptyString(undefined)).toBe(true);
         });
     });
 

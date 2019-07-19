@@ -34,7 +34,11 @@ export const createBadRequestError = createErrorObject(400);
 export const isString = is(String);
 export const hasNoValue = either(isEmpty, isNil);
 export const hasValue = complement(hasNoValue);
-export const anyHasNoValue = (values: any[]) => any(hasNoValue, values);
+export const anyHasNoValue = any(hasNoValue);
+export const isEmptyString: (value: string) => boolean = either(
+    hasNoValue,
+    complement(isString)
+);
 
 const getUniquesLength = pipe(
     uniq,
