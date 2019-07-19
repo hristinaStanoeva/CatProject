@@ -31,20 +31,6 @@ describe('core', () => {
                 ).toThrow('Invalid email for user');
             });
 
-            it('should return object with provided valid email', () => {
-                expect(
-                    createUser({
-                        id: 1,
-                        email: 'test@mail.com',
-                        password: '1234567890',
-                    })
-                ).toEqual(
-                    expect.objectContaining({
-                        email: 'test@mail.com',
-                    })
-                );
-            });
-
             it('should throw if password is null or undefined', () => {
                 expect(() =>
                     createUser({
