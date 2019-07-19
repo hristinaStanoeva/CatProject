@@ -44,7 +44,17 @@ describe('core', () => {
                 ).toThrow('Core -> List: Title has to be non empty string');
             });
 
-            it('should throw if author id is null', () => {
+            it('should throw if author id is null or undefined', () => {
+                expect(() =>
+                    createList({
+                        id: 1,
+                        title: 'Title',
+                        authorId: undefined,
+                    })
+                ).toThrow(
+                    'Core -> List: Author id has to be a positive number'
+                );
+
                 expect(() =>
                     createList({
                         id: 1,

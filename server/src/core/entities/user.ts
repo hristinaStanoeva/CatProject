@@ -23,8 +23,8 @@ const listIdsAreInvalid = anyPass([
 // A user maybe needs reference to their lists and list items using ids - this guarantees that a list can exist only in one place and not duplicated.
 export const createUser = ({
     id,
-    email = '',
-    password = '',
+    email,
+    password,
     imageUrl = null,
     listIds = [],
     listItemIds = [],

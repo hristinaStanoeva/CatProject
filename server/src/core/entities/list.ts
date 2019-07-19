@@ -8,8 +8,8 @@ const idIsInvalid = anyPass([hasNoValue, lte(__, 0)]);
 
 export const createList = ({
     id,
-    title = '',
-    authorId = null,
+    title,
+    authorId,
     itemIds = [],
 }: List): List => {
     if (idIsInvalid(id)) {
