@@ -39,6 +39,7 @@ const getUniquesLength = pipe(
     length
 );
 export const arrayHasOnlyUniques = converge(equals, [getUniquesLength, length]);
+export const arrayHasDuplicates = complement(arrayHasOnlyUniques);
 
 export const isLengthBetween = (limit1: number, limit2: number) =>
     pipe(

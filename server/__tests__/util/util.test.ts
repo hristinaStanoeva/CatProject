@@ -6,6 +6,7 @@ import {
     hasNoValue,
     anyHasNoValue,
     arrayHasOnlyUniques,
+    arrayHasDuplicates,
 } from '../../src/util/common';
 
 import { isEmailValid, isEmailInvalid } from '../../src/util/middleware.utils';
@@ -161,6 +162,32 @@ describe('utils', () => {
 
         it('should return true if array has no duplicate boolean values', () => {
             expect(arrayHasOnlyUniques([true, false])).toBe(true);
+        });
+    });
+
+    describe('arrayHasDuplicates', () => {
+        it('should return true if array has duplicate number values', () => {
+            expect(arrayHasDuplicates([1, 1, 2, 3])).toBe(true);
+        });
+
+        it('should return false if array has no duplicate number values', () => {
+            expect(arrayHasDuplicates([1, 2, 3])).toBe(false);
+        });
+
+        it('should return true if array has duplicate string values', () => {
+            expect(arrayHasDuplicates(['a', 'a', 'b', 'c'])).toBe(true);
+        });
+
+        it('should return false if array has no duplicate string values', () => {
+            expect(arrayHasDuplicates(['a', 'b', 'c'])).toBe(false);
+        });
+
+        it('should return true if array has duplicate boolean values', () => {
+            expect(arrayHasDuplicates([true, true, false])).toBe(true);
+        });
+
+        it('should return false if array has no duplicate boolean values', () => {
+            expect(arrayHasDuplicates([true, false])).toBe(false);
         });
     });
 
