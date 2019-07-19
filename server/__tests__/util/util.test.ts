@@ -7,6 +7,8 @@ import {
     anyHasNoValue,
     arrayHasOnlyUniques,
     arrayHasDuplicates,
+    arrayHasOnlyPositiveValues,
+    arrayHasNonPositiveValues,
 } from '../../src/util/common';
 
 import { isEmailValid, isEmailInvalid } from '../../src/util/middleware.utils';
@@ -188,6 +190,33 @@ describe('utils', () => {
 
         it('should return false if array has no duplicate boolean values', () => {
             expect(arrayHasDuplicates([true, false])).toBe(false);
+        });
+    });
+
+    describe('arrayHasOnlyPositiveNumbers', () => {
+        it('should return false if array has negative numbers', () => {
+            expect(arrayHasOnlyPositiveValues([1, -2])).toBe(false);
+        });
+
+        it('should return true if array is empty', () => {
+            expect(arrayHasOnlyPositiveValues([])).toBe(true);
+        });
+
+        it('should return true if array contains only positive numbers', () => {
+            expect(arrayHasOnlyPositiveValues([1, 2, 3])).toBe(true);
+        });
+    });
+
+    describe('arrayHasNonPositiveValues', () => {
+        it('should return true if array contains negative value', () => {
+            expect(arrayHasNonPositiveValues([1, -2, 3])).toBe(true);
+        });
+
+        it('should return false if array is empty', () => {
+            expect(arrayHasNonPositiveValues([])).toBe(false);
+        });
+        it('should return false if array has only positive numbers', () => {
+            expect(arrayHasNonPositiveValues([1, 2, 3])).toBe(false);
         });
     });
 

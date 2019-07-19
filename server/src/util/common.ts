@@ -1,4 +1,5 @@
 import {
+    all,
     curry,
     isEmpty,
     isNil,
@@ -10,6 +11,7 @@ import {
     pipe,
     length,
     both,
+    gt,
     gte,
     lte,
     equals,
@@ -40,6 +42,9 @@ const getUniquesLength = pipe(
 );
 export const arrayHasOnlyUniques = converge(equals, [getUniquesLength, length]);
 export const arrayHasDuplicates = complement(arrayHasOnlyUniques);
+
+export const arrayHasOnlyPositiveValues = all(gt(__, 0));
+export const arrayHasNonPositiveValues = complement(arrayHasOnlyPositiveValues);
 
 export const isLengthBetween = (limit1: number, limit2: number) =>
     pipe(
