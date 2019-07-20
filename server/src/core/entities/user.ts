@@ -1,17 +1,12 @@
-import { isNil, anyPass, __ } from 'ramda';
+import { isNil, any, anyPass, __ } from 'ramda';
 import { List } from './list';
 import { isEmailInvalid, isPasswordInvalid } from '../../util/middleware.utils';
-import {
-    isIdInvalid,
-    hasDuplicateElements,
-    hasNonPositiveElements,
-} from '../../util/common';
+import { isIdInvalid, hasDuplicateElements } from '../../util/common';
 
-// think about reusing isIdInvalid
 const listIdsAreInvalid = anyPass([
     isNil,
     hasDuplicateElements,
-    hasNonPositiveElements,
+    any(isIdInvalid),
 ]);
 
 // A user can be created without list and list items
