@@ -9,10 +9,10 @@ import {
     isIdInvalid,
     isIdValid,
     anyHasNoValue,
-    arrayHasOnlyUniques,
-    arrayHasDuplicates,
-    arrayHasOnlyPositiveValues,
-    arrayHasNonPositiveValues,
+    hasOnlyUniqueElements,
+    hasDuplicateElements,
+    hasOnlyPositiveElements,
+    hasNonPositiveElements,
 } from '../../src/util/common';
 
 import { isEmailValid, isEmailInvalid } from '../../src/util/middleware.utils';
@@ -269,82 +269,82 @@ describe('utils', () => {
         });
     });
 
-    describe('arrayHasOnlyUniques', () => {
+    describe('hasOnlyUniqueElements', () => {
         it('should return false if array has duplicate number values', () => {
-            expect(arrayHasOnlyUniques([1, 1, 2, 3])).toBe(false);
+            expect(hasOnlyUniqueElements([1, 1, 2, 3])).toBe(false);
         });
 
         it('should return true if array has no duplicate number values', () => {
-            expect(arrayHasOnlyUniques([1, 2, 3])).toBe(true);
+            expect(hasOnlyUniqueElements([1, 2, 3])).toBe(true);
         });
 
         it('should return false if array has duplicate string values', () => {
-            expect(arrayHasOnlyUniques(['a', 'a', 'b', 'c'])).toBe(false);
+            expect(hasOnlyUniqueElements(['a', 'a', 'b', 'c'])).toBe(false);
         });
 
         it('should return true if array has no duplicate string values', () => {
-            expect(arrayHasOnlyUniques(['a', 'b', 'c'])).toBe(true);
+            expect(hasOnlyUniqueElements(['a', 'b', 'c'])).toBe(true);
         });
 
         it('should return false if array has duplicate boolean values', () => {
-            expect(arrayHasOnlyUniques([true, true, false])).toBe(false);
+            expect(hasOnlyUniqueElements([true, true, false])).toBe(false);
         });
 
         it('should return true if array has no duplicate boolean values', () => {
-            expect(arrayHasOnlyUniques([true, false])).toBe(true);
+            expect(hasOnlyUniqueElements([true, false])).toBe(true);
         });
     });
 
-    describe('arrayHasDuplicates', () => {
+    describe('hasDuplicateElements', () => {
         it('should return true if array has duplicate number values', () => {
-            expect(arrayHasDuplicates([1, 1, 2, 3])).toBe(true);
+            expect(hasDuplicateElements([1, 1, 2, 3])).toBe(true);
         });
 
         it('should return false if array has no duplicate number values', () => {
-            expect(arrayHasDuplicates([1, 2, 3])).toBe(false);
+            expect(hasDuplicateElements([1, 2, 3])).toBe(false);
         });
 
         it('should return true if array has duplicate string values', () => {
-            expect(arrayHasDuplicates(['a', 'a', 'b', 'c'])).toBe(true);
+            expect(hasDuplicateElements(['a', 'a', 'b', 'c'])).toBe(true);
         });
 
         it('should return false if array has no duplicate string values', () => {
-            expect(arrayHasDuplicates(['a', 'b', 'c'])).toBe(false);
+            expect(hasDuplicateElements(['a', 'b', 'c'])).toBe(false);
         });
 
         it('should return true if array has duplicate boolean values', () => {
-            expect(arrayHasDuplicates([true, true, false])).toBe(true);
+            expect(hasDuplicateElements([true, true, false])).toBe(true);
         });
 
         it('should return false if array has no duplicate boolean values', () => {
-            expect(arrayHasDuplicates([true, false])).toBe(false);
+            expect(hasDuplicateElements([true, false])).toBe(false);
         });
     });
 
-    describe('arrayHasOnlyPositiveNumbers', () => {
+    describe('hasOnlyPositiveElements', () => {
         it('should return false if array has negative numbers', () => {
-            expect(arrayHasOnlyPositiveValues([1, -2])).toBe(false);
+            expect(hasOnlyPositiveElements([1, -2])).toBe(false);
         });
 
         it('should return true if array is empty', () => {
-            expect(arrayHasOnlyPositiveValues([])).toBe(true);
+            expect(hasOnlyPositiveElements([])).toBe(true);
         });
 
         it('should return true if array contains only positive numbers', () => {
-            expect(arrayHasOnlyPositiveValues([1, 2, 3])).toBe(true);
+            expect(hasOnlyPositiveElements([1, 2, 3])).toBe(true);
         });
     });
 
-    describe('arrayHasNonPositiveValues', () => {
+    describe('hasNonPositiveElements', () => {
         it('should return true if array contains negative value', () => {
-            expect(arrayHasNonPositiveValues([1, -2, 3])).toBe(true);
+            expect(hasNonPositiveElements([1, -2, 3])).toBe(true);
         });
 
         it('should return false if array is empty', () => {
-            expect(arrayHasNonPositiveValues([])).toBe(false);
+            expect(hasNonPositiveElements([])).toBe(false);
         });
         it('should return false if array has only positive numbers', () => {
-            expect(arrayHasNonPositiveValues([1, 2, 3])).toBe(false);
+            expect(hasNonPositiveElements([1, 2, 3])).toBe(false);
         });
     });
 

@@ -22,7 +22,7 @@ import {
     uniq,
 } from 'ramda';
 
-import { HttpError } from '../models';
+import { HttpError, Primitive } from '../models';
 
 const createErrorObject = curry(
     (code: number, message: string): HttpError => ({
@@ -37,7 +37,7 @@ export const hasNoValue = either(isEmpty, isNil);
 export const hasValue = complement(hasNoValue);
 export const isNumber = both(is(Number), complement(Number.isNaN));
 export const anyHasNoValue = any(hasNoValue);
-export const isEmptyString: (value: string) => boolean = either(
+export const isEmptyString: (x: string) => boolean = either(
     hasNoValue,
     complement(isString)
 );
@@ -53,11 +53,16 @@ const getUniquesLength = pipe(
     uniq,
     length
 );
-export const arrayHasOnlyUniques = converge(equals, [getUniquesLength, length]);
-export const arrayHasDuplicates = complement(arrayHasOnlyUniques);
+export const hasOnlyUniqueElements: (xs: Primitive[]) => boolean = converge(
+    equals,
+    [getUniquesLength, length]
+);
+export const hasDuplicateElements: (xs: Primitive[]) => boolean = complement(
+    hasOnlyUniqueElements
+);
 
-export const arrayHasOnlyPositiveValues = all(gt(__, 0));
-export const arrayHasNonPositiveValues = complement(arrayHasOnlyPositiveValues);
+export const hasOnlyPositiveElements = all(gt(__, 0));
+export const hasNonPositiveElements = complement(hasOnlyPositiveElements);
 
 export const isLengthBetween = (limit1: number, limit2: number) =>
     pipe(

@@ -3,15 +3,15 @@ import { List } from './list';
 import { isEmailInvalid, isPasswordInvalid } from '../../util/middleware.utils';
 import {
     isIdInvalid,
-    arrayHasDuplicates,
-    arrayHasNonPositiveValues,
+    hasDuplicateElements,
+    hasNonPositiveElements,
 } from '../../util/common';
 
 // think about reusing isIdInvalid
 const listIdsAreInvalid = anyPass([
     isNil,
-    arrayHasDuplicates,
-    arrayHasNonPositiveValues,
+    hasDuplicateElements,
+    hasNonPositiveElements,
 ]);
 
 // A user can be created without list and list items
