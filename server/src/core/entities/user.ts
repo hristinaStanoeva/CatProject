@@ -1,5 +1,8 @@
 import { isNil, any, anyPass, __ } from 'ramda';
+
 import { List } from './list';
+import { ListItem } from './list-item';
+
 import { isEmailInvalid, isPasswordInvalid } from '../../util/middleware.utils';
 import { isIdInvalid, hasDuplicateElements } from '../../util/common';
 
@@ -44,6 +47,8 @@ export const createUser = ({
         );
     }
 
+    // Add checks for list item ids
+
     return { id, email, password, imageUrl, listIds, listItemIds };
 };
 
@@ -53,5 +58,5 @@ export interface User {
     password: string;
     imageUrl?: string;
     listIds?: Array<List['id']>;
-    listItemIds?: any[];
+    listItemIds?: Array<ListItem['id']>;
 }

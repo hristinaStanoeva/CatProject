@@ -1,4 +1,5 @@
 import { User } from './user';
+import { ListItem } from './list-item';
 
 import { isEmptyString, isIdInvalid } from '../../util/common';
 
@@ -20,6 +21,8 @@ export const createList = ({
         throw new Error('Core -> List: Author id has to be a positive number');
     }
 
+    // Add checks for list item ids
+
     return { id, title, authorId, itemIds };
 };
 
@@ -27,5 +30,5 @@ export interface List {
     id: number;
     title: string;
     authorId: User['id'];
-    itemIds?: any[];
+    itemIds?: Array<ListItem['id']>;
 }
