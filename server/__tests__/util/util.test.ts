@@ -17,11 +17,11 @@ import { isEmailValid, isEmailInvalid } from '../../src/util/middleware.utils';
 
 describe('utils', () => {
     describe('isString', () => {
-        it('should return true if string is supplied', () => {
+        it('should return true when string is supplied', () => {
             expect(isString('some string')).toBe(true);
         });
 
-        it('should return true if empty string is supplied', () => {
+        it('should return true when empty string is supplied', () => {
             expect(isString('')).toBe(true);
         });
 
