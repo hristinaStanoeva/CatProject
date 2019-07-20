@@ -2,6 +2,7 @@ import { toString } from 'ramda';
 
 import {
     isString,
+    isNumber,
     hasValue,
     hasNoValue,
     isEmptyString,
@@ -29,6 +30,31 @@ describe('utils', () => {
         [undefined, null, {}, [], () => {}, 123].forEach(t => {
             it(`should return false when ${toString(t)} is provided`, () => {
                 expect(isString(t)).toBe(false);
+            });
+        });
+    });
+
+    describe('isNumber', () => {
+        it('should return true when positive number is provided', () => {
+            expect(isNumber(123)).toBe(true);
+        });
+
+        it('should return true when negative number is provided', () => {
+            expect(isNumber(-123)).toBe(true);
+        });
+
+        it('should return true when 0 is provided', () => {
+            expect(isNumber(0)).toBe(true);
+        });
+
+        it('should return false when NaN is provided', () => {
+            expect(isNumber(NaN)).toBe(false);
+        });
+
+        // tslint:disable-next-line:no-empty
+        [undefined, null, {}, [], () => {}, '123', ''].forEach(t => {
+            it(`should return false when ${toString(t)} is provided`, () => {
+                expect(isNumber(t)).toBe(false);
             });
         });
     });

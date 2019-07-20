@@ -33,9 +33,9 @@ const createErrorObject = curry(
 
 export const createBadRequestError = createErrorObject(400);
 export const isString = is(String);
-export const isNumber = is(Number);
 export const hasNoValue = either(isEmpty, isNil);
 export const hasValue = complement(hasNoValue);
+export const isNumber = both(is(Number), complement(Number.isNaN));
 export const anyHasNoValue = any(hasNoValue);
 export const isEmptyString: (value: string) => boolean = either(
     hasNoValue,
