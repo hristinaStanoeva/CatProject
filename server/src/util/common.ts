@@ -41,7 +41,8 @@ export const isEmptyString: (value: string) => boolean = either(
     hasNoValue,
     complement(isString)
 );
-export const idIsInvalid = anyPass([
+
+export const isIdInvalid = anyPass([
     complement(isNumber),
     hasNoValue,
     lte(__, 0),

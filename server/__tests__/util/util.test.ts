@@ -6,7 +6,7 @@ import {
     hasValue,
     hasNoValue,
     isEmptyString,
-    idIsInvalid,
+    isIdInvalid,
     anyHasNoValue,
     arrayHasOnlyUniques,
     arrayHasDuplicates,
@@ -187,45 +187,45 @@ describe('utils', () => {
     // TODO: Add tests for isNumber
     // TODO: Add idIsValid and test it!
 
-    describe('idIsInvalid', () => {
+    describe('isIdInvalid', () => {
         it('should return true if id is null or undefined', () => {
-            expect(idIsInvalid(null)).toBe(true);
-            expect(idIsInvalid(undefined)).toBe(true);
+            expect(isIdInvalid(null)).toBe(true);
+            expect(isIdInvalid(undefined)).toBe(true);
         });
 
         it('should return true if id is string', () => {
-            expect(idIsInvalid('some string')).toBe(true);
+            expect(isIdInvalid('some string')).toBe(true);
         });
 
         it('should return true if id is boolean', () => {
-            expect(idIsInvalid(true)).toBe(true);
-            expect(idIsInvalid(false)).toBe(true);
+            expect(isIdInvalid(true)).toBe(true);
+            expect(isIdInvalid(false)).toBe(true);
         });
 
         it('should return true if id is array', () => {
-            expect(idIsInvalid([])).toBe(true);
-            expect(idIsInvalid([1, 2])).toBe(true);
+            expect(isIdInvalid([])).toBe(true);
+            expect(isIdInvalid([1, 2])).toBe(true);
         });
 
         it('should return true if id is an object', () => {
-            expect(idIsInvalid({})).toBe(true);
+            expect(isIdInvalid({})).toBe(true);
             expect(
-                idIsInvalid({
+                isIdInvalid({
                     foo: 'bar',
                 })
             ).toBe(true);
         });
 
         it('should return true if id is 0', () => {
-            expect(idIsInvalid(0)).toBe(true);
+            expect(isIdInvalid(0)).toBe(true);
         });
 
         it('should return true if id is negative number', () => {
-            expect(idIsInvalid(-2)).toBe(true);
+            expect(isIdInvalid(-2)).toBe(true);
         });
 
         it('should return false if id is positive number', () => {
-            expect(idIsInvalid(1)).toBe(false);
+            expect(isIdInvalid(1)).toBe(false);
         });
     });
 

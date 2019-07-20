@@ -2,12 +2,12 @@ import { isNil, anyPass, __ } from 'ramda';
 import { List } from './list';
 import { isEmailInvalid, isPasswordInvalid } from '../../util/middleware.utils';
 import {
-    idIsInvalid,
+    isIdInvalid,
     arrayHasDuplicates,
     arrayHasNonPositiveValues,
 } from '../../util/common';
 
-// think if this should be put somewhere else
+// think about reusing isIdInvalid
 const listIdsAreInvalid = anyPass([
     isNil,
     arrayHasDuplicates,
@@ -18,8 +18,7 @@ const listIdsAreInvalid = anyPass([
 // A list cannot be created without author, but can be created without list items
 // A list item cannot be created without list and author
 //
-// A user maybe does not need validation for lists input(Clean architecture acyclic dependency principle)
-// A user maybe needs reference to their lists and list items using ids - this guarantees that a list can exist only in one place and not duplicated.
+// Ids are not used in the context of db entities, but as a "component" for expressing dependencies between entities - this creates acyclic dependencies
 export const createUser = ({
     id,
     email,
@@ -29,7 +28,7 @@ export const createUser = ({
     listItemIds = [],
 }: User): User => {
     // think about either monad instead of throwing exceptions
-    if (idIsInvalid(id)) {
+    if (isIdInvalid(id)) {
         throw new Error('Core -> User: Id has to be a positive number');
     }
     if (isEmailInvalid(email)) {

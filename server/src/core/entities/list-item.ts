@@ -1,6 +1,6 @@
 import { List } from './list';
 import { User } from './user';
-import { hasNoValue, isEmptyString, idIsInvalid } from '../../util/common';
+import { hasNoValue, isEmptyString, isIdInvalid } from '../../util/common';
 
 export const createListItem = ({
     id,
@@ -9,7 +9,7 @@ export const createListItem = ({
     listId,
     authorId,
 }: ListItem): ListItem => {
-    if (idIsInvalid(id)) {
+    if (isIdInvalid(id)) {
         throw new Error('Core -> List item: Id has to be a positive number');
     }
 
@@ -23,13 +23,13 @@ export const createListItem = ({
         throw new Error('Core -> List item: Checked has to be true or false');
     }
 
-    if (idIsInvalid(listId)) {
+    if (isIdInvalid(listId)) {
         throw new Error(
             'Core -> List item: List id has to be a positive number'
         );
     }
 
-    if (idIsInvalid(authorId)) {
+    if (isIdInvalid(authorId)) {
         throw new Error(
             'Core -> List item: Author id has to be a positive number'
         );
