@@ -47,6 +47,7 @@ export const isIdInvalid = anyPass([
     hasNoValue,
     lte(__, 0),
 ]);
+export const isIdValid = complement(isIdInvalid);
 
 const getUniquesLength = pipe(
     uniq,

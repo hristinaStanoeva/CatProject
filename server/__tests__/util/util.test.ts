@@ -7,6 +7,7 @@ import {
     hasNoValue,
     isEmptyString,
     isIdInvalid,
+    isIdValid,
     anyHasNoValue,
     arrayHasOnlyUniques,
     arrayHasDuplicates,
@@ -184,8 +185,47 @@ describe('utils', () => {
         });
     });
 
-    // TODO: Add tests for isNumber
-    // TODO: Add idIsValid and test it!
+    describe('isIdValid', () => {
+        it('should return false if id is null or undefined', () => {
+            expect(isIdValid(null)).toBe(false);
+            expect(isIdValid(undefined)).toBe(false);
+        });
+
+        it('should return false if id is string', () => {
+            expect(isIdValid('some string')).toBe(false);
+        });
+
+        it('should return false if id is boolean', () => {
+            expect(isIdValid(true)).toBe(false);
+            expect(isIdValid(false)).toBe(false);
+        });
+
+        it('should return false if id is array', () => {
+            expect(isIdValid([])).toBe(false);
+            expect(isIdValid([1, 2])).toBe(false);
+        });
+
+        it('should return false if id is an object', () => {
+            expect(isIdValid({})).toBe(false);
+            expect(
+                isIdValid({
+                    foo: 'bar',
+                })
+            ).toBe(false);
+        });
+
+        it('should return false if id is 0', () => {
+            expect(isIdValid(0)).toBe(false);
+        });
+
+        it('should return false if id is negative number', () => {
+            expect(isIdValid(-2)).toBe(false);
+        });
+
+        it('should return true if id is positive number', () => {
+            expect(isIdValid(1)).toBe(true);
+        });
+    });
 
     describe('isIdInvalid', () => {
         it('should return true if id is null or undefined', () => {
