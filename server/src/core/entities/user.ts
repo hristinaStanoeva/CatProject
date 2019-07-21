@@ -1,16 +1,18 @@
-import { isNil, any, anyPass, __ } from 'ramda';
+import { isNil, any, anyPass, __, both, unary, complement } from 'ramda';
+import { isURL } from 'validator';
 
 import { List } from './list';
 import { ListItem } from './list-item';
 
 import { isEmailInvalid, isPasswordInvalid } from '../../util/middleware.utils';
-import { isIdInvalid, hasDuplicateElements } from '../../util/common';
+import { isIdInvalid, hasValue, hasDuplicateElements } from '../../util/common';
 
 const listIdsAreInvalid = anyPass([
     isNil,
     hasDuplicateElements,
     any(isIdInvalid),
 ]);
+const isUrlValid = both(hasValue, complement(unary(isURL)));
 
 // A user can be created without list and list items
 // A list cannot be created without author, but can be created without list items
@@ -29,6 +31,7 @@ export const createUser = ({
     if (isIdInvalid(id)) {
         throw new Error('Core -> User: Id has to be a positive number');
     }
+
     if (isEmailInvalid(email)) {
         throw new Error(
             'Core -> User: Email has to be a string in the form "name@domain.tld"'
@@ -41,7 +44,11 @@ export const createUser = ({
         );
     }
 
-    // Add check for image url
+    if (isUrlValid(imageUrl)) {
+        throw new Error(
+            'Core -> User: Image url has to be a string containing valid url'
+        );
+    }
 
     if (listIdsAreInvalid(listIds)) {
         throw new Error(

@@ -108,6 +108,45 @@ describe('core', () => {
                 );
             });
 
+            it('should not throw when image url is null', () => {
+                expect(() =>
+                    createUser({
+                        id: 1,
+                        email: 'mail@test.com',
+                        password: '1234567890',
+                        imageUrl: null,
+                        listIds: [1],
+                        listItemIds: [1],
+                    })
+                ).not.toThrow();
+            });
+
+            it('should not throw if image url is a valid url', () => {
+                expect(() =>
+                    createUser({
+                        id: 1,
+                        email: 'mail@test.com',
+                        password: '1234567890',
+                        imageUrl: 'http://www.google.com',
+                        listIds: [1],
+                        listItemIds: [1],
+                    })
+                ).not.toThrow();
+            });
+
+            it('should throw if image url is not a valid url', () => {
+                expect(() =>
+                    createUser({
+                        id: 1,
+                        email: 'mail@test.com',
+                        password: '1234567890',
+                        imageUrl: 'invalid url',
+                        listIds: [1],
+                        listItemIds: [1],
+                    })
+                ).toThrow('Core -> User: Image url has to be a string containing valid url');
+            });
+
             it('should throw when list Ids is null', () => {
                 expect(() =>
                     createUser({
