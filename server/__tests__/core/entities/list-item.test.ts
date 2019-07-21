@@ -24,7 +24,19 @@ describe('core', () => {
                 ).toThrow('Core -> List item: Id has to be a positive number');
             });
 
-            it('should throw if id is not positive number', () => {
+            it('should throw if id is 0', () => {
+                expect(() =>
+                    createListItem({
+                        id: 0,
+                        content: 'Content',
+                        checked: false,
+                        listId: 1,
+                        authorId: 1,
+                    })
+                ).toThrow('Core -> List item: Id has to be a positive number');
+            });
+
+            it('should throw if id is negative number', () => {
                 expect(() =>
                     createListItem({
                         id: -1,
@@ -112,7 +124,20 @@ describe('core', () => {
                 );
             });
 
-            it('should throw if list id is not positive number', () => {
+            it('should throw if list id is 0', () => {
+                expect(() =>
+                    createListItem({
+                        id: 1,
+                        content: 'Content',
+                        listId: 0,
+                        authorId: 1,
+                    })
+                ).toThrow(
+                    'Core -> List item: List id has to be a positive number'
+                );
+            });
+
+            it('should throw if list id is negative number', () => {
                 expect(() =>
                     createListItem({
                         id: 1,
@@ -149,7 +174,20 @@ describe('core', () => {
                 );
             });
 
-            it('should throw if author id is not positive number', () => {
+            it('should throw if author id is 0', () => {
+                expect(() =>
+                    createListItem({
+                        id: 1,
+                        content: 'Content',
+                        listId: 1,
+                        authorId: 0,
+                    })
+                ).toThrow(
+                    'Core -> List item: Author id has to be a positive number'
+                );
+            });
+
+            it('should throw if author id is negative number', () => {
                 expect(() =>
                     createListItem({
                         id: 1,

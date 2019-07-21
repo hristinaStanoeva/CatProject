@@ -19,7 +19,17 @@ describe('core', () => {
                 ).toThrow('Core -> User: Id has to be a positive number');
             });
 
-            it('should throw if id is not positive', () => {
+            it('should throw if id is 0', () => {
+                expect(() =>
+                    createUser({
+                        id: 0,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                    })
+                ).toThrow('Core -> User: Id has to be a positive number');
+            });
+
+            it('should throw if id is negative', () => {
                 expect(() =>
                     createUser({
                         id: -1,
@@ -124,7 +134,20 @@ describe('core', () => {
                 );
             });
 
-            it('should throw when list ids contains non-positive numbers', () => {
+            it('should throw when list ids contains 0', () => {
+                expect(() =>
+                    createUser({
+                        id: 1,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                        listIds: [1, 0],
+                    })
+                ).toThrow(
+                    'Core -> User: List ids has to be a list of unique positive numbers'
+                );
+            });
+
+            it('should throw when list ids contains negative numbers', () => {
                 expect(() =>
                     createUser({
                         id: 1,
@@ -165,7 +188,21 @@ describe('core', () => {
                 );
             });
 
-            it('should throw when list item ids contains non-positive numbers', () => {
+            it('should throw when list item ids contains 0', () => {
+                expect(() =>
+                    createUser({
+                        id: 1,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                        listIds: [1],
+                        listItemIds: [1, 0],
+                    })
+                ).toThrow(
+                    'Core -> User: List item ids has to be a list of unique positive numbers'
+                );
+            });
+
+            it('should throw when list item ids contains negative numbers', () => {
                 expect(() =>
                     createUser({
                         id: 1,

@@ -14,7 +14,17 @@ describe('core', () => {
                 ).toThrow('Core -> List: Id has to be a positive number');
             });
 
-            it('should throw when id is not positive', () => {
+            it('should throw when id is 0', () => {
+                expect(() =>
+                    createList({
+                        id: 0,
+                        title: 'some title',
+                        authorId: 1,
+                    })
+                ).toThrow('Core -> List: Id has to be a positive number');
+            });
+
+            it('should throw when id is negative', () => {
                 expect(() =>
                     createList({
                         id: -1,
@@ -66,7 +76,19 @@ describe('core', () => {
                 );
             });
 
-            it('should throw when author id is not positive number', () => {
+            it('should throw when author id is 0', () => {
+                expect(() =>
+                    createList({
+                        id: 1,
+                        title: 'Title',
+                        authorId: 0,
+                    })
+                ).toThrow(
+                    'Core -> List: Author id has to be a positive number'
+                );
+            });
+
+            it('should throw when author id is negative number', () => {
                 expect(() =>
                     createList({
                         id: 1,
@@ -104,7 +126,20 @@ describe('core', () => {
                 );
             });
 
-            it('should throw when item ids contains non-positive numbers', () => {
+            it('should throw when item ids contains 0', () => {
+                expect(() =>
+                    createList({
+                        id: 1,
+                        title: 'Title',
+                        authorId: 1,
+                        itemIds: [1, 0],
+                    })
+                ).toThrow(
+                    'Core -> List: Item ids has to be a list of unique positive numbers'
+                );
+            });
+
+            it('should throw when item ids contains negative numbers', () => {
                 expect(() =>
                     createList({
                         id: 1,
