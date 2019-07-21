@@ -1,7 +1,19 @@
+import { isNil, any, anyPass, __ } from 'ramda';
+
 import { User } from './user';
 import { ListItem } from './list-item';
 
-import { isEmptyString, isIdInvalid } from '../../util/common';
+import {
+    isEmptyString,
+    isIdInvalid,
+    hasDuplicateElements,
+} from '../../util/common';
+
+const listIdsAreInvalid = anyPass([
+    isNil,
+    hasDuplicateElements,
+    any(isIdInvalid),
+]);
 
 export const createList = ({
     id,
@@ -21,7 +33,11 @@ export const createList = ({
         throw new Error('Core -> List: Author id has to be a positive number');
     }
 
-    // Add checks for list item ids
+    if (listIdsAreInvalid(itemIds)) {
+        throw new Error(
+            'Core -> List: Item ids has to be a list of unique positive numbers'
+        );
+    }
 
     return { id, title, authorId, itemIds };
 };

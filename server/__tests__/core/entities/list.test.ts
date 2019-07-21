@@ -78,7 +78,46 @@ describe('core', () => {
                 );
             });
 
-            it('should return list object with provided id, title and authorId', () => {
+            it('should throw when item ids is null', () => {
+                expect(() =>
+                    createList({
+                        id: 1,
+                        title: 'Title',
+                        authorId: 1,
+                        itemIds: null,
+                    })
+                ).toThrow(
+                    'Core -> List: Item ids has to be a list of unique positive numbers'
+                );
+            });
+
+            it('should throw when duplicated item ids are provided', () => {
+                expect(() =>
+                    createList({
+                        id: 1,
+                        title: 'Title',
+                        authorId: 1,
+                        itemIds: [1, 1],
+                    })
+                ).toThrow(
+                    'Core -> List: Item ids has to be a list of unique positive numbers'
+                );
+            });
+
+            it('should throw when item ids contains non-positive numbers', () => {
+                expect(() =>
+                    createList({
+                        id: 1,
+                        title: 'Title',
+                        authorId: 1,
+                        itemIds: [1, -1],
+                    })
+                ).toThrow(
+                    'Core -> List: Item ids has to be a list of unique positive numbers'
+                );
+            });
+
+            it('should return list object with provided id, title and authorId and all other fields are defaults', () => {
                 expect(
                     createList({
                         id: 1,
@@ -90,6 +129,38 @@ describe('core', () => {
                     title: 'Title',
                     authorId: 1,
                     itemIds: [],
+                });
+            });
+
+            it('should return list object with provided id, title, authorId and single item id', () => {
+                expect(
+                    createList({
+                        id: 1,
+                        title: 'Title',
+                        authorId: 1,
+                        itemIds: [1],
+                    })
+                ).toEqual({
+                    id: 1,
+                    title: 'Title',
+                    authorId: 1,
+                    itemIds: [1],
+                });
+            });
+
+            it('should return list object with provided id, title, authorId and multiple item ids', () => {
+                expect(
+                    createList({
+                        id: 1,
+                        title: 'Title',
+                        authorId: 1,
+                        itemIds: [1, 2],
+                    })
+                ).toEqual({
+                    id: 1,
+                    title: 'Title',
+                    authorId: 1,
+                    itemIds: [1, 2],
                 });
             });
         });
