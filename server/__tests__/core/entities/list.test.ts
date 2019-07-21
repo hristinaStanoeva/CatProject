@@ -41,7 +41,7 @@ describe('core', () => {
                         title: null,
                         authorId: 1,
                     })
-                ).toThrow('Core -> List: Title has to be non empty string');
+                ).toThrow('Core -> List: Title has to be non-empty string');
             });
 
             it('should throw when title is empty string', () => {
@@ -51,7 +51,7 @@ describe('core', () => {
                         title: '',
                         authorId: 1,
                     })
-                ).toThrow('Core -> List: Title has to be non empty string');
+                ).toThrow('Core -> List: Title has to be non-empty string');
             });
 
             it('should throw if author id is null or undefined', () => {

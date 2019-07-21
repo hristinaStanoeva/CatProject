@@ -15,7 +15,7 @@ export const createListItem = ({
 
     if (isEmptyString(content)) {
         throw new Error(
-            'Core -> List item: Content has to be a string with some value'
+            'Core -> List item: Content has to be a non-empty string'
         );
     }
 

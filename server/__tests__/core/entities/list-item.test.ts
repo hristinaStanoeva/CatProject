@@ -58,7 +58,7 @@ describe('core', () => {
                         authorId: 1,
                     })
                 ).toThrow(
-                    'Core -> List item: Content has to be a string with some value'
+                    'Core -> List item: Content has to be a non-empty string'
                 );
 
                 expect(() =>
@@ -70,7 +70,7 @@ describe('core', () => {
                         authorId: 1,
                     })
                 ).toThrow(
-                    'Core -> List item: Content has to be a string with some value'
+                    'Core -> List item: Content has to be a non-empty string'
                 );
             });
 
@@ -84,7 +84,7 @@ describe('core', () => {
                         authorId: 1,
                     })
                 ).toThrow(
-                    'Core -> List item: Content has to be a string with some value'
+                    'Core -> List item: Content has to be a non-empty string'
                 );
             });
 

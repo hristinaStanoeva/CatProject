@@ -26,7 +26,7 @@ export const createList = ({
     }
 
     if (isEmptyString(title)) {
-        throw new Error('Core -> List: Title has to be non empty string');
+        throw new Error('Core -> List: Title has to be non-empty string');
     }
 
     if (isIdInvalid(authorId)) {
