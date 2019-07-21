@@ -41,13 +41,19 @@ export const createUser = ({
         );
     }
 
+    // Add check for image url
+
     if (listIdsAreInvalid(listIds)) {
         throw new Error(
             'Core -> User: List ids has to be a list of unique positive numbers'
         );
     }
 
-    // Add checks for list item ids
+    if (listIdsAreInvalid(listItemIds)) {
+        throw new Error(
+            'Core -> User: List item ids has to be a list of unique positive numbers'
+        );
+    }
 
     return { id, email, password, imageUrl, listIds, listItemIds };
 };

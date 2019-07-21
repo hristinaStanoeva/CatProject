@@ -98,24 +98,7 @@ describe('core', () => {
                 );
             });
 
-            it('should return user object with email and password and all other fields are defaults', () => {
-                expect(
-                    createUser({
-                        id: 1,
-                        email: 'test@mail.com',
-                        password: '1234567890',
-                    })
-                ).toEqual({
-                    id: 1,
-                    email: 'test@mail.com',
-                    password: '1234567890',
-                    imageUrl: null,
-                    listIds: [],
-                    listItemIds: [],
-                });
-            });
-
-            it('should throw when listIds is null', () => {
+            it('should throw when list Ids is null', () => {
                 expect(() =>
                     createUser({
                         id: 1,
@@ -154,13 +137,73 @@ describe('core', () => {
                 );
             });
 
-            it('should return user object with provided id, email, password and single list id', () => {
+            it('should throw when list item ids is null', () => {
+                expect(() =>
+                    createUser({
+                        id: 1,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                        listIds: [1],
+                        listItemIds: null,
+                    })
+                ).toThrow(
+                    'Core -> User: List item ids has to be a list of unique positive numbers'
+                );
+            });
+
+            it('should throw when duplicated list item ids are provided', () => {
+                expect(() =>
+                    createUser({
+                        id: 1,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                        listIds: [1],
+                        listItemIds: [1, 1],
+                    })
+                ).toThrow(
+                    'Core -> User: List item ids has to be a list of unique positive numbers'
+                );
+            });
+
+            it('should throw when list item ids contains non-positive numbers', () => {
+                expect(() =>
+                    createUser({
+                        id: 1,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                        listIds: [1],
+                        listItemIds: [1, -1],
+                    })
+                ).toThrow(
+                    'Core -> User: List item ids has to be a list of unique positive numbers'
+                );
+            });
+
+            it('should return user object with email and password and all other fields are defaults', () => {
+                expect(
+                    createUser({
+                        id: 1,
+                        email: 'test@mail.com',
+                        password: '1234567890',
+                    })
+                ).toEqual({
+                    id: 1,
+                    email: 'test@mail.com',
+                    password: '1234567890',
+                    imageUrl: null,
+                    listIds: [],
+                    listItemIds: [],
+                });
+            });
+
+            it('should return user object with provided id, email, password, single list id and single list item id', () => {
                 expect(
                     createUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
                         listIds: [1],
+                        listItemIds: [1],
                     })
                 ).toEqual({
                     id: 1,
@@ -168,17 +211,18 @@ describe('core', () => {
                     password: '1234567890',
                     imageUrl: null,
                     listIds: [1],
-                    listItemIds: [],
+                    listItemIds: [1],
                 });
             });
 
-            it('should return user object with provided id, email, password and multiple list ids', () => {
+            it('should return user object with provided id, email, password, multiple list ids and multiple list item ids', () => {
                 expect(
                     createUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
                         listIds: [1, 2, 3],
+                        listItemIds: [1, 2, 3],
                     })
                 ).toEqual({
                     id: 1,
@@ -186,11 +230,9 @@ describe('core', () => {
                     password: '1234567890',
                     imageUrl: null,
                     listIds: [1, 2, 3],
-                    listItemIds: [],
+                    listItemIds: [1, 2, 3],
                 });
             });
-
-            // add tests for list items ids
         });
     });
 });
