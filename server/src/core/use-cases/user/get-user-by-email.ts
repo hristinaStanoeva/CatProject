@@ -6,7 +6,7 @@ import { isEmailInvalid } from '../../../util/middleware.utils';
 // The case for not found user(or any other entity) should be handled by the data access layer.
 export const makeGetUserByEmail = (userCreator: MakeUser) => (
     db: GetUserByEmailAdapter
-) => (email: string): Promise<User> => {
+) => (email: User['email']): Promise<User> => {
     if (isEmailInvalid(email)) {
         throw new Error(
             'Core -> Get user by email: Email has to be in the form "name@domain.tld"'
