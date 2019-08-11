@@ -12,3 +12,7 @@ export interface GetUserByIdAdapter {
 export interface GetUserByEmailAdapter {
     getUserByEmail: (name: User['email']) => Promise<Contains<User>>;
 }
+
+export interface ChangeEmailAdapter {
+    changeEmail: (newEmail: User['email'], user: User) => Promise<User>;
+}
