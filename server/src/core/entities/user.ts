@@ -1,4 +1,12 @@
-import { isNil, any, anyPass, __, both, unary, complement } from 'ramda';
+import {
+    isNil,
+    any,
+    anyPass,
+    __,
+    both,
+    unary,
+    complement,
+} from 'ramda';
 import { isURL } from 'validator';
 
 import { List } from './list';
@@ -6,6 +14,7 @@ import { ListItem } from './list-item';
 
 import { isEmailInvalid, isPasswordInvalid } from '../../util/middleware.utils';
 import { isIdInvalid, hasValue, hasDuplicateElements } from '../../util/common';
+import { Contains } from '../../models';
 
 const listIdsAreInvalid = anyPass([
     isNil,
@@ -19,14 +28,14 @@ const isUrlValid = both(hasValue, complement(unary(isURL)));
 // A list item cannot be created without list and author
 //
 // Ids are not used in the context of db entities, but as a "component" for expressing dependencies between entities - this creates acyclic dependencies
-export const createUser = ({
+export const makeUser: MakeUser = ({
     id,
     email,
     password,
     imageUrl = null,
     listIds = [],
     listItemIds = [],
-}: User): User => {
+}) => {
     // think about either monad instead of throwing exceptions
     if (isIdInvalid(id)) {
         throw new Error('Core -> User: Id has to be a positive number');
@@ -73,3 +82,5 @@ export interface User {
     listIds?: Array<List['id']>;
     listItemIds?: Array<ListItem['id']>;
 }
+
+export type MakeUser = (u: Contains<User>) => User;

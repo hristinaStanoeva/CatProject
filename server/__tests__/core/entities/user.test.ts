@@ -1,5 +1,5 @@
 import { pipe, range, join, repeat } from 'ramda';
-import { createUser } from '../../../src/core/entities/user';
+import { makeUser } from '../../../src/core/entities/user';
 
 const createStringOfLength = pipe(
     repeat('1'),
@@ -8,10 +8,10 @@ const createStringOfLength = pipe(
 
 describe('core', () => {
     describe('entities', () => {
-        describe('createUser', () => {
+        describe('makeUser', () => {
             it('should throw if id is null', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: null,
                         email: 'test@mail.com',
                         password: '1234567890',
@@ -21,7 +21,7 @@ describe('core', () => {
 
             it('should throw if id is 0', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 0,
                         email: 'test@mail.com',
                         password: '1234567890',
@@ -31,7 +31,7 @@ describe('core', () => {
 
             it('should throw if id is negative', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: -1,
                         email: 'test@mail.com',
                         password: '1234567890',
@@ -41,12 +41,12 @@ describe('core', () => {
 
             it('should throw if email is invalid string', () => {
                 expect(() =>
-                    createUser({ id: 1, email: '', password: '1234567890' })
+                    makeUser({ id: 1, email: '', password: '1234567890' })
                 ).toThrow(
                     'Core -> User: Email has to be a string in the form "name@domain.tld"'
                 );
                 expect(() =>
-                    createUser({ id: 1, email: 'test', password: '1234567890' })
+                    makeUser({ id: 1, email: 'test', password: '1234567890' })
                 ).toThrow(
                     'Core -> User: Email has to be a string in the form "name@domain.tld"'
                 );
@@ -54,7 +54,7 @@ describe('core', () => {
 
             it('should throw if email is null', () => {
                 expect(() =>
-                    createUser({ id: 1, email: null, password: '1234567890' })
+                    makeUser({ id: 1, email: null, password: '1234567890' })
                 ).toThrow(
                     'Core -> User: Email has to be a string in the form "name@domain.tld"'
                 );
@@ -62,7 +62,7 @@ describe('core', () => {
 
             it('should throw if password is null', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: null,
@@ -74,7 +74,7 @@ describe('core', () => {
 
             it('should throw if password is less than 8 characters', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: createStringOfLength(7),
@@ -86,7 +86,7 @@ describe('core', () => {
 
             it('should throw if password is more than 50 characters', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: createStringOfLength(51),
@@ -98,7 +98,7 @@ describe('core', () => {
 
             it('should throw if password includes invalid characters', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'mail@test.com',
                         password: '1234567890' + String.fromCharCode(960),
@@ -110,7 +110,7 @@ describe('core', () => {
 
             it('should not throw when image url is null', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'mail@test.com',
                         password: '1234567890',
@@ -123,7 +123,7 @@ describe('core', () => {
 
             it('should not throw if image url is a valid url', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'mail@test.com',
                         password: '1234567890',
@@ -136,7 +136,7 @@ describe('core', () => {
 
             it('should throw if image url is not a valid url', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'mail@test.com',
                         password: '1234567890',
@@ -149,7 +149,7 @@ describe('core', () => {
 
             it('should throw when list Ids is null', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
@@ -162,7 +162,7 @@ describe('core', () => {
 
             it('should throw when duplicated list ids are provided', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
@@ -175,7 +175,7 @@ describe('core', () => {
 
             it('should throw when list ids contains 0', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
@@ -188,7 +188,7 @@ describe('core', () => {
 
             it('should throw when list ids contains negative numbers', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
@@ -201,7 +201,7 @@ describe('core', () => {
 
             it('should throw when list item ids is null', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
@@ -215,7 +215,7 @@ describe('core', () => {
 
             it('should throw when duplicated list item ids are provided', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
@@ -229,7 +229,7 @@ describe('core', () => {
 
             it('should throw when list item ids contains 0', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
@@ -243,7 +243,7 @@ describe('core', () => {
 
             it('should throw when list item ids contains negative numbers', () => {
                 expect(() =>
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
@@ -257,7 +257,7 @@ describe('core', () => {
 
             it('should return user object with email and password and all other fields are defaults', () => {
                 expect(
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
@@ -274,7 +274,7 @@ describe('core', () => {
 
             it('should return user object with provided id, email, password, single list id and single list item id', () => {
                 expect(
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
@@ -293,7 +293,7 @@ describe('core', () => {
 
             it('should return user object with provided id, email, password, multiple list ids and multiple list item ids', () => {
                 expect(
-                    createUser({
+                    makeUser({
                         id: 1,
                         email: 'test@mail.com',
                         password: '1234567890',
