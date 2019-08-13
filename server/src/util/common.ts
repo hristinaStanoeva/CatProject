@@ -75,6 +75,11 @@ export const isUrlInvalidOrNotNull: (url: string | null) => boolean = both(
     isNotURL
 );
 
+export const isUrlInvalid: (url: string) => boolean = either(
+    hasNoValue,
+    isNotURL
+);
+
 export const hasOnlyPositiveElements = all(gt(__, 0));
 export const hasNonPositiveElements = complement(hasOnlyPositiveElements);
 
@@ -94,7 +99,8 @@ const makeLocation = pipe(
 
 export const makeDomainErrorMessage = (domain: string | string[]) => (
     path: string | string[]
-) => pipe(
+) =>
+    pipe(
         concat(': '),
         concat(makeLocation([domain, path]))
     );

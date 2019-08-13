@@ -15,6 +15,7 @@ import {
     hasOnlyPositiveElements,
     hasNonPositiveElements,
     makeDomainErrorMessage,
+    isUrlInvalid,
 } from '../../src/util/common';
 
 import { isEmailValid, isEmailInvalid } from '../../src/util/middleware.utils';
@@ -338,6 +339,24 @@ describe('utils', () => {
 
         it('should return false if url is valid', () => {
             expect(isUrlInvalidOrNotNull('www.google.com')).toBe(false);
+        });
+    });
+
+    describe('isUrlInvalid', () => {
+        it('should return true if url is invalid string', () => {
+            expect(isUrlInvalid('some email')).toBe(true);
+        });
+
+        it('should return true if url is email', () => {
+            expect(isUrlInvalid('some@mail.com')).toBe(true);
+        });
+
+        it('should return true if url is null', () => {
+            expect(isUrlInvalid(null)).toBe(true);
+        });
+
+        it('should return false if url is valid', () => {
+            expect(isUrlInvalid('www.google.com')).toBe(false);
         });
     });
 
