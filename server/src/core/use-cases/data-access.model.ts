@@ -16,3 +16,10 @@ export interface GetUserByEmailAdapter {
 export interface ChangeEmailAdapter {
     changeEmail: (newEmail: User['email'], user: User) => Promise<User>;
 }
+
+export interface ChangeImageUrlAdapter {
+    changeImageUrl: (
+        newImageUrl: User['imageUrl'],
+        user: User
+    ) => Promise<User>;
+}
