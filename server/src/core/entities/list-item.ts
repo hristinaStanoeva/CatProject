@@ -1,14 +1,14 @@
-import { makeCoreError } from './domain-error-creator';
 import { List } from './list';
 import { User } from './user';
 import { hasNoValue, isEmptyString, isIdInvalid } from '../../util/common';
 import {
+    makeCoreError,
     invalidIdErrorMessage,
     invalidContentErrorMessage,
     invalidCheckedErrorMessage,
     invalidListIdErrorMessage,
     invalidAuthorIdErrorMessage,
-} from '../errors.constants';
+} from '../errors.utils';
 
 const makeListItemErrorMessage = makeCoreError('List item');
 

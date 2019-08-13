@@ -1,3 +1,7 @@
+import { makeDomainErrorMessage } from '../util/common';
+
+export const makeCoreError = makeDomainErrorMessage('Core');
+
 export const invalidIdErrorMessage = 'Id has to be a positive number';
 
 export const invalidEmailErrorMessage =

@@ -1,6 +1,5 @@
 import { isNil, any, anyPass, __ } from 'ramda';
 
-import { makeCoreError } from './domain-error-creator';
 import { List } from './list';
 import { ListItem } from './list-item';
 
@@ -13,13 +12,14 @@ import {
 import { Contains } from '../../models';
 
 import {
+    makeCoreError,
     invalidIdErrorMessage,
     invalidEmailErrorMessage,
     invalidPasswordErrorMessage,
     invalidImageUrlErrorMessage,
     invalidListIdsErrorMessage,
     invalidListItemIdsErrorMessage,
-} from '../errors.constants';
+} from '../errors.utils';
 
 const listIdsAreInvalid = anyPass([
     isNil,
