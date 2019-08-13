@@ -1,6 +1,16 @@
+import { makeCoreError } from './domain-error-creator';
 import { List } from './list';
 import { User } from './user';
 import { hasNoValue, isEmptyString, isIdInvalid } from '../../util/common';
+import {
+    invalidIdErrorMessage,
+    invalidContentErrorMessage,
+    invalidCheckedErrorMessage,
+    invalidListIdErrorMessage,
+    invalidAuthorIdErrorMessage,
+} from '../errors.constants';
+
+const makeListItemErrorMessage = makeCoreError('List item');
 
 export const createListItem = ({
     id,
@@ -10,29 +20,23 @@ export const createListItem = ({
     authorId,
 }: ListItem): ListItem => {
     if (isIdInvalid(id)) {
-        throw new Error('Core -> List item: Id has to be a positive number');
+        throw new Error(makeListItemErrorMessage(invalidIdErrorMessage));
     }
 
     if (isEmptyString(content)) {
-        throw new Error(
-            'Core -> List item: Content has to be a non-empty string'
-        );
+        throw new Error(makeListItemErrorMessage(invalidContentErrorMessage));
     }
 
     if (hasNoValue(checked)) {
-        throw new Error('Core -> List item: Checked has to be true or false');
+        throw new Error(makeListItemErrorMessage(invalidCheckedErrorMessage));
     }
 
     if (isIdInvalid(listId)) {
-        throw new Error(
-            'Core -> List item: List id has to be a positive number'
-        );
+        throw new Error(makeListItemErrorMessage(invalidListIdErrorMessage));
     }
 
     if (isIdInvalid(authorId)) {
-        throw new Error(
-            'Core -> List item: Author id has to be a positive number'
-        );
+        throw new Error(makeListItemErrorMessage(invalidAuthorIdErrorMessage));
     }
 
     return { id, content, checked, listId, authorId };

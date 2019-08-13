@@ -1,5 +1,6 @@
 import { isNil, any, anyPass, __ } from 'ramda';
 
+import { makeCoreError } from './domain-error-creator';
 import { List } from './list';
 import { ListItem } from './list-item';
 
@@ -11,11 +12,22 @@ import {
 } from '../../util/common';
 import { Contains } from '../../models';
 
+import {
+    invalidIdErrorMessage,
+    invalidEmailErrorMessage,
+    invalidPasswordErrorMessage,
+    invalidImageUrlErrorMessage,
+    invalidListIdsErrorMessage,
+    invalidListItemIdsErrorMessage,
+} from '../errors.constants';
+
 const listIdsAreInvalid = anyPass([
     isNil,
     hasDuplicateElements,
     any(isIdInvalid),
 ]);
+
+const makeUserErrorMessage = makeCoreError('User');
 
 // A user can be created without list and list items
 // A list cannot be created without author, but can be created without list items
@@ -32,37 +44,27 @@ export const makeUser: MakeUser = ({
 }) => {
     // think about either monad instead of throwing exceptions
     if (isIdInvalid(id)) {
-        throw new Error('Core -> User: Id has to be a positive number');
+        throw new Error(makeUserErrorMessage(invalidIdErrorMessage));
     }
 
     if (isEmailInvalid(email)) {
-        throw new Error(
-            'Core -> User: Email has to be a string in the form "name@domain.tld"'
-        );
+        throw new Error(makeUserErrorMessage(invalidEmailErrorMessage));
     }
 
     if (isPasswordInvalid(password)) {
-        throw new Error(
-            'Core -> User: Password has to be string between 8 and 50 characters long and include latin letters, numbers and symbols'
-        );
+        throw new Error(makeUserErrorMessage(invalidPasswordErrorMessage));
     }
 
-        throw new Error(
-            'Core -> User: Image url has to be a string containing valid url'
-        );
     if (isUrlInvalidOrNotNull(imageUrl)) {
+        throw new Error(makeUserErrorMessage(invalidImageUrlErrorMessage));
     }
 
     if (listIdsAreInvalid(listIds)) {
-        throw new Error(
-            'Core -> User: List ids has to be a list of unique positive numbers'
-        );
+        throw new Error(makeUserErrorMessage(invalidListIdsErrorMessage));
     }
 
     if (listIdsAreInvalid(listItemIds)) {
-        throw new Error(
-            'Core -> User: List item ids has to be a list of unique positive numbers'
-        );
+        throw new Error(makeUserErrorMessage(invalidListItemIdsErrorMessage));
     }
 
     return { id, email, password, imageUrl, listIds, listItemIds };
