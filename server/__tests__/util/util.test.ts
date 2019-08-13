@@ -323,9 +323,9 @@ describe('utils', () => {
         });
     });
 
-    describe('isUrlInvalid', () => {
-        it('should return true if url is invalid', () => {
-            expect(isUrlInvalidOrNotNull('some email')).toBe(true);
+    describe('isUrlInvalidOrNotNull', () => {
+        it('should return true if url is invalid string', () => {
+            expect(isUrlInvalidOrNotNull('invalid')).toBe(true);
         });
 
         it('should return false if url is null', () => {
