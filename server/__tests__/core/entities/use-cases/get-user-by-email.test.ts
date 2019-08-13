@@ -23,7 +23,7 @@ describe('core', () => {
                 expect(() =>
                     makeGetUserByEmail(userCreator)(dataAccess)('invalid')
                 ).toThrowError(
-                    'Core -> Get user by email: Email has to be in the form "name@domain.tld"'
+                    'Core -> Get user by email: Email has to be a string in the form "name@domain.tld"'
                 );
             });
 
