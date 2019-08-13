@@ -20,7 +20,9 @@ import {
     max,
     __,
     uniq,
+    unary,
 } from 'ramda';
+import { isURL } from 'validator';
 
 import { HttpError, Primitive } from '../models';
 
@@ -58,6 +60,11 @@ export const hasOnlyUniqueElements: (xs: Primitive[]) => boolean = converge(
 );
 export const hasDuplicateElements: (xs: Primitive[]) => boolean = complement(
     hasOnlyUniqueElements
+);
+
+export const isUrlInvalidOrNotNull: (url: string | null) => boolean = both(
+    hasValue,
+    complement(unary(isURL))
 );
 
 export const hasOnlyPositiveElements = all(gt(__, 0));

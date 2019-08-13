@@ -11,6 +11,7 @@ import {
     anyHasNoValue,
     hasOnlyUniqueElements,
     hasDuplicateElements,
+    isUrlInvalidOrNotNull,
     hasOnlyPositiveElements,
     hasNonPositiveElements,
 } from '../../src/util/common';
@@ -318,6 +319,20 @@ describe('utils', () => {
 
         it('should return false if array has no duplicate boolean values', () => {
             expect(hasDuplicateElements([true, false])).toBe(false);
+        });
+    });
+
+    describe('isUrlInvalid', () => {
+        it('should return true if url is invalid', () => {
+            expect(isUrlInvalidOrNotNull('some email')).toBe(true);
+        });
+
+        it('should return false if url is null', () => {
+            expect(isUrlInvalidOrNotNull(null)).toBe(false);
+        });
+
+        it('should return false if url is valid', () => {
+            expect(isUrlInvalidOrNotNull('www.google.com')).toBe(false);
         });
     });
 
