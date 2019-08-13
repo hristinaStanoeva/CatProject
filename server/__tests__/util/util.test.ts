@@ -328,6 +328,10 @@ describe('utils', () => {
             expect(isUrlInvalidOrNotNull('invalid')).toBe(true);
         });
 
+        it('should return true if url is email', () => {
+            expect(isUrlInvalidOrNotNull('some@mail.com')).toBe(true);
+        });
+
         it('should return false if url is null', () => {
             expect(isUrlInvalidOrNotNull(null)).toBe(false);
         });
