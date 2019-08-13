@@ -1,6 +1,7 @@
 import {
     all,
     anyPass,
+    map,
     curry,
     isEmpty,
     isNil,
@@ -9,6 +10,10 @@ import {
     is,
     complement,
     converge,
+    flatten,
+    unless,
+    concat,
+    join,
     pipe,
     length,
     both,
@@ -35,6 +40,7 @@ const createErrorObject = curry(
 
 export const createBadRequestError = createErrorObject(400);
 export const isString = is(String);
+const isArray = is(Array);
 export const hasNoValue = either(isEmpty, isNil);
 export const hasValue = complement(hasNoValue);
 export const isNumber = both(is(Number), complement(Number.isNaN));
@@ -74,4 +80,19 @@ export const isLengthBetween = (limit1: number, limit2: number) =>
     pipe(
         length,
         both(gte(__, min(limit1, limit2)), lte(__, max(limit1, limit2)))
+    );
+
+const arrayify = unless(isArray, v => [v]);
+
+const makeLocation = pipe(
+    map(arrayify),
+    flatten,
+    join(' -> ')
+);
+
+export const makeDomainErrorMessage = (domain: string | string[]) => (
+    path: string | string[]
+) => pipe(
+        concat(': '),
+        concat(makeLocation([domain, path]))
     );

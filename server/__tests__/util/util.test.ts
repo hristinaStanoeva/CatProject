@@ -14,6 +14,7 @@ import {
     isUrlInvalidOrNotNull,
     hasOnlyPositiveElements,
     hasNonPositiveElements,
+    makeDomainErrorMessage,
 } from '../../src/util/common';
 
 import { isEmailValid, isEmailInvalid } from '../../src/util/middleware.utils';
@@ -397,6 +398,39 @@ describe('utils', () => {
                 expect(isEmailValid(v as any)).toBe(false);
                 expect(isEmailInvalid(v)).toBe(true);
             });
+        });
+    });
+
+    describe('makeDomainErrorMessage', () => {
+        it('should return proper value when domain and path are strings', () => {
+            expect(
+                makeDomainErrorMessage('Domain')('Path')('Error message')
+            ).toBe('Domain -> Path: Error message');
+        });
+
+        it('should return proper value when domain is array of strings and path is string', () => {
+            expect(
+                makeDomainErrorMessage(['Domain', 'SubDomain'])('Path')(
+                    'Error message'
+                )
+            ).toBe('Domain -> SubDomain -> Path: Error message');
+        });
+
+        it('should return proper value when domain is string and path is array of strings', () => {
+            expect(
+                makeDomainErrorMessage('Domain')(['Path', 'Sub path'])(
+                    'Error message'
+                )
+            ).toBe('Domain -> Path -> Sub path: Error message');
+        });
+
+        it('should return proper value when domain and path are arrays of strings', () => {
+            expect(
+                makeDomainErrorMessage(['Domain', 'SubDomain'])([
+                    'Path',
+                    'Sub path',
+                ])('Error message')
+            ).toBe('Domain -> SubDomain -> Path -> Sub path: Error message');
         });
     });
 });
