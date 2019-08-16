@@ -23,3 +23,7 @@ export interface ChangeImageUrlAdapter {
         user: User
     ) => Promise<User>;
 }
+
+export interface DeleteImageUrlAdapter {
+    deleteImageUrl: (user: User) => Promise<User>;
+}
