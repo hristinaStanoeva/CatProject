@@ -15,22 +15,43 @@ describe('core', () => {
     describe('use cases', () => {
         describe('getUserByEmail', () => {
             it('should throw if email is invalid', () => {
-                const userCreator = jest.fn();
                 const dataAccess: GetUserByEmailAdapter = {
-                    getUserByEmail: email => Promise.resolve(sampleUser),
+                    getUserByEmail: email =>
+                        Promise.resolve({ ...sampleUser, random: 'field' }),
                 };
 
                 expect(() =>
-                    makeGetUserByEmail(userCreator)(dataAccess)('invalid')
+                    makeGetUserByEmail(makeUser)(dataAccess)('invalid')
                 ).toThrowError(
                     'Core -> Get user by email: Email has to be a string in the form "name@domain.tld"'
                 );
             });
 
+            it('should call db adapter if email is valid', async () => {
+                const dataAccess: GetUserByEmailAdapter = {
+                    getUserByEmail: jest.fn().mockReturnValue(
+                        Promise.resolve({
+                            ...sampleUser,
+                            random: 'field',
+                        })
+                    ),
+                };
+
+                await makeGetUserByEmail(makeUser)(dataAccess)(
+                    'valid@mail.com'
+                );
+
+                expect(dataAccess.getUserByEmail).toHaveBeenCalled();
+            });
+
             it('should delegate creation of domain user if email is valid', async () => {
                 const userCreator = jest.fn();
                 const dataAccess: GetUserByEmailAdapter = {
-                    getUserByEmail: email => Promise.resolve(sampleUser),
+                    getUserByEmail: email =>
+                        Promise.resolve({
+                            ...sampleUser,
+                            random: 'field',
+                        }),
                 };
 
                 await makeGetUserByEmail(userCreator)(dataAccess)(
@@ -40,22 +61,13 @@ describe('core', () => {
                 expect(userCreator).toHaveBeenCalled();
             });
 
-            it('should return user from user-like object', async () => {
+            it('should return user if email is valid', async () => {
                 const dataAccess: GetUserByEmailAdapter = {
                     getUserByEmail: email =>
-                        Promise.resolve({ ...sampleUser, otherValue: 'test' }),
-                };
-
-                expect(
-                    await makeGetUserByEmail(makeUser)(dataAccess)(
-                        sampleUser.email
-                    )
-                ).toEqual(sampleUser);
-            });
-
-            it('should return user from user object', async () => {
-                const dataAccess: GetUserByEmailAdapter = {
-                    getUserByEmail: email => Promise.resolve(sampleUser),
+                        Promise.resolve({
+                            ...sampleUser,
+                            random: 'field',
+                        }),
                 };
 
                 expect(
