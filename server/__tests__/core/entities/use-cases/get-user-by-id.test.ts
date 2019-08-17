@@ -15,16 +15,30 @@ describe('core', () => {
     describe('use cases', () => {
         describe('getUserById', () => {
             it('should throw if id is invalid', () => {
-                const userCreator = jest.fn();
                 const dataAccess: GetUserByIdAdapter = {
-                    getUserById: id => Promise.resolve(sampleUser),
+                    getUserById: id =>
+                        Promise.resolve({ ...sampleUser, random: 'field' }),
                 };
 
                 expect(() =>
-                    makeGetUserById(userCreator)(dataAccess)(-1)
+                    makeGetUserById(makeUser)(dataAccess)(-1)
                 ).toThrowError(
                     'Core -> Get user by id: Id has to be a positive number'
                 );
+            });
+
+            it('should call db adapter if id is valid', async () => {
+                const dataAccess: GetUserByIdAdapter = {
+                    getUserById: jest
+                        .fn()
+                        .mockReturnValue(
+                            Promise.resolve({ ...sampleUser, random: 'field' })
+                        ),
+                };
+
+                await makeGetUserById(makeUser)(dataAccess)(2);
+
+                expect(dataAccess.getUserById).toHaveBeenCalled();
             });
 
             it('should delegate creation of domain user if id is valid', async () => {
@@ -38,18 +52,7 @@ describe('core', () => {
                 expect(userCreator).toHaveBeenCalled();
             });
 
-            it('should return user from user-like object', async () => {
-                const dataAccess: GetUserByIdAdapter = {
-                    getUserById: id =>
-                        Promise.resolve({ ...sampleUser, otherValue: 'test' }),
-                };
-
-                expect(
-                    await makeGetUserById(makeUser)(dataAccess)(sampleUser.id)
-                ).toEqual(sampleUser);
-            });
-
-            it('should return user from user object', async () => {
+            it('should return user if id is valid', async () => {
                 const dataAccess: GetUserByIdAdapter = {
                     getUserById: id => Promise.resolve(sampleUser),
                 };
