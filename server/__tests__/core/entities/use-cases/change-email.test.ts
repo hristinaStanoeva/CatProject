@@ -17,7 +17,12 @@ describe('core', () => {
             it('should throw if email is invalid', () => {
                 const userCreator = jest.fn();
                 const dataAccess: ChangeEmailAdapter = {
-                    changeEmail: (email, user) => Promise.resolve(sampleUser),
+                    changeEmail: (email, user) =>
+                        Promise.resolve({
+                            ...sampleUser,
+                            email,
+                            random: 'field',
+                        }),
                 };
 
                 expect(() =>
@@ -30,10 +35,34 @@ describe('core', () => {
                 );
             });
 
+            it('should call db adapter if password is valid', async () => {
+                const dataAccess: ChangeEmailAdapter = {
+                    changeEmail: jest.fn().mockReturnValue(
+                        Promise.resolve({
+                            ...sampleUser,
+                            email: 'valid@mail.com',
+                            random: 'field',
+                        })
+                    ),
+                };
+
+                await makeChangeEmail(makeUser)(dataAccess)(
+                    'valid@mail.com',
+                    sampleUser
+                );
+
+                expect(dataAccess.changeEmail).toHaveBeenCalled();
+            });
+
             it('should delegate creation of domain user if email is valid', async () => {
                 const userCreator = jest.fn();
                 const dataAccess: ChangeEmailAdapter = {
-                    changeEmail: (email, user) => Promise.resolve(sampleUser),
+                    changeEmail: (email, user) =>
+                        Promise.resolve({
+                            ...sampleUser,
+                            email,
+                            random: 'field',
+                        }),
                 };
 
                 await makeChangeEmail(userCreator)(dataAccess)(
@@ -46,7 +75,12 @@ describe('core', () => {
 
             it('should return a user with updated email when all inputs are valid', async () => {
                 const dataAccess: ChangeEmailAdapter = {
-                    changeEmail: (email, user) => Promise.resolve(sampleUser),
+                    changeEmail: (email, user) =>
+                        Promise.resolve({
+                            ...sampleUser,
+                            email,
+                            random: 'field',
+                        }),
                 };
 
                 expect(

@@ -13,7 +13,5 @@ export const makeChangeEmail = (userCreator: MakeUser) => (
         throw new Error(makeUseCaseErrorMessage(invalidEmailErrorMessage));
     }
 
-    return db
-        .changeEmail(newEmail, user)
-        .then(u => userCreator({ ...u, email: newEmail }));
+    return db.changeEmail(newEmail, user).then(userCreator);
 };
