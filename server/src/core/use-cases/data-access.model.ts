@@ -14,16 +14,19 @@ export interface GetUserByEmailAdapter {
 }
 
 export interface ChangeEmailAdapter {
-    changeEmail: (newEmail: User['email'], user: User) => Promise<User>;
+    changeEmail: (
+        newEmail: User['email'],
+        user: User
+    ) => Promise<Contains<User>>;
 }
 
 export interface ChangeImageUrlAdapter {
     changeImageUrl: (
         newImageUrl: User['imageUrl'],
         user: User
-    ) => Promise<User>;
+    ) => Promise<Contains<User>>;
 }
 
 export interface DeleteImageUrlAdapter {
-    deleteImageUrl: (user: User) => Promise<User>;
+    deleteImageUrl: (user: User) => Promise<Contains<User>>;
 }
