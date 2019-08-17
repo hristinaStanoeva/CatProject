@@ -4,4 +4,5 @@ import { Contains } from '../../../models';
 
 export const makeCreateUser = (userCreator: MakeUser) => (
     db: CreateUserAdapter
-) => (user: Contains<User>): Promise<User> => db.createUser(userCreator(user));
+) => (user: Contains<User>): Promise<User> =>
+    db.createUser(user).then(userCreator);
