@@ -3,5 +3,4 @@ import { MakeUser, User } from '../../../entities/user';
 
 export const makeDeleteImageUrl = (userCreator: MakeUser) => (
     db: DeleteImageUrlAdapter
-) => (user: User): Promise<User> =>
-    db.deleteImageUrl(userCreator({ ...user, imageUrl: null }));
+) => (user: User): Promise<User> => db.deleteImageUrl(user).then(userCreator);
