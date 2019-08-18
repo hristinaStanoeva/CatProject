@@ -17,7 +17,11 @@ describe('core', () => {
             it('should throw if email is invalid', () => {
                 const dataAccess: GetUserByEmailAdapter = {
                     getUserByEmail: email =>
-                        Promise.resolve({ ...sampleUser, random: 'field' }),
+                        Promise.resolve({
+                            ...sampleUser,
+                            email,
+                            random: 'field',
+                        }),
                 };
 
                 expect(() =>
@@ -29,9 +33,10 @@ describe('core', () => {
 
             it('should call db adapter if email is valid', async () => {
                 const dataAccess: GetUserByEmailAdapter = {
-                    getUserByEmail: jest.fn().mockReturnValue(
+                    getUserByEmail: jest.fn(email =>
                         Promise.resolve({
                             ...sampleUser,
+                            email,
                             random: 'field',
                         })
                     ),
@@ -45,11 +50,12 @@ describe('core', () => {
             });
 
             it('should delegate creation of domain user if email is valid', async () => {
-                const userCreator = jest.fn();
+                const userCreator = jest.fn(makeUser);
                 const dataAccess: GetUserByEmailAdapter = {
                     getUserByEmail: email =>
                         Promise.resolve({
                             ...sampleUser,
+                            email,
                             random: 'field',
                         }),
                 };
