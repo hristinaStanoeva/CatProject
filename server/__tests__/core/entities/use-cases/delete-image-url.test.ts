@@ -16,9 +16,9 @@ describe('core', () => {
         describe('deleteImageUrl', () => {
             it('should call db adapter', async () => {
                 const dataAccess: DeleteImageUrlAdapter = {
-                    deleteImageUrl: jest.fn().mockReturnValue(
+                    deleteImageUrl: jest.fn(user =>
                         Promise.resolve({
-                            ...sampleUser,
+                            ...user,
                             imageUrl: null,
                             random: 'field',
                         })
@@ -31,7 +31,7 @@ describe('core', () => {
             });
 
             it('should delegate image url deletion', async () => {
-                const userCreator = jest.fn();
+                const userCreator = jest.fn(makeUser);
 
                 const dataAccess: DeleteImageUrlAdapter = {
                     deleteImageUrl: user =>
