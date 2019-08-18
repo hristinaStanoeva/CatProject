@@ -16,9 +16,9 @@ describe('core', () => {
         describe('createUser', () => {
             it('should call db adapter', async () => {
                 const dataAccess: CreateUserAdapter = {
-                    createUser: jest.fn().mockReturnValue(
+                    createUser: jest.fn(user =>
                         Promise.resolve({
-                            ...sampleUser,
+                            ...user,
                         })
                     ),
                 };
@@ -29,7 +29,7 @@ describe('core', () => {
             });
 
             it('should delegate creation of domain user', async () => {
-                const userCreator = jest.fn();
+                const userCreator = jest.fn(makeUser);
 
                 const dataAccess: CreateUserAdapter = {
                     createUser: user =>
