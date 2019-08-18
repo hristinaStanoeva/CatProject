@@ -15,21 +15,17 @@ describe('core', () => {
     describe('use cases', () => {
         describe('changeEmail', () => {
             it('should throw if email is invalid', () => {
-                const userCreator = jest.fn();
                 const dataAccess: ChangeEmailAdapter = {
                     changeEmail: (email, user) =>
                         Promise.resolve({
-                            ...sampleUser,
+                            ...user,
                             email,
                             random: 'field',
                         }),
                 };
 
                 expect(() =>
-                    makeChangeEmail(userCreator)(dataAccess)(
-                        'invalid',
-                        sampleUser
-                    )
+                    makeChangeEmail(makeUser)(dataAccess)('invalid', sampleUser)
                 ).toThrowError(
                     'Core -> Change email: Email has to be a string in the form "name@domain.tld"'
                 );
@@ -37,10 +33,10 @@ describe('core', () => {
 
             it('should call db adapter if password is valid', async () => {
                 const dataAccess: ChangeEmailAdapter = {
-                    changeEmail: jest.fn().mockReturnValue(
+                    changeEmail: jest.fn((email, user) =>
                         Promise.resolve({
-                            ...sampleUser,
-                            email: 'valid@mail.com',
+                            ...user,
+                            email,
                             random: 'field',
                         })
                     ),
@@ -55,11 +51,11 @@ describe('core', () => {
             });
 
             it('should delegate creation of domain user if email is valid', async () => {
-                const userCreator = jest.fn();
+                const userCreator = jest.fn(makeUser);
                 const dataAccess: ChangeEmailAdapter = {
                     changeEmail: (email, user) =>
                         Promise.resolve({
-                            ...sampleUser,
+                            ...user,
                             email,
                             random: 'field',
                         }),
@@ -77,7 +73,7 @@ describe('core', () => {
                 const dataAccess: ChangeEmailAdapter = {
                     changeEmail: (email, user) =>
                         Promise.resolve({
-                            ...sampleUser,
+                            ...user,
                             email,
                             random: 'field',
                         }),
@@ -88,7 +84,14 @@ describe('core', () => {
                         'valid@mail.com',
                         sampleUser
                     )
-                ).toEqual({ ...sampleUser, email: 'valid@mail.com' });
+                ).toEqual({
+                    id: 1,
+                    email: 'valid@mail.com',
+                    password: '1234567890',
+                    imageUrl: 'www.google.com',
+                    listIds: [],
+                    listItemIds: [],
+                });
             });
         });
     });
