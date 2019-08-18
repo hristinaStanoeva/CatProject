@@ -78,9 +78,16 @@ describe('core', () => {
 
                 expect(
                     await makeGetUserByEmail(makeUser)(dataAccess)(
-                        sampleUser.email
+                        'some@mail.com'
                     )
-                ).toEqual(sampleUser);
+                ).toEqual({
+                    id: 1,
+                    email: 'some@mail.com',
+                    password: '1234567890',
+                    imageUrl: 'www.google.com',
+                    listIds: [],
+                    listItemIds: [],
+                });
             });
         });
     });

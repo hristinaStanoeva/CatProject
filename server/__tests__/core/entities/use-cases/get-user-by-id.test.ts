@@ -56,9 +56,14 @@ describe('core', () => {
                     getUserById: id => Promise.resolve({ ...sampleUser, id }),
                 };
 
-                expect(
-                    await makeGetUserById(makeUser)(dataAccess)(sampleUser.id)
-                ).toEqual(sampleUser);
+                expect(await makeGetUserById(makeUser)(dataAccess)(2)).toEqual({
+                    id: 2,
+                    email: 'some@mail.com',
+                    password: '1234567890',
+                    imageUrl: 'www.google.com',
+                    listIds: [],
+                    listItemIds: [],
+                });
             });
         });
     });
