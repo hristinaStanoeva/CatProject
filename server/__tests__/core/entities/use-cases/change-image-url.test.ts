@@ -16,8 +16,12 @@ describe('core', () => {
         describe('changeImageUrl', () => {
             it('should throw if image url is invalid string', () => {
                 const dataAccess: ChangeImageUrlAdapter = {
-                    changeImageUrl: (newImageUrl, user) =>
-                        Promise.resolve(sampleUser),
+                    changeImageUrl: (imageUrl, user) =>
+                        Promise.resolve({
+                            ...user,
+                            imageUrl,
+                            random: 'field',
+                        }),
                 };
 
                 expect(() =>
@@ -32,8 +36,12 @@ describe('core', () => {
 
             it('should throw if image url is null', () => {
                 const dataAccess: ChangeImageUrlAdapter = {
-                    changeImageUrl: (newImageUrl, user) =>
-                        Promise.resolve(sampleUser),
+                    changeImageUrl: (imageUrl, user) =>
+                        Promise.resolve({
+                            ...user,
+                            imageUrl,
+                            random: 'field',
+                        }),
                 };
 
                 expect(() =>
@@ -43,25 +51,34 @@ describe('core', () => {
                 );
             });
 
-            it('should not throw if image url is valid string', () => {
+            it('should call db adapter if image url is valid', async () => {
                 const dataAccess: ChangeImageUrlAdapter = {
-                    changeImageUrl: (newImageUrl, user) =>
-                        Promise.resolve(sampleUser),
+                    changeImageUrl: jest.fn((imageUrl, user) =>
+                        Promise.resolve({
+                            ...user,
+                            imageUrl,
+                            random: 'field',
+                        })
+                    ),
                 };
 
-                expect(() =>
-                    makeChangeImageUrl(makeUser)(dataAccess)(
-                        'www.google.com',
-                        sampleUser
-                    )
-                ).not.toThrow();
+                await makeChangeImageUrl(makeUser)(dataAccess)(
+                    'www.yahoo.com',
+                    sampleUser
+                );
+
+                expect(dataAccess.changeImageUrl).toHaveBeenCalled();
             });
 
             it('should delegate creation of domain user if image url is valid', async () => {
-                const userCreator = jest.fn();
+                const userCreator = jest.fn(makeUser);
                 const dataAccess: ChangeImageUrlAdapter = {
-                    changeImageUrl: (newImageUrl, user) =>
-                        Promise.resolve(sampleUser),
+                    changeImageUrl: (imageUrl, user) =>
+                        Promise.resolve({
+                            ...user,
+                            imageUrl,
+                            random: 'field',
+                        }),
                 };
 
                 await makeChangeImageUrl(userCreator)(dataAccess)(
@@ -74,16 +91,27 @@ describe('core', () => {
 
             it('should return a user with updated image url when all inputs are valid', async () => {
                 const dataAccess: ChangeImageUrlAdapter = {
-                    changeImageUrl: (newImageUrl, user) =>
-                        Promise.resolve(sampleUser),
+                    changeImageUrl: (imageUrl, user) =>
+                        Promise.resolve({
+                            ...user,
+                            imageUrl,
+                            random: 'field',
+                        }),
                 };
 
                 expect(
                     await makeChangeImageUrl(makeUser)(dataAccess)(
-                        'www.google.com',
+                        'www.yahoo.com',
                         sampleUser
                     )
-                ).toEqual({ ...sampleUser, imageUrl: 'www.google.com' });
+                ).toEqual({
+                    id: 1,
+                    email: 'some@mail.com',
+                    password: '1234567890',
+                    imageUrl: 'www.yahoo.com',
+                    listIds: [],
+                    listItemIds: [],
+                });
             });
         });
     });
