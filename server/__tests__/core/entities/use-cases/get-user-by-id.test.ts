@@ -17,7 +17,7 @@ describe('core', () => {
             it('should throw if id is invalid', () => {
                 const dataAccess: GetUserByIdAdapter = {
                     getUserById: id =>
-                        Promise.resolve({ ...sampleUser, random: 'field' }),
+                        Promise.resolve({ ...sampleUser, id, random: 'field' }),
                 };
 
                 expect(() =>
@@ -29,11 +29,9 @@ describe('core', () => {
 
             it('should call db adapter if id is valid', async () => {
                 const dataAccess: GetUserByIdAdapter = {
-                    getUserById: jest
-                        .fn()
-                        .mockReturnValue(
-                            Promise.resolve({ ...sampleUser, random: 'field' })
-                        ),
+                    getUserById: jest.fn(id =>
+                        Promise.resolve({ ...sampleUser, id, random: 'field' })
+                    ),
                 };
 
                 await makeGetUserById(makeUser)(dataAccess)(2);
@@ -42,9 +40,10 @@ describe('core', () => {
             });
 
             it('should delegate creation of domain user if id is valid', async () => {
-                const userCreator = jest.fn();
+                const userCreator = jest.fn(makeUser);
                 const dataAccess: GetUserByIdAdapter = {
-                    getUserById: id => Promise.resolve(sampleUser),
+                    getUserById: id =>
+                        Promise.resolve({ ...sampleUser, id, random: 'field' }),
                 };
 
                 await makeGetUserById(userCreator)(dataAccess)(3);
@@ -54,7 +53,7 @@ describe('core', () => {
 
             it('should return user if id is valid', async () => {
                 const dataAccess: GetUserByIdAdapter = {
-                    getUserById: id => Promise.resolve(sampleUser),
+                    getUserById: id => Promise.resolve({ ...sampleUser, id }),
                 };
 
                 expect(
