@@ -24,9 +24,11 @@ export interface ChangeImageUrlAdapter {
     changeImageUrl: (
         newImageUrl: User['imageUrl'],
         user: User
-    ) => Promise<Contains<User>>;
+    ) => Promise<Contains<User> & { imageUrl: string }>;
 }
 
 export interface DeleteImageUrlAdapter {
-    deleteImageUrl: (user: User) => Promise<Contains<User>>;
+    deleteImageUrl: (
+        user: User
+    ) => Promise<Contains<User> & { imageUrl: null }>;
 }
