@@ -32,3 +32,10 @@ export interface DeleteImageUrlAdapter {
         user: User
     ) => Promise<Contains<User> & { imageUrl: null }>;
 }
+
+export interface ChangePasswordAdapter {
+    changePassword: (
+        password: User['password'],
+        user: User
+    ) => Promise<Contains<User>>;
+}
