@@ -39,3 +39,10 @@ export interface ChangePasswordAdapter {
         user: User
     ) => Promise<Contains<User>>;
 }
+
+export interface AssignListIdsAdapter {
+    assignListIds: (
+        ids: User['listIds'],
+        user: User
+    ) => Promise<Contains<User>>;
+}
