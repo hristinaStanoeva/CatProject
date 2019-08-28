@@ -16,6 +16,7 @@ import {
     hasNonPositiveElements,
     makeDomainErrorMessage,
     isUrlInvalid,
+    listIdsAreInvalid,
 } from '../../src/util/common';
 
 import { isEmailValid, isEmailInvalid } from '../../src/util/middleware.utils';
@@ -357,6 +358,25 @@ describe('utils', () => {
 
         it('should return false if url is valid', () => {
             expect(isUrlInvalid('www.google.com')).toBe(false);
+        });
+    });
+
+    describe('listIdsAreInvalid', () => {
+        it('should return true if null or undefined is provided', () => {
+            expect(listIdsAreInvalid(null)).toBe(true);
+            expect(listIdsAreInvalid(undefined)).toBe(true);
+        });
+
+        it('should return true if ids are negative numbers', () => {
+            expect(listIdsAreInvalid([-1, 2, 3])).toBe(true);
+        });
+
+        it('should return true if ids have duplicates', () => {
+            expect(listIdsAreInvalid([1, 1, 2, 3])).toBe(true);
+        });
+
+        it('should return true if ids are positive and unique', () => {
+            expect(listIdsAreInvalid([1, 2, 3, 4, 5])).toBe(false);
         });
     });
 

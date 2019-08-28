@@ -1,13 +1,11 @@
-import { isNil, any, anyPass, __ } from 'ramda';
-
 import { List } from './list';
 import { ListItem } from './list-item';
 
 import { isEmailInvalid, isPasswordInvalid } from '../../util/middleware.utils';
 import {
     isIdInvalid,
-    hasDuplicateElements,
     isUrlInvalidOrNotNull,
+    listIdsAreInvalid,
 } from '../../util/common';
 import { Contains } from '../../models';
 
@@ -20,12 +18,6 @@ import {
     invalidListIdsErrorMessage,
     invalidListItemIdsErrorMessage,
 } from '../errors.utils';
-
-const listIdsAreInvalid = anyPass([
-    isNil,
-    hasDuplicateElements,
-    any(isIdInvalid),
-]);
 
 const makeUserErrorMessage = makeCoreError('User');
 

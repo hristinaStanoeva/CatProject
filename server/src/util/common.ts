@@ -49,6 +49,8 @@ export const isEmptyString: (x: string) => boolean = either(
     hasNoValue,
     complement(isString)
 );
+
+// export const isIdInvalid = anyPass<number>([ <-- think if this should replace check for number.
 export const isIdInvalid = anyPass([
     complement(isNumber),
     hasNoValue,
@@ -79,6 +81,12 @@ export const isUrlInvalid: (x: string) => boolean = either(
     hasNoValue,
     isNotURL
 );
+
+export const listIdsAreInvalid: (xs: Primitive[]) => boolean = anyPass([
+    isNil,
+    hasDuplicateElements,
+    any(isIdInvalid),
+]);
 
 export const hasOnlyPositiveElements = all(gt(__, 0));
 export const hasNonPositiveElements = complement(hasOnlyPositiveElements);
