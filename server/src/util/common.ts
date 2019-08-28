@@ -70,12 +70,12 @@ export const hasDuplicateElements: (xs: Primitive[]) => boolean = complement(
 
 const isNotURL = either(complement(unary(isURL)), unary(isEmail));
 
-export const isUrlInvalidOrNotNull: (url: string | null) => boolean = both(
+export const isUrlInvalidOrNotNull: (x: string | null) => boolean = both(
     hasValue,
     isNotURL
 );
 
-export const isUrlInvalid: (url: string) => boolean = either(
+export const isUrlInvalid: (x: string) => boolean = either(
     hasNoValue,
     isNotURL
 );
