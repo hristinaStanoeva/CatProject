@@ -9,6 +9,7 @@
             href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             rel="stylesheet"
         />
+        <link rel="stylesheet" type="text/css" href="styles.css" />
     </head>
     <body>
         <div class="main">
@@ -42,18 +43,22 @@
 
             <div class="form-credentials">
                 <div class="form-control">
-                    <input placeholder="E-mail" class="form-control-element" />
+                    <label for="email"><i class="fas fa-paw"></i></label>
+                    <input placeholder="E-mail" id="email" class="form-field" />
                 </div>
 
                 <div class="form-control">
+                    <label for="password"><i class="fas fa-lock"></i></label>
                     <input
+                        type="password"
                         placeholder="Password"
-                        class="form-control-element"
+                        id="password"
+                        class="form-field"
                     />
                 </div>
             </div>
 
-            <div class="form-control">
+            <div class="form-action">
                 <button class="btn">Sign in</button>
             </div>
         </div>
