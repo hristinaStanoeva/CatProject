@@ -14,6 +14,26 @@ export const makeAssignListIds = (userCreator: MakeUser) => (
     if (listIdsAreInvalid(ids)) {
         throw new Error(makeUseCaseErrorMessage(invalidListIdsErrorMessage));
     }
+    console.log(ids);
+    console.log(user.listIds);
+    console.log({ ...user, listIds: [...user.listIds, ...ids] });
+    console.log(
+        db
+            // @ts-ignore
+            .assignListIds(ids, user, (u: User) =>
+                userCreator({ ...u, listIds: ids })
+            )
+            .then(userCreator)
+    );
+    return db.assignListIds(ids, user).then(u => userCreator({ ...u }));
+};
 
-    return db.assignListIds(ids, user).then(userCreator);
+export const DB = (): AssignListIdsAdapter => {
+    return {
+        assignListIds: (ids, user, cb) => {
+            // ... get user from DB?
+            // ... append listIds to user's listIds -> cb(u)
+            return Promise.resolve(user);
+        },
+    };
 };

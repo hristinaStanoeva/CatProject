@@ -52,6 +52,7 @@ export const makeUser: MakeUser = ({
     }
 
     if (listIdsAreInvalid(listIds)) {
+        console.log(listIds);
         throw new Error(makeUserErrorMessage(invalidListIdsErrorMessage));
     }
 

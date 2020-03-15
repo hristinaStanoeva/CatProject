@@ -43,6 +43,7 @@ export interface ChangePasswordAdapter {
 export interface AssignListIdsAdapter {
     assignListIds: (
         ids: User['listIds'],
-        user: User
+        user: User,
+        cb?: (user: Contains<User>) => User
     ) => Promise<Contains<User>>;
 }

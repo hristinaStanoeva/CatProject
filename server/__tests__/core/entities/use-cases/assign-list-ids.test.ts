@@ -70,6 +70,31 @@ describe('core', () => {
                 expect(userCreator).toHaveBeenCalled();
             });
 
+            fit('should append new ids to existing list ids', async () => {
+                const dataAccess: AssignListIdsAdapter = {
+                    assignListIds: (listIds, user) =>
+                        Promise.resolve({
+                            ...user,
+                            listIds: [...user.listIds, ...listIds],
+                            random: 'field',
+                        }),
+                };
+
+                expect(
+                    await makeAssignListIds(makeUser)(dataAccess)([8, 12, 9], {
+                        ...sampleUser,
+                        listIds: [1, 2, 3, 4, 5, 6],
+                    })
+                ).toEqual({
+                    id: 1,
+                    email: 'some@mail.com',
+                    password: '1234567890',
+                    imageUrl: 'www.google.com',
+                    listIds: [1, 2, 3, 4, 5, 6, 8, 12, 9],
+                    listItemIds: [],
+                });
+            });
+
             it('should return a user with newly assigned list ids when inputs are valid', async () => {
                 const dataAccess: AssignListIdsAdapter = {
                     assignListIds: (listIds, user) =>
