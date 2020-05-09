@@ -28,7 +28,6 @@
 
 # Description
 ## What is a ToDo - a task
----
 * Required attributes:
 	* Title
 	* Category
@@ -40,7 +39,6 @@
 	* Shared - if shared should indicate if it is in progress
 
 ## What is a List?
----
 * Required attrbitutes:
 	* Title
 	* [List Items](#what-is-a-list-item---checkbox-with-content) - can be added/removed dynamically(think Google keep)
@@ -55,7 +53,6 @@
 	* Image
 
 ## What is an Event?
----
 * Required attributes:
 	* Title
 	* Date
@@ -66,7 +63,6 @@
 	* Shared
 
 ## What are Expense tracker functionalities?
----
 * Aggregate(sum) money spent for a period of time
 * Aggregate(sum) money gained for a period of time
 * How much money do I owe/have to get based on shared expenses
@@ -84,7 +80,6 @@
 	* Shared - who has paid or if it has been split evenly(cleared)
 
 ## What are Travel planner functionalities
----
 * Aggregates [travels](#what-is-a-travel) for a period of time
 
 ## What is a Travel
