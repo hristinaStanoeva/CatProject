@@ -1,0 +1,120 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Raleway&amp;display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                font-family: Raleway;
+            }
+            *,
+            *::after,
+            *::before {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+                /* outline: 1px solid red; */
+            }
+
+            .item.larger {
+                --main-font-size: 1rem;
+                /* --details-font-size: calc(var(--main-font-size) - 2px); */
+                /* --title-font-size: calc(var(--main-font-size) - 3px); */
+            }
+
+            .item {
+                --main-font-size: 14px;
+                --title-font-size: 12px;
+                --details-font-size: 12px;
+                padding: 0 24px;
+                height: 56px;
+                display: flex;
+            }
+
+            .icon {
+                width: 56px;
+                height: 56px;
+                background-color: rgba(116, 194, 201, 0.4);
+                border-radius: 50%;
+                margin-right: 25px;
+                margin-left: 17px;
+                display: block;
+                flex-shrink: 0;
+            }
+
+            .content {
+                height: 100%;
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .content .title-bar {
+                line-height: var(--title-font-size);
+            }
+
+            .content .main {
+                font-size: var(--main-font-size);
+                /* line-height: calc(var(--main-font-size) + 2px); */
+                /* line-height: 1.5; */
+                height: 100%;
+            }
+
+            .content .details {
+                margin-top: auto;
+                font-style: normal;
+                font-weight: normal;
+                font-size: var(--details-font-size);
+                color: #929292;
+            }
+
+            .content-title {
+                font-size: var(--title-font-size);
+                text-transform: uppercase;
+                color: #74c2c9;
+            }
+
+            .chip {
+                font-size: var(--title-font-size);
+                padding: 0 5px;
+                border-radius: 8px;
+                display: inline-block;
+                /* line-height: calc(var(--title-font-size) + 2px); */
+                line-height: 1.2;
+                vertical-align: middle;
+            }
+
+            .chip.primary-color {
+                background-color: #009688;
+                color: #fff;
+            }
+
+            .chip.secondary-color {
+                background-color: #ffd740;
+                color: #5c5c5c;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="item" style="margin-top: 30px">
+            <span class="icon"></span>
+
+            <div class="content">
+                <div class="title-bar">
+                    <span class="content-title">Maintanance</span>
+                    <span class="chip primary-color">Shared</span>
+                    <span class="chip secondary-color">In progress</span>
+                </div>
+                <div class="main">
+                    Change Catmobile's tires
+                </div>
+                <div class="details">
+                    <span class="date-time">14:00</span>
+                    <span class="location">Diana center</span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
