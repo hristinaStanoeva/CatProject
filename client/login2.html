@@ -7,9 +7,19 @@
         />
         <style>
             :root {
+                --background-blur-radius: 10px;
+                --logo-width: 75px;
+                --logo-height: var(--logo-width);
+                --input-icon-width: 30px;
+                --input-icon-height: var(--input-icon-width);
+                --input-icon-container-width: 65px;
+                --input-container-flex-basis: 150px;
+                --line-height: 1.5rem;
             }
 
-            * {
+            *,
+            *:before,
+            *:after {
                 padding: 0;
                 margin: 0;
                 box-sizing: border-box;
@@ -25,19 +35,20 @@
                 background-repeat: no-repeat;
                 background-size: cover;
 
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
+                backdrop-filter: blur(var(--background-blur-radius));
+                -webkit-backdrop-filter: blur(var(--background-blur-radius));
             }
 
             body,
             input,
             button {
                 font-family: Raleway;
+                line-height: var(--line-height);
             }
 
             .title {
                 font-size: 1.75rem;
-                line-height: 1.5rem;
+                /* line-height: 1.5rem; */
                 color: #ffffff;
 
                 margin: 0 auto;
@@ -45,7 +56,7 @@
 
             .card {
                 font-size: 1.75rem;
-                line-height: 1.5rem;
+                /* line-height: 1.5rem; */
 
                 background: #ffffff;
                 box-shadow: 5px 14px 14px rgba(0, 0, 0, 0.25);
@@ -65,15 +76,17 @@
                 font-family: Open Sans;
                 font-weight: 600;
                 font-size: 1rem;
-                line-height: 1.5rem;
+                /* line-height: 1.5rem; */
 
                 color: #545454;
             }
 
             .card__logo-container {
                 display: flex;
-                width: 100px;
-                height: 100px;
+                /* width: 100px; */
+                /* height: 100px; */
+                width: calc(var(--logo-width) + 25px);
+                height: calc(var(--logo-height) + 25px);
                 background-color: #ffffff;
                 border-radius: 50%;
                 margin: 0 auto;
@@ -81,17 +94,17 @@
             }
 
             .card__logo {
-                width: 75px;
-                height: 75px;
+                width: var(--logo-width);
+                height: var(--logo-height);
                 margin: auto;
             }
 
             .card__inputs-container {
+                flex-basis: var(--input-container-flex-basis);
                 display: flex;
                 flex-direction: column;
-                height: 100px;
                 justify-content: space-around;
-                /* outline: 1px solid red; */
+                margin-bottom: auto;
             }
 
             .card__input-label {
@@ -101,7 +114,7 @@
             .card__input-label::before {
                 content: '';
                 position: absolute;
-                left: 8px;
+                left: 0;
                 top: 0;
                 bottom: 0;
                 width: var(--input-icon-container-width);
@@ -131,28 +144,30 @@
                 background: url('./assets/paw-icon.svg');
 
                 background-repeat: no-repeat;
-                background-size: 30px 30px;
+                background-size: var(--input-icon-width)
+                    var(--input-icon-height);
+                background-origin: content-box;
             }
 
             .card__input-label--password::before {
                 background: url('./assets/padlock-icon.svg');
 
                 background-repeat: no-repeat;
-                background-size: 30px 30px;
+                background-size: var(--input-icon-width)
+                    var(--input-icon-height);
+                background-origin: content-box;
             }
 
-            .card__input {
-                width: 100%;
-                border: none;
-                border-bottom: 1.5px solid #9d9d9d;
-                padding: 6px 0;
-                padding-left: 65px;
-                font-size: 1rem;
-                line-height: 1.5rem;
-            }
+            .card__forgotten-password {
+                font-family: Raleway;
+                font-size: 0.75rem;
+                /* line-height: 1.5rem; */
+                text-decoration: none;
 
-            .card__input:focus {
-                outline: none;
+                margin-left: auto;
+                margin-bottom: auto;
+
+                color: #545454;
             }
 
             .card__buttons-container {
@@ -174,7 +189,7 @@
                 font-style: normal;
                 font-weight: 800;
                 font-size: 1rem;
-                line-height: 1.5rem;
+                /* line-height: 1.5rem; */
             }
 
             .card__button + .card__button {
