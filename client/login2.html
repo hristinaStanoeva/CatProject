@@ -29,7 +29,7 @@
                 height: 100%;
                 display: flex;
                 flex-direction: column;
-                justify-content: space-around;
+                justify-content: start;
                 background-image: url('./assets/login-background.svg');
                 background-position: center;
                 background-repeat: no-repeat;
@@ -48,15 +48,15 @@
 
             .title {
                 font-size: 1.75rem;
-                /* line-height: 1.5rem; */
                 color: #ffffff;
 
                 margin: 0 auto;
+                margin-top: 70px;
+                margin-bottom: calc(var(--logo-height) + 40px);
             }
 
             .card {
                 font-size: 1.75rem;
-                /* line-height: 1.5rem; */
 
                 background: #ffffff;
                 box-shadow: 5px 14px 14px rgba(0, 0, 0, 0.25);
@@ -76,7 +76,6 @@
                 font-family: Open Sans;
                 font-weight: 600;
                 font-size: 1rem;
-                /* line-height: 1.5rem; */
 
                 color: #545454;
             }
@@ -108,7 +107,17 @@
             }
 
             .card__input-label {
+                --input-vertical-padding: 6px;
+
                 position: relative;
+            }
+
+            .card__input-label--email::before {
+                background: url('./assets/paw-icon.svg');
+            }
+
+            .card__input-label--password::before {
+                background: url('./assets/padlock-icon.svg');
             }
 
             .card__input-label::before {
@@ -118,18 +127,24 @@
                 top: 0;
                 bottom: 0;
                 width: var(--input-icon-container-width);
-                height: calc(1.5rem + 12px);
+                height: calc(
+                    var(--line-height) + calc(2 * var(--input-vertical-padding))
+                );
                 padding-left: 8px;
+
+                background-repeat: no-repeat;
+                background-size: var(--input-icon-width)
+                    var(--input-icon-height);
+                background-origin: content-box;
             }
 
             .card__input {
                 width: 100%;
                 border: none;
                 border-bottom: 1.5px solid #9d9d9d;
-                padding: 6px 0;
+                padding: var(--input-vertical-padding) 0;
                 padding-left: var(--input-icon-container-width);
                 font-size: 1rem;
-                /* line-height: 1.5rem; */
             }
 
             .card__input:focus {
@@ -140,28 +155,8 @@
                 flex-basis: calc(var(--input-container-flex-basis) / 2);
             }
 
-            .card__input-label--email::before {
-                background: url('./assets/paw-icon.svg');
-
-                background-repeat: no-repeat;
-                background-size: var(--input-icon-width)
-                    var(--input-icon-height);
-                background-origin: content-box;
-            }
-
-            .card__input-label--password::before {
-                background: url('./assets/padlock-icon.svg');
-
-                background-repeat: no-repeat;
-                background-size: var(--input-icon-width)
-                    var(--input-icon-height);
-                background-origin: content-box;
-            }
-
             .card__forgotten-password {
-                font-family: Raleway;
                 font-size: 0.75rem;
-                /* line-height: 1.5rem; */
                 text-decoration: none;
 
                 margin-left: auto;
@@ -189,7 +184,6 @@
                 font-style: normal;
                 font-weight: 800;
                 font-size: 1rem;
-                /* line-height: 1.5rem; */
             }
 
             .card__button + .card__button {
