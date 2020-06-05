@@ -36,7 +36,6 @@
             }
 
             .title {
-                font-family: Raleway;
                 font-size: 1.75rem;
                 line-height: 1.5rem;
                 color: #ffffff;
@@ -45,9 +44,6 @@
             }
 
             .card {
-                font-family: Raleway;
-                font-style: normal;
-                font-weight: normal;
                 font-size: 1.75rem;
                 line-height: 1.5rem;
 
@@ -57,18 +53,16 @@
 
                 margin: 0 40px;
                 padding: 0 30px;
+
                 display: flex;
                 flex-direction: column;
-                /* justify-content: center; */
-                /* justify-content: space-evenly; */
                 justify-content: space-between;
-                /* align-items: center; */
+
                 height: 450px;
             }
 
             .card ::placeholder {
                 font-family: Open Sans;
-                font-style: normal;
                 font-weight: 600;
                 font-size: 1rem;
                 line-height: 1.5rem;
@@ -83,7 +77,7 @@
                 background-color: #ffffff;
                 border-radius: 50%;
                 margin: 0 auto;
-                margin-top: -50px;
+                transform: translateY(-50%);
             }
 
             .card__logo {
@@ -110,7 +104,27 @@
                 left: 8px;
                 top: 0;
                 bottom: 0;
-                width: 65px;
+                width: var(--input-icon-container-width);
+                height: calc(1.5rem + 12px);
+                padding-left: 8px;
+            }
+
+            .card__input {
+                width: 100%;
+                border: none;
+                border-bottom: 1.5px solid #9d9d9d;
+                padding: 6px 0;
+                padding-left: var(--input-icon-container-width);
+                font-size: 1rem;
+                /* line-height: 1.5rem; */
+            }
+
+            .card__input:focus {
+                outline: none;
+            }
+
+            .card__input-label--email {
+                flex-basis: calc(var(--input-container-flex-basis) / 2);
             }
 
             .card__input-label--email::before {
@@ -155,6 +169,7 @@
                 border-radius: 8px;
                 height: 3rem;
                 color: #009688;
+                text-transform: uppercase;
 
                 font-style: normal;
                 font-weight: 800;
