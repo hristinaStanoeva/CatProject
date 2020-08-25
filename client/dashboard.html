@@ -7,7 +7,9 @@
         />
         <style>
             :root {
-                --fs-normal: 1.6em;
+                --fs-large: 1.6rem;
+                --ff-main: Raleway;
+                --ff-secondary: 'Open Sans', sans-serif;
             }
 
             *,
@@ -19,7 +21,7 @@
             }
 
             body {
-                font-family: Raleway;
+                font-family: var(--ff-main);
                 width: 100%;
             }
 
@@ -27,30 +29,32 @@
                 display: flex;
                 align-items: center;
 
+                font-size: var(--fs-large);
+
                 box-shadow: 0px 0px 14px 4px rgba(0, 0, 0, 0.25);
 
-                padding-left: 1.5em;
-                padding-right: 1.5em;
-                padding-bottom: 0.5em;
-                padding-top: 0.5em;
+                padding-left: 1em;
+                padding-right: 1em;
+                padding-bottom: 0.3em;
+                padding-top: 0.3em;
             }
 
             .navbar .navbar__title {
                 font-weight: normal;
-                font-size: var(--fs-normal);
+                font-size: inherit;
                 margin-left: 1em;
             }
 
             .navbar .navbar__avatar {
-                font-size: var(--fs-normal);
+                font-size: inherit;
                 margin-left: auto;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 background-color: #74c2c9;
                 border-radius: 50%;
-                width: 1.5em;
-                height: 1.5em;
+                width: 1.6em;
+                height: 1.6em;
             }
 
             .navbar .navbar__menu-button input[type='checkbox'] {
@@ -58,8 +62,9 @@
             }
 
             .navbar .navbar__menu-button {
-                width: 2.4em;
-                height: 1.25em;
+                /* font-size: 16px; */
+                width: 1.5em;
+                height: 0.8em;
             }
 
             .hb {
@@ -72,7 +77,7 @@
             }
 
             .hb .hb__line {
-                height: 0.125em;
+                height: 0.08em;
                 background-color: black;
                 display: inline-block;
             }
@@ -83,13 +88,14 @@
         </style>
     </head>
     <body>
-        <nav class="navbar">
+        <header class="navbar">
             <label class="navbar__menu-button">
                 <div class="hb">
-                    <div class="hb__line hb__line--1"></div>
-                    <div class="hb__line hb__line--2"></div>
-                    <div class="hb__line hb__line--3"></div>
+                    <div class="hb__line"></div>
+                    <div class="hb__line"></div>
+                    <div class="hb__line"></div>
                 </div>
+                <!-- insert nav here -->
                 <input type="checkbox" />
             </label>
             <h1 class="navbar__title">Tidy Cat</h1>
