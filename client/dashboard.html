@@ -12,6 +12,7 @@
         <style>
             :root {
                 --fs-large: 1.6rem;
+                --fs-medium: 1.25rem;
                 --ff-main: Raleway;
                 --ff-secondary: 'Open Sans', sans-serif;
             }
@@ -47,11 +48,13 @@
                 font-weight: normal;
                 font-size: inherit;
                 margin-left: 1em;
+                cursor: default;
             }
 
             .navbar .navbar__avatar {
                 font-size: inherit;
                 margin-left: auto;
+                cursor: pointer;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -66,7 +69,6 @@
             }
 
             .navbar .navbar__menu-button {
-                /* font-size: 16px; */
                 width: 1.5em;
                 height: 0.8em;
             }
@@ -92,7 +94,11 @@
                 padding-right: 1.6rem;
             }
 
-            .day {
+            .day > *:not(:first-child) {
+                margin-top: 1.5em;
+            }
+
+            .day-heading {
                 font-family: var(--ff-secondary);
                 font-size: var(--fs-large);
                 width: 100%;
@@ -101,11 +107,13 @@
                 align-items: center;
             }
 
-            .day .day__title {
+            .day-heading .day-heading__title {
                 text-transform: uppercase;
+                font-size: inherit;
+                font-weight: inherit;
             }
 
-            .day .day__agenda-container {
+            .day-heading .day-heading__agenda-container {
                 display: flex;
                 color: #434343;
                 font-size: 0.4em;
@@ -113,18 +121,60 @@
                 font-family: var(--ff-secondary);
             }
 
-            .day__agenda + .day__agenda {
+            .day-heading .day-heading__agenda {
+                font-size: inherit;
+                font-weight: inherit;
+            }
+
+            .day-heading__agenda + .day-heading__agenda {
                 display: flex;
                 align-items: center;
             }
 
-            .day__agenda + .day__agenda::before {
+            .day-heading__agenda + .day-heading__agenda::before {
                 content: '';
                 width: 0.4em;
                 height: 0.4em;
                 margin: 0.4em;
                 background-color: #434343;
                 border-radius: 50%;
+            }
+
+            .day-heading .day-heading__date {
+                font-family: var(--ff-main);
+                color: #929292;
+                font-size: 0.5em;
+                font-weight: inherit;
+            }
+
+            .day-item {
+                font-size: var(--fs-medium);
+            }
+
+            .day-item .day-item__category-title {
+                display: flex;
+                align-items: center;
+
+                text-transform: uppercase;
+                color: #434343;
+                font-family: var(--ff-secondary);
+
+            }
+
+            .day-item .day-item__category-title::before,
+            .day-item .day-item__category-title::after {
+                content: '';
+                flex: 1;
+                height: 0.05em;
+                background-color: #E3E3E3;
+            }
+
+            .day-item .day-item__category-title::before {
+                margin-right: 0.4em;
+            }
+
+            .day-item .day-item__category-title::after {
+                margin-left: 0.4em;
             }
         </style>
     </head>
@@ -144,12 +194,21 @@
         </header>
         <main class="content">
             <article class="day">
-                <header class="day__title">Today</header>
-                <div class="day__agenda-container">
-                    <section class="day__agenda">4 Tasks</section>
-                    <section class="day__agenda">4 Meetings</section>
-                </div>
-                <section class="day__date">Monday, 20</section>
+                <hgroup class="day-heading">
+                    <h2 class="day-heading__title">Today</h2>
+                    <hgroup class="day-heading__agenda-container">
+                        <h4 class="day-heading__agenda">4 Tasks</h4>
+                        <h4 class="day-heading__agenda">4 Meetings</h4>
+                    </hgroup>
+                    <h3 class="day-heading__date">Monday, 20</h3>
+                </hgroup>
+                <section class="day-item">
+                    <header class="day-item__category-title">Tasks</header>
+                    <section>...</section>
+                    <section>...</section>
+                    <section>...</section>
+                    <section>...</section>
+                </section>
             </article>
         </main>
     </body>
