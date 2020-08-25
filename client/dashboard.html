@@ -5,6 +5,10 @@
             href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@600&family=Raleway:wght@400&display=swap"
             rel="stylesheet"
         />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+            rel="stylesheet"
+        />
         <style>
             :root {
                 --fs-large: 1.6rem;
@@ -82,9 +86,46 @@
                 display: inline-block;
             }
 
-            /* .hb__line + .hb__line { */
-            /*     margin-top: 5px; */
-            /* } */
+            .content {
+                padding-top: 1rem;
+                padding-left: 1.6rem;
+                padding-right: 1.6rem;
+            }
+
+            .day {
+                font-family: var(--ff-secondary);
+                font-size: var(--fs-large);
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .day .day__title {
+                text-transform: uppercase;
+            }
+
+            .day .day__agenda-container {
+                display: flex;
+                color: #434343;
+                font-size: 0.4em;
+                text-transform: uppercase;
+                font-family: var(--ff-secondary);
+            }
+
+            .day__agenda + .day__agenda {
+                display: flex;
+                align-items: center;
+            }
+
+            .day__agenda + .day__agenda::before {
+                content: '';
+                width: 0.4em;
+                height: 0.4em;
+                margin: 0.4em;
+                background-color: #434343;
+                border-radius: 50%;
+            }
         </style>
     </head>
     <body>
@@ -100,6 +141,16 @@
             </label>
             <h1 class="navbar__title">Tidy Cat</h1>
             <span class="navbar__avatar">H</span>
-        </nav>
+        </header>
+        <main class="content">
+            <article class="day">
+                <header class="day__title">Today</header>
+                <div class="day__agenda-container">
+                    <section class="day__agenda">4 Tasks</section>
+                    <section class="day__agenda">4 Meetings</section>
+                </div>
+                <section class="day__date">Monday, 20</section>
+            </article>
+        </main>
     </body>
 </html>
