@@ -1,0 +1,141 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Raleway&amp;display=swap"
+            rel="stylesheet"
+        />
+        <style>
+            :root {
+                --fs-large: 1.6rem;
+                --fs-medium: 1.25rem;
+                --ff-main: Raleway;
+                --ff-secondary: 'Open Sans', sans-serif;
+
+                --fg-primary: #ffffff;
+                --bg-primary: #009688;
+                --fg-secondary: #5c5c5c;
+                --bg-secondary: #ffd740;
+            }
+
+            *,
+            *:before,
+            *:after {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: var(--ff-main);
+                width: 100%;
+            }
+
+            .chip {
+                display: inline-block;
+                font-style: normal;
+                font-weight: normal;
+                /* font-size: 0.625em; */
+                padding-left: 0.7em;
+                padding-right: 0.7em;
+                border-radius: 0.5em;
+                line-height: 1.2em;
+
+                color: #ffffff;
+                background-color: #000000;
+            }
+
+            .chip--primary-color {
+                color: var(--fg-primary);
+                background-color: var(--bg-primary);
+            }
+
+            .chip--secondary-color {
+                color: var(--fg-secondary);
+                background-color: var(--bg-secondary);
+            }
+
+            .item {
+                display: flex;
+            }
+
+            .item .item__icon {
+                display: inline-block;
+                width: 3.5em;
+                height: 3.5em;
+                background-color: rgba(116, 194, 201, 0.4);
+                border-radius: 50%;
+            }
+
+            .item .item__data {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+
+            .item .item__category {
+                font-style: normal;
+                font-weight: normal;
+                text-transform: uppercase;
+
+                color: #74c2c9;
+            }
+
+            .item .item__titlebar {
+                font-size: 0.625em;
+            }
+
+            .item .item__titlebar > *:not(:first-child) {
+                margin-left: 0.8em;
+            }
+
+            .item .item__description {
+                display: inline-block;
+                font-style: normal;
+                font-weight: normal;
+
+                flex-grow: 0.5;
+            }
+
+            .item .item__details {
+                font-style: normal;
+                font-weight: normal;
+                font-size: 0.8em;
+
+                color: #797979;
+            }
+
+            .item .item__details > *:not(:first-child){
+                /* https://css-tricks.com/fighting-the-space-between-inline-block-elements/ */
+                margin-left: calc(0.625em - 4px);
+            }
+
+            .item .item__due {
+                display: inline-block;
+            }
+
+            .item .item__location {
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body>
+        <article class="item">
+            <span class="item__icon"></span>
+            <section class="item__data">
+                <header class="item__titlebar">
+                    <span class="item__category">Maintanance</span>
+                    <span class="chip chip--primary-color">Shared</span>
+                    <span class="chip chip--secondary-color">In progress</span>
+                </header>
+                <h5 class="item__description">
+                    Change the tires of the Catmobile
+                </h5>
+                <footer class="item__details">
+                    <p class="item__due">14:00</p>
+                    <p class="item__location">Diana center</p>
+                </footer>
+            </section>
+        </article>
+    </body>
+</html>
