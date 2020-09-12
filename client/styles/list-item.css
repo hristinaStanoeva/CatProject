@@ -47,16 +47,16 @@ body {
     background-color: var(--bg-secondary);
 }
 
-.item {
-    display: flex;
-}
-
-.item .item__icon {
+.icon {
     display: inline-block;
     width: 3.5em;
     height: 3.5em;
     background-color: rgba(116, 194, 201, 0.4);
     border-radius: 50%;
+}
+
+.item {
+    display: flex;
 }
 
 .item .item__data {
