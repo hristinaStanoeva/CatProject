@@ -76,6 +76,30 @@ body {
     display: inline-block;
 }
 
+.add-new {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 3.5em;
+    height: 3.5em;
+    background-color: #ffd740;
+    border-radius: 50%;
+    box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.12),
+        0px 14px 14px rgba(0, 0, 0, 0.237602);
+    position: fixed;
+    right: 2.8em;
+    bottom: 2.8em;
+}
+
+.add-new::before {
+    content: '\f067';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    font-size: 2em;
+    color: white;
+}
+
 .content {
     padding-top: 1rem;
     padding-left: 1.6rem;
