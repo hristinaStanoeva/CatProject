@@ -86,6 +86,8 @@ body {
 
 .item-modal .item-modal__description {
     font-size: var(-fs-medium);
+    max-height: 6em;
+    overflow-y: auto;
 }
 
 .item-modal__details .item-modal__details-item + .item-modal__details-item {
