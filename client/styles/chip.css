@@ -1,11 +1,9 @@
 .chip {
-    display: inline-block;
-    font-style: normal;
-    font-weight: normal;
     padding-left: 0.7em;
     padding-right: 0.7em;
     border-radius: 0.5em;
-    line-height: 1.2em;
+    vertical-align: middle;
+    height: 1.1em;
 
     color: #FFF;
     background-color: var(--clr-bg-primary);
