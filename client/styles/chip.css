@@ -3,8 +3,8 @@
     padding-right: 0.7em;
     border-radius: 0.5em;
     vertical-align: middle;
-    height: 1.1em;
+    height: 1.2em;
 
-    color: #FFF;
+    color: var(--clr-fg-primary);
     background-color: var(--clr-bg-primary);
 }
