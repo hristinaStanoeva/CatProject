@@ -85,12 +85,16 @@ body {
     text-transform: uppercase;
     font-weight: 400;
     font-size: var(--fs-large);
+    margin-bottom: 0.25em;
 }
 
 .item-modal__category--shopping {
     color: var(--clr-fg-shopping);
 }
 
+.icon {
+    margin-bottom: 1.25em;
+}
 .item-modal .item-modal__title {
     font-weight: 500;
     font-size: var(--fs-large);
@@ -103,6 +107,7 @@ body {
 }
 
 .item-modal .item-modal__description {
+    margin-top: 1.25em;
     font-size: var(-fs-medium);
     max-height: 6em;
     overflow-y: auto;
