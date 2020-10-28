@@ -1,0 +1,29 @@
+:root {
+    --clr-bg-primary: #009688;
+    --clr-bg-secondary: #FFD740;
+    --clr-fg-primary: #000;
+    --clr-fg-secondary: #929292;
+
+    --clr-fg-shopping: #EAB22E;
+    --clr-bg-shopping: rgba(234, 178, 46, 0.4);
+    --clr-fg-sports: #FF9600;
+    --clr-bg-sports: rgba(255, 150, 0, 0.4);
+    --clr-fg-health: #E25F2D;
+    --clr-bg-health: rgba(226, 95, 45, 0.4);
+    --clr-fg-travel: #BF6F26;
+    --clr-bg-travel: rgba(191, 111, 38, 0.4);
+    --clr-fg-subscription: #4D4637;
+    --clr-bg-subscription: rgba(77, 70, 55, 0.4);
+    --clr-fg-maintanace: #74C2C9;
+    --clr-bg-maintanace: rgba(116, 194, 201, 0.4);
+    --clr-fg-birthday: #1EAF99;
+    --clr-bg-birthday: rgba(30, 175, 153, 0.4);
+    --clr-fg-teaching: #118E94;
+    --clr-bg-teaching: rgba(17, 142, 148, 0.4);
+    --clr-fg-general: #1137BD;
+    --clr-bg-general: rgba(17, 55, 189, 0.4);
+    --clr-fg-learning: #235789;
+    --clr-bg-learning: rgba(35, 87, 137, 0.4);
+    --clr-fg-payment: #0C4759;
+    --clr-bg-payment: rgba(12, 71, 89, 0.4);
+}
