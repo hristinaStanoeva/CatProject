@@ -1,13 +1,5 @@
 :root {
-    --fs-large: 1.6rem;
-    --fs-medium: 1.25rem;
     --ff-main: Raleway;
-    --ff-secondary: 'Open Sans', sans-serif;
-
-    --fg-primary: #ffffff;
-    --bg-primary: #009688;
-    --fg-secondary: #5c5c5c;
-    --bg-secondary: #ffd740;
 }
 
 *,
@@ -23,28 +15,7 @@ body {
     width: 100%;
 }
 
-.chip {
-    display: inline-block;
-    font-style: normal;
-    font-weight: normal;
-    /* font-size: 0.625em; */
-    padding-left: 0.7em;
-    padding-right: 0.7em;
-    border-radius: 0.5em;
-    line-height: 1.2em;
-
-    color: #ffffff;
-    background-color: #000000;
-}
-
 .chip--primary-color {
-    color: var(--fg-primary);
-    background-color: var(--bg-primary);
-}
-
-.chip--secondary-color {
-    color: var(--fg-secondary);
-    background-color: var(--bg-secondary);
 }
 
 .icon {
