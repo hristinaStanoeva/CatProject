@@ -47,6 +47,24 @@ body {
 
 .item-modal .item-modal__control-strip {
     padding: 1.25em;
+    display: flex;
+}
+
+.item-modal__control-strip .item-modal__control-icon {
+    display: block;
+    cursor: pointer;
+}
+
+.item-modal__control-strip .chip {
+    font-size: 0.875em;
+}
+
+.item-modal__control-strip .item-modal__control-right {
+    margin-left: 2em;
+}
+
+.item-modal__control-strip .item-modal__control-right:first-of-type {
+    margin-left: auto;
 }
 
 .item-modal .item-modal__content {

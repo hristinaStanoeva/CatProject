@@ -5,17 +5,27 @@
             href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@400;500&display=swap"
             rel="stylesheet"
         />
-        <link rel="stylesheet" href="./styles/shared.css" />
-        <link rel="stylesheet" href="./styles/icon.css" />
         <link rel="stylesheet" href="./styles/item-modal.css" />
+        <link rel="stylesheet" href="./styles/chip.css" />
+        <link rel="stylesheet" href="./styles/icon.css" />
+        <link rel="stylesheet" href="./styles/shared.css" />
     </head>
     <body>
         <div class="modal">
             <!-- Modal starts here -->
             <div class="item-modal">
                 <div class="item-modal__control-strip">
-                    <img class="item-modal__icon" src="./assets/pencil.svg" />
-                    <img class="item-modal__icon" src="./assets/close.svg" />
+                    <span class="chip item-modal__control-left">
+                        Shared
+                    </span>
+                    <img
+                        class="item-modal__control-icon item-modal__control-right"
+                        src="./assets/pencil.svg"
+                    />
+                    <img
+                        class="item-modal__control-icon item-modal__control-right"
+                        src="./assets/close.svg"
+                    />
                 </div>
                 <main class="item-modal__content">
                     <header
