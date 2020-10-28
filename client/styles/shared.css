@@ -27,4 +27,7 @@
     --clr-bg-learning: rgba(35, 87, 137, 0.4);
     --clr-fg-payment: #0C4759;
     --clr-bg-payment: rgba(12, 71, 89, 0.4);
+
+    --ff-main: Raleway;
+    --ff-secondary: 'Open Sans', sans-serif;
 }
