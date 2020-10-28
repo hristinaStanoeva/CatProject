@@ -1,8 +1,6 @@
 :root {
-    --fs-large: 1.6rem;
+    --fs-large: 1.5rem;
     --fs-medium: 1.25rem;
-    --ff-main: Raleway;
-    --ff-secondary: 'Open Sans', sans-serif;
 }
 
 *,
@@ -22,6 +20,9 @@ body {
     display: flex;
     align-items: center;
 
+    background-color: var(--clr-bg-primary);
+    color: var(--clr-fg-primary);
+
     font-size: var(--fs-large);
 
     box-shadow: 0px 0px 14px 4px rgba(0, 0, 0, 0.25);
@@ -33,7 +34,7 @@ body {
 }
 
 .navbar .navbar__title {
-    font-weight: normal;
+    font-weight: 500;
     font-size: inherit;
     margin-left: 1em;
     cursor: default;
@@ -47,6 +48,7 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #74c2c9;
+    color: var(--clr-fg-default);
     border-radius: 50%;
     width: 1.6em;
     height: 1.6em;
@@ -72,7 +74,7 @@ body {
 
 .hb .hb__line {
     height: 0.08em;
-    background-color: black;
+    background-color: currentColor;
     display: inline-block;
 }
 
@@ -101,18 +103,17 @@ body {
 }
 
 .content {
-    padding-top: 1rem;
-    padding-left: 1.6rem;
-    padding-right: 1.6rem;
+    padding-top: 1.25em;
+    padding-left: 1.9em;
+    padding-right: 1.9em;
 }
 
-.day > *:not(:first-child) {
-    margin-top: 1.5em;
+.day > .day-item {
+    margin-top: 2em;
 }
 
 .day-heading {
     font-family: var(--ff-secondary);
-    font-size: var(--fs-large);
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -121,14 +122,14 @@ body {
 
 .day-heading .day-heading__title {
     text-transform: uppercase;
-    font-size: inherit;
+    font-size: var(--fs-large);
     font-weight: inherit;
 }
 
 .day-heading .day-heading__agenda-container {
     display: flex;
     color: #434343;
-    font-size: 0.4em;
+    font-size: 0.875em;
     text-transform: uppercase;
     font-family: var(--ff-secondary);
 }
@@ -155,12 +156,8 @@ body {
 .day-heading .day-heading__date {
     font-family: var(--ff-main);
     color: #929292;
-    font-size: 0.5em;
+    font-size: 1em;
     font-weight: inherit;
-}
-
-.day-item {
-    font-size: var(--fs-medium);
 }
 
 .day-item .day-item__category-title {
@@ -171,6 +168,7 @@ body {
     text-transform: uppercase;
     color: #434343;
     font-family: var(--ff-secondary);
+    font-size: 1.375em;
 }
 
 .day-item .day-item__category-title::before,
@@ -182,13 +180,13 @@ body {
 }
 
 .day-item .day-item__category-title::before {
-    margin-right: 0.4em;
+    margin-right: 0.7em;
 }
 
 .day-item .day-item__category-title::after {
-    margin-left: 0.4em;
+    margin-left: 0.7em;
 }
 
 .day-item .item + .item {
-    margin-top: 0.8em;
+    margin-top: 1.25em;
 }
