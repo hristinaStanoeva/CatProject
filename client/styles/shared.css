@@ -1,7 +1,8 @@
 :root {
-    --clr-bg-primary: #009688;
+    --clr-fg-default: #000;
+    --clr-bg-primary: #0097A7;
     --clr-bg-secondary: #FFD740;
-    --clr-fg-primary: #000;
+    --clr-fg-primary: #FFF;
     --clr-fg-secondary: #929292;
 
     --clr-fg-shopping: #EAB22E;
