@@ -20,10 +20,6 @@ body {
     width: 100%;
 }
 
-.icon--shopping {
-    background-color: var(--clr-bg-shopping);
-}
-
 .modal {
     position: fixed;
     top: 0;
@@ -95,6 +91,21 @@ body {
 .icon {
     margin-bottom: 1.25em;
 }
+
+.icon--shopping {
+    background-color: var(--clr-bg-shopping);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon--shopping svg {
+    fill: var(--clr-fg-shopping);
+    width: 2.625em;
+    height: 2.375em;
+    margin-left: -0.2em;
+}
+
 .item-modal .item-modal__title {
     font-weight: 500;
     font-size: var(--fs-large);
@@ -109,7 +120,7 @@ body {
 .item-modal .item-modal__description {
     margin-top: 1.25em;
     font-size: var(-fs-medium);
-    max-height: 6em;
+    max-height: 7em;
     overflow-y: auto;
 }
 
