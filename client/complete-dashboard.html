@@ -18,15 +18,22 @@
     </head>
     <body>
         <header class="navbar">
-            <label class="navbar__menu-button">
+            <label for="sidebar-toggle" class="navbar__menu-button">
                 <div class="hb">
                     <div class="hb__line"></div>
                     <div class="hb__line"></div>
                     <div class="hb__line"></div>
                 </div>
-                <!-- insert nav here -->
-                <input type="checkbox" />
             </label>
+            <input id="sidebar-toggle" type="checkbox" />
+            <nav class="sidebar">
+                <ul class="sidebar__items">
+                    <li class="sidebar__item">Lists</li>
+                    <li class="sidebar__item">Calendar</li>
+                    <li class="sidebar__item">Expenses</li>
+                    <li class="sidebar__item">Travel</li>
+                </ul>
+            </nav>
             <h1 class="navbar__title">Tidy Cat</h1>
             <span class="navbar__avatar">H</span>
         </header>
